@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import RadvizGraph from './RadvizGraph';
+import RadvixBorderTestGraph from './RadvixBorderTestGraph'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <RadvizGraph /> */}
+    <RadvixBorderTestGraph />
   </React.StrictMode>,
   document.getElementById('root')
 );
