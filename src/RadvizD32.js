@@ -15,8 +15,10 @@ function RadvizD3(props) {
 	let BORDER_BUFF = 10;
 
 	let theta;
+	let anti_theta;
 	let dimension;
 	let dotPalette = scaleOrdinal().range(['red', 'green', 'orange', 'blue', 'yellow']);
+	let borderFunctions;
 
 	let initialized = useRef(false);
 
@@ -44,6 +46,22 @@ function RadvizD3(props) {
 	let deg2rad = deg => deg * Math.PI / 180;
 	// Radians to Degrees
 	let rad2deg = rad => rad * 180 / Math.PI;
+
+	let a = (x1, x2, y1, y2) => {
+		if (Math.abs(x1 - x2) != 0) {
+			return (y2 - y1) / (x2 - x1)
+		}
+		console.log("ERROR: invalid slope")
+		return null
+	}
+
+	let b = (x, y, slope) => {
+		if (x * slope != 0) {
+			return (y - (x * slope))
+		}
+		console.log("ERROR: slope is 0")
+		return null
+	}
 
 	let hypotneous = (x, y) => Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
@@ -174,6 +192,17 @@ function RadvizD3(props) {
 		})
 	}
 
+	function intersection(a1, b1, theta) {
+		if (theta == -Math.PI / 2 || theta == Math.PI / 2 || theta == 3 * Math.PI / 2){
+			console.log("ERROR devide by 0")
+			return [0, b1]
+		}
+		let a2 = Math.tan(theta)
+		let x = -b1 / (a1 - a2)
+		let y = a2 * x
+		return [x, y]
+	}
+
 	let dotData = (row) => {
 
 		// RadViz
@@ -184,7 +213,7 @@ function RadvizD3(props) {
 		const point = { x: 0, y: 0, angel: 0, radius: 0 };
 		let sumUnits = 0;
 
-		console.log(row)
+		// console.log(row)
 		dimension.theta.forEach((angle, i) => {
 
 			// Unit is the HYPOTNEOUS of the datapoint.
@@ -203,7 +232,7 @@ function RadvizD3(props) {
 				// eslint-disable-next-line
 				sumUnits += radiusOfPoint
 			}
-			console.log(x, '---', y)
+			// console.log(x, '---', y)
 		})
 
 
@@ -216,10 +245,15 @@ function RadvizD3(props) {
 
 		point.x = scaling * x;
 		point.y = scaling * y;
-		point.angel = Math.atan(y / x);
-		point.radius = hypotneous(x, y) / CHART_R;
+		point.angel = Math.atan(y/x) + ((x < 0) ? Math.PI : 0);
+		point.radius = hypotneous(x, y);
 
+		let maxP = borderFunctions[parseInt(anti_theta(point.angel))](point.angel)
 
+		let maxRadius = hypotneous(maxP[0], maxP[1])
+
+		point.x = ((CHART_R - 10) / maxRadius) * point.x 
+		point.y = ((CHART_R - 10) / maxRadius) * point.y 
 		// --- Get the max possible point on this angle. --- ALL OF THIS CODE IS 
 		// Angle of the point
 		// let theta = Math.atan(Math.abs(y / x));
@@ -249,7 +283,6 @@ function RadvizD3(props) {
 	// Such as [min, max] -> [0, 1]
 	// Other datatypes such as boolean and comparable objects are supported.
 	let normalizeScale = (dataType, dataArray) => {
-		console.log(extent(dataArray))
 		if (dataType === 'number')
 			// return (max(dataArray) == 0) ? ((val)=> 0) : scaleLinear().domain(extent(dataArray)).range([0, 1])
 			return scaleLinear().domain(extent(dataArray)).range([0, 1])
@@ -270,8 +303,7 @@ function RadvizD3(props) {
 
 		const svg = select('.canvas')
 			.append('svg')
-			// .attr('viewBox', `0 0 480 480`);
-			.attr('viewBox', `-1000 -1000 2000 2000`);
+			.attr('viewBox', `0 0 480 480`);
 
 		svg.append('defs')
 
@@ -331,11 +363,24 @@ function RadvizD3(props) {
 		let data = props.content;
 
 		// variable used to access column data.
-		let label = Object.keys(props.labels);
+		let labels = Object.keys(props.labels);
 
 		// Creates a mapping, from [0, 4] to [-PI/2, PI], basically saying the type of angle that a point will have.
 		let thetaDomain = [-Math.PI / 2 + EPSILON, 3 * Math.PI / 2];
-		theta = scaleLinear().domain([0, label.length]).range(thetaDomain);
+		theta = scaleLinear().domain([0, labels.length]).range(thetaDomain);
+		anti_theta = scaleLinear().domain(thetaDomain).range([0, labels.length])
+
+		borderFunctions = (() => {
+			const func = []
+			labels.forEach((d, i) => {
+				let radian = theta(i)
+				let next_radian = theta((i + 1) % labels.length)
+				let slope = a(dotX(CHART_R, radian), dotX(CHART_R, next_radian), dotY(CHART_R, radian), dotY(CHART_R, next_radian))
+				let start = b(dotX(CHART_R, radian), dotY(CHART_R, radian), slope)
+				func.push((_angle) => (intersection(slope, start, _angle)))
+			})
+			return func
+		})();
 
 		// Creates a mapping of [-PI / 2, 3PI / 2], to [0, 1, 1, 0]
 		let hemisphere = scaleQuantize().domain(thetaDomain).range([HEMI_TOP, HEMI_BOTTOM, HEMI_BOTTOM, HEMI_TOP]);
@@ -346,8 +391,8 @@ function RadvizD3(props) {
 		// anchor    - the (x, y) location of the text [{x: 0, y: -200}, {}, {}, {}].
 		// normalize - createing a domain-range function to normalize everything to have [0, 1] range.
 		dimension = (() => {
-			const dim = { "label": label, "theta": [], "hemi": [], "anchor": [], "normalize": [] }
-			label.forEach((d, i) => {
+			const dim = { "label": labels, "theta": [], "hemi": [], "anchor": [], "normalize": [] }
+			labels.forEach((d, i) => {
 				const radian = theta(i)
 				dim.theta.push(radian)
 				dim.hemi.push(hemisphere(radian))
@@ -421,11 +466,11 @@ function RadvizD3(props) {
 		})();
 
 		// fill up the whole space
-		zoomDots(dots)
+		// zoomDots(dots)
 
 		// drawOneStd(dialRV)
 
-		// drawAnchors(dialRV);
+		drawAnchors(dialRV);
 
 		printLabels(dialRV);
 
