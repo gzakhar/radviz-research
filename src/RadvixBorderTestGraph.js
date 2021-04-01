@@ -35,7 +35,7 @@ function RadvixBorderTestGraph() {
 		tt: 'TT'
 	};
 
-	console.log(data)
+	// console.log(data)
 
 	return (
 		<div style={{ display: 'flex', direction: 'row' }}>
