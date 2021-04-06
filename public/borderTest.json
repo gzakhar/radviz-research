@@ -5,7 +5,8 @@
 		"bottom": 0,
 		"left": 0,
 		"tt": 0,
-		"color": 0
+		"color": 0,
+		"text": "hello"
 	},
 	{
 		"top": 0,
@@ -13,7 +14,8 @@
 		"bottom": 1,
 		"left": 0,
 		"tt": 0,
-		"color": 1
+		"color": 1,
+		"text": "My"
 	},
 	{
 		"top": 0,
@@ -21,7 +23,8 @@
 		"bottom": 1,
 		"left": 1,
 		"tt": 0,
-		"color": 2
+		"color": 2,
+		"text": "name"
 	},
 	{
 		"top": 0,
@@ -29,7 +32,8 @@
 		"bottom": 0,
 		"left": 1,
 		"tt": 1,
-		"color": 3
+		"color": 3,
+		"text": "is"
 	},
 	{
 		"top": 1,
@@ -37,7 +41,8 @@
 		"bottom": 0,
 		"left": 0,
 		"tt": 1,
-		"color": 4
+		"color": 4,
+		"text": "geogre"
 	},
 	{
 		"top": 1,
@@ -45,7 +50,8 @@
 		"bottom": 1,
 		"left": 0,
 		"tt": 1,
-		"color": 4
+		"color": 4,
+		"text": "would"
 	},
 	{
 		"top": 1,
@@ -53,6 +59,7 @@
 		"bottom": 1,
 		"left": 1,
 		"tt": 1,
-		"color": 4
+		"color": 4,
+		"text": "you"
 	}
 ]

@@ -3,6 +3,7 @@ import { symbol, symbolCircle } from 'd3-shape';
 import { scaleOrdinal, scaleLinear, scaleThreshold, scaleQuantize } from 'd3-scale';
 import { range, extent, max } from 'd3-array';
 import { select } from 'd3-selection';
+import { remove } from 'lodash';
 
 
 function RadvizD3(props) {
@@ -122,22 +123,6 @@ function RadvizD3(props) {
 		})
 	}
 
-	// draw ancers 
-	let drawAnchors = (dial) => {
-
-		dial.selectAll()
-			.append('g')
-			.data(dimension.anchor)
-			.enter()
-			.append('circle')
-			.attr('cx', d => d.x)
-			.attr('cy', d => d.y)
-			.attr('r', 2.5)
-			.style('fill', 'red')
-			.style('stroke', '#000')
-			.style('stroke-width', 1.5)
-	}
-
 	// Print Lables
 	let printLabels = (dial) =>
 		dial.selectAll()
@@ -157,19 +142,67 @@ function RadvizD3(props) {
 			.style('cursor', 'default')
 			.text((_, i) => props.labels[dimension.label[i]])
 
+	// draw ancers 
+	let drawAnchors = (dial) => {
+
+		dial.selectAll()
+			.append('g')
+			.data(dimension.anchor)
+			.enter()
+			.append('circle')
+			.attr('cx', d => d.x)
+			.attr('cy', d => d.y)
+			.attr('r', 2.5)
+			.style('fill', 'red')
+			.style('stroke', '#000')
+			.style('stroke-width', 1.5)
+	}
+
 	// Plot data points
 	let drawDots = (dial, dotData) => {
 		dial.selectAll()
 			.data(dotData)
 			.enter()
-			.append('path')
+			.append('circle')
+			.attr('cx', d => d.coordinates.x)
+			.attr('cy', d => d.coordinates.y)
+			.attr('r', 2.5)
 			.attr('id', (_, i) => `dot${i}`)
-			.attr('d', symbol().type(symbolCircle).size(20))
-			.attr('transform', d => 'translate(' + d.coordinates.x + ', ' + d.coordinates.y + ')')
 			.style('fill', d => d.fill)
 			.style('fill-opacity', 0.9)
 			.style('stroke', '#000')
 			.style('stroke-width', 0.1)
+			.on('mouseover', handleHoverOn)
+			.on('mouseout', handleHoverOff)
+			.on('click', props.handleMouseClick)
+	}
+
+	function handleHoverOn(d, i) {
+
+		select(this)
+			.attr('r', 5)
+
+		let dial = select('.canvas').select('svg').select('#dataWheel')
+
+		// TODO make the id of dot labels more unique
+		dial.append('text')
+			.attr('id', "dotLabels")
+			.attr('x', i.coordinates.x - 10)
+			.attr('y', i.coordinates.y - 10)
+			.text(i.textLabel)
+	}
+	
+	function handleHoverOff(d, i) {
+
+		select(this)
+			.style('fill', i.fill)
+			.attr('r', 2.5)
+
+		let dial = select('.canvas').select('svg').select('#dataWheel')
+
+		// TODO make the id of dot labels more unique
+		dial.select("#dotLabels")
+			.remove()
 	}
 
 
@@ -193,7 +226,7 @@ function RadvizD3(props) {
 	}
 
 	function intersection(a1, b1, theta) {
-		if (theta == -Math.PI / 2 || theta == Math.PI / 2 || theta == 3 * Math.PI / 2){
+		if (theta == -Math.PI / 2 || theta == Math.PI / 2 || theta == 3 * Math.PI / 2) {
 			console.log("ERROR devide by 0")
 			return [0, b1]
 		}
@@ -213,7 +246,6 @@ function RadvizD3(props) {
 		const point = { x: 0, y: 0, angel: 0, radius: 0 };
 		let sumUnits = 0;
 
-		// console.log(row)
 		dimension.theta.forEach((angle, i) => {
 
 			// Unit is the HYPOTNEOUS of the datapoint.
@@ -245,15 +277,15 @@ function RadvizD3(props) {
 
 		point.x = scaling * x;
 		point.y = scaling * y;
-		point.angel = Math.atan(y/x) + ((x < 0) ? Math.PI : 0);
+		point.angel = Math.atan(y / x) + ((x < 0) ? Math.PI : 0);
 		point.radius = hypotneous(x, y);
 
 		let maxP = borderFunctions[parseInt(anti_theta(point.angel))](point.angel)
 
 		let maxRadius = hypotneous(maxP[0], maxP[1])
 
-		point.x = ((CHART_R - 10) / maxRadius) * point.x 
-		point.y = ((CHART_R - 10) / maxRadius) * point.y 
+		point.x = ((CHART_R - 10) / maxRadius) * point.x
+		point.y = ((CHART_R - 10) / maxRadius) * point.y
 		// --- Get the max possible point on this angle. --- ALL OF THIS CODE IS 
 		// Angle of the point
 		// let theta = Math.atan(Math.abs(y / x));
@@ -274,7 +306,8 @@ function RadvizD3(props) {
 		return {
 			row: row,
 			fill: dotPalette(row[props.colorAccessor]),
-			coordinates: point
+			coordinates: point,
+			textLabel: row[props.textLabel]
 		}
 	}
 
@@ -445,7 +478,6 @@ function RadvizD3(props) {
 
 		let defs = select('defs')
 
-		console.log(textPath)
 		// Define hidden trajectories of labels
 		defs.selectAll('g')
 			.append('g')
