@@ -21,10 +21,10 @@ function vizData(data, labels) {
 
 function DotDisplay(props) {
 	return (
-		<div className="card" style={{width: "18rem"}}>
+		<div className="card" style={{ width: "18rem" }}>
 			<div className="card-header">
 				{props.dot.textLabel}
-  			</div>
+			</div>
 			<ul className="list-group list-group-flush">
 				<li className="list-group-item">x: {props.dot.coordinates.x}</li>
 				<li className="list-group-item">y: {props.dot.coordinates.y}</li>
@@ -39,18 +39,32 @@ function RadvixBorderTestGraph() {
 	const [dotData, setDotData] = useState(null);
 	const show = useRef(false);
 
+	// async function fetchData() {
+	// 	let res = await axios('./borderTest.json')
+	// 	setData(res.data)
+	// }
+	// let labelMapping = {
+	// 	top: 'Top',
+	// 	right: 'Right',
+	// 	bottom: 'Bottom',
+	// 	left: 'Left',
+	// 	tt: 'TT'
+	// };
+
+
+	// Sepal
 	async function fetchData() {
-		let res = await axios('./borderTest.json')
+		let res = await axios('./iris.json')
 		setData(res.data)
 	}
-
 	let labelMapping = {
-		top: 'Top',
-		right: 'Right',
-		bottom: 'Bottom',
-		left: 'Left',
-		// tt: 'TT'
+		sepalWidth: 'Sepal Width',
+		sepalLength: 'Sepal Length',
+		petalLength: 'Petal Length',
+		petalWidth: 'Petal Width'
 	};
+
+
 
 	function handleClick(d, i) {
 		show.current = true;
@@ -62,7 +76,8 @@ function RadvixBorderTestGraph() {
 	return (
 		<div style={{ display: 'flex', direction: 'row' }}>
 			<div style={{ width: '50%', order: 1 }}>
-				<RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' handleMouseClick={handleClick} />
+				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' handleMouseClick={handleClick} /> */}
+				<RadvizD32 labels={labelMapping} content={data} colorAccessor="species" textLabel='species' handleMouseClick={handleClick} />
 				{data && vizData(data, labelMapping)}
 			</div>
 			<div style={{ width: '50%', order: 0 }}>

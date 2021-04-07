@@ -180,7 +180,8 @@ function RadvizD3(props) {
 	function handleHoverOn(d, i) {
 
 		select(this)
-			.attr('r', 5)
+			.attr('r', 6)
+			.style('fill', 'white')
 
 		let dial = select('.canvas').select('svg').select('#dataWheel')
 
