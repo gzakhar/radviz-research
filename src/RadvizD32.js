@@ -219,7 +219,7 @@ function RadvizD3(props) {
 			return _max_radius;
 		})();
 
-		// // Scale each data point by Scale
+		// Scale each data point by Scale
 		dots.forEach(row => {
 			row.coordinates.x *= (CHART_R - BORDER_BUFF) / maximumRadius;
 			row.coordinates.y *= (CHART_R - BORDER_BUFF) / maximumRadius;
@@ -278,10 +278,11 @@ function RadvizD3(props) {
 
 		point.x = scaling * x;
 		point.y = scaling * y;
-		point.angel = Math.atan(y / x) + ((x < 0) ? Math.PI : 0);
+		point.angel = (x == 0 && y == 0) ? 1 : (Math.atan(y / x) + ((x < 0) ? Math.PI : 0));
 		point.radius = hypotneous(x, y);
 
-		let maxP = borderFunctions[parseInt(anti_theta(point.angel))](point.angel)
+		let borderFunctionIndex = parseInt(anti_theta(point.angel))
+		let maxP = borderFunctions[borderFunctionIndex](point.angel)
 
 		let maxRadius = hypotneous(maxP[0], maxP[1])
 
@@ -437,8 +438,9 @@ function RadvizD3(props) {
 		})();
 
 		// Radius of labels is going to be bigger Chart Radius because labels have to be outside.
-		let LABEL_OFFSET = [12, 28];
-		let labelR = (theta) => (CHART_R + LABEL_OFFSET[hemisphere(theta)]);
+		let LABEL_RADIUS_OFFSET = [12, 28];
+		let LABEL_X_OFFSET = 15
+		let labelR = (theta) => (CHART_R + LABEL_RADIUS_OFFSET[hemisphere(theta)]);
 
 		// Creating Text paths for Labels.
 		let textPath = (() => {
@@ -451,14 +453,14 @@ function RadvizD3(props) {
 				const arc = {}
 
 				if (dimension.hemi[i] === HEMI_TOP) {
-					arc.startAngle = theta(i)
-					arc.endAngle = theta(j)
+					arc.startAngle = theta(i) + deg2rad(-LABEL_X_OFFSET)
+					arc.endAngle = theta(j) + deg2rad(-LABEL_X_OFFSET)
 					arc.angle = Math.abs(rad2deg(arc.endAngle - arc.startAngle))
 					arc.sweep = 1 // clockwised
 					arc.r = labelR(arc.startAngle)
 				} else {
-					arc.startAngle = theta(j)
-					arc.endAngle = theta(i)
+					arc.startAngle = theta(j) + deg2rad(-LABEL_X_OFFSET)
+					arc.endAngle = theta(i) + deg2rad(-LABEL_X_OFFSET)
 					arc.angle = rad2deg(arc.startAngle - arc.endAngle)
 					arc.sweep = 0 // counterclowised
 					arc.r = labelR(arc.endAngle)
@@ -499,7 +501,8 @@ function RadvizD3(props) {
 		})();
 
 		// fill up the whole space
-		// zoomDots(dots)
+		if (props.zoom)
+			zoomDots(dots);
 
 		// drawOneStd(dialRV)
 

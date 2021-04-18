@@ -13,15 +13,21 @@ function RadvizD3(props) {
 	let HEMI_BOTTOM = 1;
 	let EPSILON = 0.0001;
 	let BORDER_BUFF = 10;
+	let LABEL_X_OFFSET = 5
 
 	let theta;
 	let dimension;
+	let dimensionOppositeLables;
 	let dotPalette = scaleOrdinal().range(['red', 'white', 'orange']);
-	// let colorAccessor = "species";
 
 	let initialized = useRef(false);
 
 	const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
+
+	// Coatcisa
+	let dotY = (radius, theta) => radius * Math.sin(theta);
+	// Abtusa
+	let dotX = (radius, theta) => radius * Math.cos(theta);
 
 	// React Hook.
 	useEffect(() => {
@@ -35,10 +41,7 @@ function RadvizD3(props) {
 		// eslint-disable-next-line
 	}, [props.content])
 
-	// Coatcisa
-	let dotY = (radius, theta) => radius * Math.sin(theta);
-	// Abtusa
-	let dotX = (radius, theta) => radius * Math.cos(theta);
+
 
 	// let dotYReal = (radius, theta) => {
 	// 	let y = radius * Math.sin(theta);
@@ -57,14 +60,30 @@ function RadvizD3(props) {
 
 	let hypotneous = (x, y) => Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-	let getTheta = (x, y) => {
-		if (x >= 0 && y >= 0) return Math.atan(Math.abs(y / x))
-		else if (x <= 0 && y >= 0) return Math.atan(Math.abs(y / x)) + Math.PI;
-		else if (x <= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 2 * Math.PI;
-		else if (x >= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 3 * Math.PI;
-		return 0
-	}
+	// let getTheta = (x, y) => {
+	// 	if (x >= 0 && y >= 0) return Math.atan(Math.abs(y / x))
+	// 	else if (x <= 0 && y >= 0) return Math.atan(Math.abs(y / x)) + Math.PI;
+	// 	else if (x <= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 2 * Math.PI;
+	// 	else if (x >= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 3 * Math.PI;
+	// 	return 0
+	// }
 
+	// function translateWheelAngle(props, angle, invert) {
+	// 	var wheelAngle = props.wheelAngle;
+	// 	var wheelDirection = props.wheelDirection;
+
+	// 	if (!invert && wheelDirection === 'clockwise' || invert && wheelDirection === 'anticlockwise') {
+	// 		angle = (invert ? 180 : 360) - (wheelAngle - angle);
+	// 	} else {
+	// 		angle = wheelAngle + angle;
+	// 	} // javascript's modulo operator doesn't produce positive numbers with negative input
+	// 	// https://dev.to/maurobringolf/a-neat-trick-to-compute-modulo-of-negative-numbers-111e
+
+
+	// 	return (angle % 360 + 360) % 360;
+	// }
+
+	// 
 	function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 		var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
 		startAngle *= Math.PI / 180;
@@ -74,21 +93,6 @@ function RadvizD3(props) {
 		var x2 = cx + radius * Math.cos(startAngle);
 		var y2 = cy + radius * Math.sin(startAngle);
 		return "M " + x1 + " " + y1 + " A " + radius + " " + radius + " 0 " + largeArcFlag + " 0 " + x2 + " " + y2;
-	}
-
-	function translateWheelAngle(props, angle, invert) {
-		var wheelAngle = props.wheelAngle;
-		var wheelDirection = props.wheelDirection;
-
-		if (!invert && wheelDirection === 'clockwise' || invert && wheelDirection === 'anticlockwise') {
-			angle = (invert ? 180 : 360) - (wheelAngle - angle);
-		} else {
-			angle = wheelAngle + angle;
-		} // javascript's modulo operator doesn't produce positive numbers with negative input
-		// https://dev.to/maurobringolf/a-neat-trick-to-compute-modulo-of-negative-numbers-111e
-
-
-		return (angle % 360 + 360) % 360;
 	}
 
 	// Draw the circumfrence of the graph.
@@ -127,6 +131,23 @@ function RadvizD3(props) {
 			.style('stroke-width', 1.5)
 	}
 
+	// draw ancers 
+	let drawOppositeAnchors = (dial) => {
+
+		dial.selectAll()
+			.append('g')
+			.data(dimensionOppositeLables.anchor)
+			.enter()
+			.append('circle')
+			.attr('cx', d => d.x)
+			.attr('cy', d => d.y)
+			.attr('r', 2.5)
+			.style('fill', 'red')
+			.style('stroke', '#000')
+			.style('stroke-width', 1.5)
+	}
+
+
 	// Print Lables
 	let printLabels = (dial) =>
 		dial.selectAll()
@@ -145,6 +166,25 @@ function RadvizD3(props) {
 			.style('fill-opacity', 1)
 			.style('cursor', 'default')
 			.text((_, i) => props.labels[dimension.label[i]])
+
+	// Print Opposite Lables
+	let printOppositeLabels = (dial) =>
+		dial.selectAll()
+			.append('g')
+			.data(dimensionOppositeLables.hemi)
+			.enter()
+			.append('text')
+			.append('textPath')
+			.attr('xlink:href', (_, i) => `#labelPath${i + dimensionOppositeLables.label.length}`)
+			.attr('startOffset', d => d === HEMI_TOP ? '0%' : '100%')
+			.style('font-family', 'sans-serif')
+			.style('font-size', '24px')
+			.style('font-weight', '500')
+			.style('text-anchor', d => d === HEMI_TOP ? 'start' : 'end')
+			.style('fill', 'red')
+			.style('fill-opacity', 1)
+			.style('cursor', 'default')
+			.text((_, i) => props.oppositeLabel[dimensionOppositeLables.label[i]])
 
 	// Plot data points
 	let drawDots = (dial, dotData) => {
@@ -172,7 +212,7 @@ function RadvizD3(props) {
 		const point = { x: 0, y: 0, angel: 0 };
 		let sumUnits = 0;
 
-		console.log(row)
+		// console.log(row)
 		dimension.theta.forEach((angle, i) => {
 
 			// console.log(rad2deg(angle));
@@ -242,29 +282,11 @@ function RadvizD3(props) {
 		return scaleThreshold().domain(_array).range(range(0, 1 + EPSILON, 1 / _array.length))
 	};
 
-	function initialize() {
-
-		const svg = select('.canvas')
-			.append('svg')
-			.attr('viewBox', `0 0 480 480`);
-
-		svg.append('defs')
-
-		colorInCircumfrence();
-
-		const dialRV = svg.append('g')
-			.attr('id', 'dataWheel')
-			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
-
-		drawCircumference(dialRV);
-	}
-
 	// Setting saturation and hsl
 	function colorInCircumfrence() {
 
 		const svg = select('.canvas')
 			.select('svg')
-
 
 		const g = svg.append('g')
 			.attr('id', "hueWheel")
@@ -297,7 +319,23 @@ function RadvizD3(props) {
 			.attr('offset', '100%')
 			.attr('stop-color', '#fff')
 			.attr('stop-opacity', 0)
+	}
 
+	function initialize() {
+
+		const svg = select('.canvas')
+			.append('svg')
+			.attr('viewBox', `0 0 480 480`);
+
+		svg.append('defs')
+
+		colorInCircumfrence();
+
+		const dialRV = svg.append('g')
+			.attr('id', 'dataWheel')
+			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
+
+		drawCircumference(dialRV);
 	}
 
 	async function updateGraph() {
@@ -307,6 +345,9 @@ function RadvizD3(props) {
 
 		// variable used to access column data.
 		let label = Object.keys(props.labels);
+
+		// reptesents opposite lables.
+		let oppositelabel = Object.keys(props.oppositeLabel)
 
 		// Creates a mapping, from [0, 4] to [-PI/2, PI], basically saying the type of angle that a point will have.
 		// let thetaDomain = [-Math.PI / 2 + EPSILON, 3 * Math.PI / 2];
@@ -333,12 +374,24 @@ function RadvizD3(props) {
 			})
 			return dim;
 		})();
-		console.log(dimension)
-		// Radius of labels is going to be bigger Chart Radius because labels have to be outside.
-		let LABEL_OFFSET = [12, 28];
-		let labelR = (theta) => (CHART_R + LABEL_OFFSET[hemisphere(theta)]);
 
-		// Creating Text paths for Labels.
+		dimensionOppositeLables = (() => {
+			const dim = { "label": oppositelabel, "theta": [], "hemi": [], "anchor": [] }
+			oppositelabel.forEach((d, i) => {
+				const radian = theta(i + oppositelabel.length)
+				dim.theta.push(radian)
+				dim.hemi.push(hemisphere(radian))
+				dim.anchor.push({ x: dotX(CHART_R, radian), y: dotY(CHART_R, radian) })
+			})
+			return dim;
+		})();
+
+
+		// Radius of labels is going to be bigger Chart Radius because labels have to be outside.
+		let LABEL_RADIUS_OFFSET = [12, 28];
+		let labelR = (theta) => (CHART_R + LABEL_RADIUS_OFFSET[hemisphere(theta)]);
+
+		// Creating Text Paths for Labels.
 		let textPath = (() => {
 			const tpath = []
 
@@ -355,8 +408,9 @@ function RadvizD3(props) {
 					arc.sweep = 1 // clockwised
 					arc.r = labelR(arc.startAngle)
 				} else {
-					arc.startAngle = theta(j)
-					arc.endAngle = theta(i)
+					// TODO: deg2rad(x) is temporary
+					arc.startAngle = theta(j) + deg2rad(-LABEL_X_OFFSET)
+					arc.endAngle = theta(i) + deg2rad(-LABEL_X_OFFSET)
 					arc.angle = rad2deg(arc.startAngle - arc.endAngle)
 					arc.sweep = 0 // counterclowised
 					arc.r = labelR(arc.endAngle)
@@ -367,6 +421,43 @@ function RadvizD3(props) {
 					end: [dotX(arc.r, arc.endAngle), dotY(arc.r, arc.endAngle)]
 				}
 
+				tpath.push(`M${arc.point.start}A${[arc.r, arc.r]} ${arc.angle} 0 ${arc.sweep} ${arc.point.end}`)
+			})
+
+			console.log(dimensionOppositeLables)
+
+			dimensionOppositeLables.label.forEach((d, i) => {
+
+				// Next dimension on circumference:
+				i = i + dimension.label.length
+				let j = i + 1;
+				const arc = {}
+
+
+				if (dimensionOppositeLables.hemi[i] === HEMI_TOP) {
+					console.log('top')
+					arc.startAngle = theta(j)  + deg2rad(LABEL_X_OFFSET)
+					arc.endAngle = theta(i) + deg2rad(LABEL_X_OFFSET)
+					arc.angle = rad2deg(arc.startAngle - arc.endAngle) + deg2rad(-LABEL_X_OFFSET)
+					arc.sweep = 0 // counterclowised
+					arc.r = labelR(arc.endAngle) 
+				} else {
+					console.log('bottom')
+					// TODO: deg2rad(x) is temporary
+					
+					arc.startAngle = theta(i)
+					arc.endAngle = theta(j)
+					arc.angle = Math.abs(rad2deg(arc.endAngle - arc.startAngle))
+					arc.sweep = 1 // clockwised
+					arc.r = labelR(arc.startAngle)
+				}
+
+				arc.point = {
+					start: [dotX(arc.r, arc.startAngle), dotY(arc.r, arc.startAngle)],
+					end: [dotX(arc.r, arc.endAngle), dotY(arc.r, arc.endAngle)]
+				}
+
+				// console.log(`M${arc.point.start}A${[arc.r, arc.r]} ${arc.angle} 0 ${arc.sweep} ${arc.point.end}`)
 				tpath.push(`M${arc.point.start}A${[arc.r, arc.r]} ${arc.angle} 0 ${arc.sweep} ${arc.point.end}`)
 			})
 
@@ -417,7 +508,11 @@ function RadvizD3(props) {
 
 		drawAnchors(dialRV);
 
+		drawOppositeAnchors(dialRV);
+
 		printLabels(dialRV);
+
+		printOppositeLabels(dialRV);
 
 		drawDots(dialRV, dots);
 	}

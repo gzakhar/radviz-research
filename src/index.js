@@ -7,8 +7,8 @@ import RadvixBorderTestGraph from './RadvixBorderTestGraph'
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <RadvizGraph /> */}
-    <RadvixBorderTestGraph />
+    <RadvizGraph />
+    {/* <RadvixBorderTestGraph /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

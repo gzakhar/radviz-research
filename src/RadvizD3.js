@@ -231,6 +231,26 @@ function RadvizD3(props) {
 		return scaleThreshold().domain(_array).range(range(0, 1 + EPSILON, 1 / _array.length))
 	};
 
+	let zoomDots = (dots) => {
+		// calculate maximum radius of any point on the graph.
+		let maximumRadius = (() => {
+			let _max_radius = 0;
+			dots.forEach(row => {
+				if (hypotneous(row.coordinates.x, row.coordinates.y) > _max_radius) {
+					_max_radius = hypotneous(row.coordinates.x, row.coordinates.y);
+				}
+			})
+			return _max_radius;
+		})();
+
+		// Scale each data point by Scale
+		dots.forEach(row => {
+			row.coordinates.x *= (CHART_R - BORDER_BUFF) / maximumRadius;
+			row.coordinates.y *= (CHART_R - BORDER_BUFF) / maximumRadius;
+		})
+	}
+
+
 	function initialize() {
 
 		const svg = select('.canvas')
@@ -384,24 +404,24 @@ function RadvizD3(props) {
 			return _dot;
 		})();
 
-		// calculate maximum radius of any point on the graph.
-		let maximumRadius = (() => {
-			let _max_radius = 0;
-			dots.forEach(row => {
-				if (hypotneous(row.coordinates.x, row.coordinates.y) > _max_radius) {
-					_max_radius = hypotneous(row.coordinates.x, row.coordinates.y);
-				}
-			})
-			return _max_radius;
-		})();
+		// // calculate maximum radius of any point on the graph.
+		// let maximumRadius = (() => {
+		// 	let _max_radius = 0;
+		// 	dots.forEach(row => {
+		// 		if (hypotneous(row.coordinates.x, row.coordinates.y) > _max_radius) {
+		// 			_max_radius = hypotneous(row.coordinates.x, row.coordinates.y);
+		// 		}
+		// 	})
+		// 	return _max_radius;
+		// })();
 
-		// Scale each data point by Scale
-		dots.forEach(row => {
-			row.coordinates.x *= (CHART_R - BORDER_BUFF) / maximumRadius;
-			row.coordinates.y *= (CHART_R - BORDER_BUFF) / maximumRadius;
-		})
+		// // Scale each data point by Scale
+		// dots.forEach(row => {
+		// 	row.coordinates.x *= (CHART_R - BORDER_BUFF) / maximumRadius;
+		// 	row.coordinates.y *= (CHART_R - BORDER_BUFF) / maximumRadius;
+		// })
 
-		// drawOneStd(dialRV)
+		zoomDots(dots)
 
 		drawAnchors(dialRV);
 
