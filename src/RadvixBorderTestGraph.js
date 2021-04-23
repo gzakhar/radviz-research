@@ -118,16 +118,29 @@ function RadvixBorderTestGraph() {
 	// 	setData(res.data)
 	// }
 
+	// async function fetchData() {
+	// 	let res = await axios('./radviz_demographic_data.json')
+	// 	setData(res.data)
+	// }
+	// let labelMapping = {
+	// 	age_median: 'Age Median',
+	// 	white_ratio: 'White Ratio',
+	// 	income_per_capita: 'Income Per Capita'
+	// };
+	// let colorAccessor = 'county_name'
+
+
 	async function fetchData() {
-		let res = await axios('./radviz_demographic_data.json')
+		let res = await axios('./bruh_geogre.json')
 		setData(res.data)
 	}
 	let labelMapping = {
-		age_median: 'Age Median',
-		white_ratio: 'White Ratio',
-		income_per_capita: 'Income Per Capita'
+		'Population Equality' : "Population Equality",
+		'Polsby Popper' : "Polsby Popper",
+		'Objective Function' : "Objective Function"
 	};
-	let colorAccessor = 'county_name'
+	let colorAccessor = NaN
+
 
 
 	function handleClick(d, i) {

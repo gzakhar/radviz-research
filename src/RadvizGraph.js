@@ -102,21 +102,37 @@ function RadvizGraph() {
 	// 	setData(res.data)
 	// }
 
+	// async function fetchData() {
+	// 	let res = await axios('./radviz_demographic_data.json')
+	// 	setData(res.data)
+	// }
+	// let labelMapping = {
+	// 	age_median: 'Old',
+	// 	white_ratio: 'Colored',
+	// 	income_per_capita: 'Poor'
+	// }
+	// let oppositeLabel = {
+	// 	age_median: 'Young',
+	// 	white_ratio: 'White',
+	// 	income_per_capita: 'Rich'
+	// }
+	// let colorAccessor = 'county_name'
+
 	async function fetchData() {
-		let res = await axios('./radviz_demographic_data.json')
+		let res = await axios('./bruh_geogre.json')
 		setData(res.data)
 	}
 	let labelMapping = {
-		age_median: 'Old',
-		white_ratio: 'Colored',
-		income_per_capita: 'Poor'
-	}
+		'Population Equality': "pe+",
+		'Polsby Popper': "pp+",
+		'Objective Function': "ob+"
+	};
 	let oppositeLabel = {
-		age_median: 'Young',
-		white_ratio: 'White',
-		income_per_capita: 'Rich'
-	}
-	let colorAccessor = 'county_name'
+		'Population Equality': "pe - ",
+		'Polsby Popper': "pp - ",
+		'Objective Function': "ob - "
+	};
+	let colorAccessor = NaN
 
 	let [normalizedData, min, max] = normalize(data, colorAccessor);
 
@@ -124,7 +140,7 @@ function RadvizGraph() {
 		<div style={{ display: 'flex', flexDirection: 'row' }}>
 			<div style={{ order: 1, width: '50%' }}>
 				{/* <RadvizD3 labels={labelMapping} content={data} colorAccessor={colorAccessor} /> */}
-				<RadvizStatisticalD3 oppositeLabel={oppositeLabel} labels={labelMapping} colorAccessor={colorAccessor} content={normalizedData} min={min} max={max}/>
+				<RadvizStatisticalD3 oppositeLabel={oppositeLabel} labels={labelMapping} colorAccessor={colorAccessor} content={normalizedData} min={min} max={max} />
 				<button onClick={fetchData} className='btn' style={{ backgroundColor: "#fa7f72", color: "#000000" }}>fetchData</button>
 			</div>
 			<div style={{ order: 2, width: '50%' }}>
