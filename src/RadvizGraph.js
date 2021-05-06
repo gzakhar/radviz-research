@@ -123,9 +123,9 @@ function RadvizGraph() {
 		setData(res.data)
 	}
 	let labelMapping = {
-		'Population Equality': "pe+",
-		'Polsby Popper': "pp+",
-		'Objective Function': "ob+"
+		'Population Equality': "pop eq+",
+		'Polsby Popper': "pol p+",
+		'Objective Function': "obj func+"
 	};
 	let oppositeLabel = {
 		'Population Equality': "pe - ",

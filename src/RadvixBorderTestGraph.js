@@ -61,15 +61,23 @@ function normalize(data, colorAccessor) {
 }
 
 function DotDisplay(props) {
+	let keys = Object.keys(props.dot.data)
+	let cKeys = Object.keys(props.dot.coordinates)
 	return (
-		<div className="card" style={{ width: "18rem" }}>
-			<div className="card-header">
-				{props.dot.textLabel}
+		<div className="d-flex">
+			<div className="card bg-light mb-3" style={{ maxWidth: '30rem' }}>
+				<div className="card-header">Plans</div>
+				<div className="card-body">
+					{keys.map(e => <p>{e}: {props.dot.data[e].toFixed(6)}</p>)}
+				</div>
 			</div>
-			<ul className="list-group list-group-flush">
-				<li className="list-group-item">x: {props.dot.coordinates.x}</li>
-				<li className="list-group-item">y: {props.dot.coordinates.y}</li>
-			</ul>
+			<div className="card bg-light mb-3" style={{ maxWidth: '30rem' }}>
+				<div className="card-header">Dot Coordinates</div>
+				<div className="card-body">
+					{cKeys.map(e => <p>{e}: {props.dot.coordinates[e].toFixed(4)}</p>)}
+				</div>
+			</div>
+			
 		</div>
 	)
 }
@@ -77,7 +85,7 @@ function DotDisplay(props) {
 function RadvixBorderTestGraph() {
 
 	const [data, setData] = useState(null);
-	const [dotData, setDotData] = useState(null);
+	const [dotData, setDotData] = useState([]);
 	const show = useRef(false);
 	const [zoom, setZoom] = useState(false);
 
@@ -106,7 +114,7 @@ function RadvixBorderTestGraph() {
 	// };
 	// let colorAccessor = 'species'
 
-	
+
 	// let labelMapping = {
 	// 	'2020:Q1': 'Q1',
 	// 	'2020:Q2': 'Q2',
@@ -131,22 +139,24 @@ function RadvixBorderTestGraph() {
 
 
 	async function fetchData() {
-		let res = await axios('./bruh_geogre.json')
+		let res = await axios('./new_bruh.json')
 		setData(res.data)
 	}
 	let labelMapping = {
-		'Population Equality' : "Population Equality",
-		'Polsby Popper' : "Polsby Popper",
-		'Objective Function' : "Objective Function"
+		'Population Equality': "Population Equality",
+		'Polsby Popper': "Polsby Popper",
+		'Majority-Minority Seat Share': "MMSeat",
+		// 'Democratic Seat Share': "DemSeatShare",
+		// 'Efficiency Gap': "Efficiency Gap"
 	};
-	let colorAccessor = NaN
+	let colorAccessor = null
 
 
 
-	function handleClick(d, i) {
+	function handleClick(i, d) {
 		show.current = true;
-		console.log(i)
-		setDotData(<DotDisplay dot={i} />);
+		console.log(d)
+		setDotData(d)
 	}
 
 	function normalizeData() {
@@ -156,20 +166,21 @@ function RadvixBorderTestGraph() {
 
 	return (
 		<div style={{ display: 'flex', direction: 'row' }}>
-			<div style={{ width: '50%', order: 1 }}>
+			<div style={{ width: '40%', order: 1 }}>
+
 				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' handleMouseClick={handleClick} zoom={false} /> */}
-				<RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel={colorAccessor} handleMouseClick={handleClick} zoom={false} />
 				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel='GeoName' handleMouseClick={handleClick} zoom={false}/> */}
+				<RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel={colorAccessor} handleMouseClick={handleClick} zoom={zoom} />
 
 
-				<button onClick={fetchData} className={'btn'} style={{ backgroundColor: "#fa7f72", color: "#000000" }}>fetchData</button>
+				<button onClick={fetchData} className={'btn'} style={{ backgroundColor: "#fa7f72", color: "#000000" }}>Fetch Data</button>
 				<button onClick={normalizeData} className={'btn'} style={{ backgroundColor: "#1631ff", color: "#ffffff" }}>Normalize</button>
-				<button onClick={console.log(zoom)} className={'btn'} style={{ backgroundColor: "#4cfeb4", color: "#000000" }}>Zoom</button>
-			</div>
-			<div style={{ width: '50%', order: 0 }}>
-				{show.current && dotData}
-				{data && vizData(data, labelMapping)}
+				<button onClick={() => setZoom(!zoom)} className={'btn'} style={{ backgroundColor: "#4cfeb4", color: "#000000" }}>Zoom {zoom ? "true" : "false"}</button>
+				{dotData.length != 0 ? <DotDisplay dot={dotData} /> : null}
 
+			</div>
+			<div style={{ width: '60%', order: 0 }}>
+				{data && vizData(data, labelMapping)}
 			</div>
 		</div>
 	)

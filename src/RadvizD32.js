@@ -3,7 +3,7 @@ import { symbol, symbolCircle } from 'd3-shape';
 import { scaleOrdinal, scaleLinear, scaleThreshold, scaleQuantize } from 'd3-scale';
 import { range, extent, max } from 'd3-array';
 import { select } from 'd3-selection';
-import { remove } from 'lodash';
+
 
 
 function RadvizD3(props) {
@@ -34,6 +34,7 @@ function RadvizD3(props) {
 			initialize();
 			initialized.current = true;
 		}
+
 		// eslint-disable-next-line
 	}, [props.content])
 
@@ -42,13 +43,10 @@ function RadvizD3(props) {
 	// Abtusa
 	let dotX = (radius, theta) => radius * Math.cos(theta);
 
-	// Degrees to Radians
-	// eslint-disable-next-line
 	let deg2rad = deg => deg * Math.PI / 180;
-	// Radians to Degrees
 	let rad2deg = rad => rad * 180 / Math.PI;
 
-	let a = (x1, x2, y1, y2) => {
+	function a(x1, x2, y1, y2){
 		if (Math.abs(x1 - x2) != 0) {
 			return (y2 - y1) / (x2 - x1)
 		}
@@ -68,10 +66,10 @@ function RadvizD3(props) {
 
 	let getTheta = (x, y) => {
 		if (x >= 0 && y >= 0) return Math.atan(Math.abs(y / x))
-		else if (x <= 0 && y >= 0) return Math.atan(Math.abs(y / x)) + Math.PI;
-		else if (x <= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 2 * Math.PI;
-		else if (x >= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 3 * Math.PI;
-		return 0
+		else if (x <= 0 && y >= 0) return Math.atan(Math.abs(y / x)) + Math.PI/2;
+		else if (x <= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + Math.PI;
+		else if (x >= 0 && y <= 0) return Math.atan(Math.abs(y / x)) + 3 * Math.PI/2;
+		return 1
 	}
 
 	function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
@@ -123,6 +121,21 @@ function RadvizD3(props) {
 		})
 	}
 
+	// Draw anchors 
+	let drawAnchors = (dial) => {
+		dial.selectAll()
+			.append('g')
+			.data(dimension.anchor)
+			.enter()
+			.append('circle')
+			.attr('cx', d => d.x)
+			.attr('cy', d => d.y)
+			.attr('r', 2.5)
+			.style('fill', 'red')
+			.style('stroke', '#000')
+			.style('stroke-width', 1.5)
+	}
+
 	// Print Lables
 	let printLabels = (dial) =>
 		dial.selectAll()
@@ -137,26 +150,11 @@ function RadvizD3(props) {
 			.style('font-size', '24px')
 			.style('font-weight', '500')
 			.style('text-anchor', d => d === HEMI_TOP ? 'start' : 'end')
-			.style('fill', 'red')
+			.style('fill', 'black')
 			.style('fill-opacity', 1)
 			.style('cursor', 'default')
 			.text((_, i) => props.labels[dimension.label[i]])
 
-	// draw ancers 
-	let drawAnchors = (dial) => {
-
-		dial.selectAll()
-			.append('g')
-			.data(dimension.anchor)
-			.enter()
-			.append('circle')
-			.attr('cx', d => d.x)
-			.attr('cy', d => d.y)
-			.attr('r', 2.5)
-			.style('fill', 'red')
-			.style('stroke', '#000')
-			.style('stroke-width', 1.5)
-	}
 
 	// Plot data points
 	let drawDots = (dial, dotData) => {
@@ -192,7 +190,7 @@ function RadvizD3(props) {
 			.attr('y', i.coordinates.y - 10)
 			.text(i.textLabel)
 	}
-	
+
 	function handleHoverOff(d, i) {
 
 		select(this)
@@ -244,7 +242,7 @@ function RadvizD3(props) {
 		let y = 0;
 		let xMax = 0;
 		let yMax = 0;
-		const point = { x: 0, y: 0, angel: 0, radius: 0 };
+		const point = { x: 0, y: 0, angle: 0, radius: 0 };
 		let sumUnits = 0;
 
 		dimension.theta.forEach((angle, i) => {
@@ -278,11 +276,11 @@ function RadvizD3(props) {
 
 		point.x = scaling * x;
 		point.y = scaling * y;
-		point.angel = (x == 0 && y == 0) ? 1 : (Math.atan(y / x) + ((x < 0) ? Math.PI : 0));
+		point.angle = (x == 0 && y == 0) ? 1 : (Math.atan(y / x) + ((x < 0) ? Math.PI : 0));
 		point.radius = hypotneous(x, y);
 
-		let borderFunctionIndex = parseInt(anti_theta(point.angel))
-		let maxP = borderFunctions[borderFunctionIndex](point.angel)
+		let borderFunctionIndex = parseInt(anti_theta(point.angle))
+		let maxP = borderFunctions[borderFunctionIndex](point.angle)
 
 		let maxRadius = hypotneous(maxP[0], maxP[1])
 
@@ -306,7 +304,7 @@ function RadvizD3(props) {
 
 
 		return {
-			row: row,
+			data: row,
 			fill: dotPalette(row[props.colorAccessor]),
 			coordinates: point,
 			textLabel: row[props.textLabel]

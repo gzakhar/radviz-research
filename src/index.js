@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import RadvizGraph from './RadvizGraph';
-import RadvixBorderTestGraph from './RadvixBorderTestGraph'
+import RadvixBorderTestGraph from './RadvixBorderTestGraph';
+import TestingUpdate from './TestingUpdate';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RadvizGraph />
+    {/* <RadvizGraph /> */}
     {/* <RadvixBorderTestGraph /> */}
+    <TestingUpdate/>
   </React.StrictMode>,
   document.getElementById('root')
 );
