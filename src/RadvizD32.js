@@ -18,7 +18,7 @@ function RadvizD3(props) {
 	let theta;
 	let anti_theta;
 	let dimension;
-	let dotPalette = scaleOrdinal().range(['red', 'green', 'orange', 'blue', 'yellow']);
+	let dotPalette = scaleOrdinal().range(['grey', 'red', 'green', 'orange', 'blue', 'yellow']);
 	let borderFunctions;
 
 	let initialized = useRef(false);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RadvizD3 from './RadvizD3';
 import RadvizStatisticalD3 from './RadvizStatisticalD3'
+import RadvizD32 from './RadvizD32';
 import axios from 'axios';
 import { std, mean } from 'mathjs';
 import Plot from 'react-plotly.js';
@@ -123,14 +124,14 @@ function RadvizGraph() {
 		setData(res.data)
 	}
 	let labelMapping = {
-		'Population Equality': "pop eq+",
-		'Polsby Popper': "pol p+",
-		'Objective Function': "obj func+"
+		'Population Equality': "+Pop Equality",
+		'Polsby Popper': "+Polsby Popper",
+		'Objective Function': "+Objective Func"
 	};
 	let oppositeLabel = {
-		'Population Equality': "pe - ",
-		'Polsby Popper': "pp - ",
-		'Objective Function': "ob - "
+		'Population Equality': "-Pop Equality",
+		'Polsby Popper': "-Polsby Popper",
+		'Objective Function': "-Objective Func"
 	};
 	let colorAccessor = NaN
 
@@ -140,7 +141,8 @@ function RadvizGraph() {
 		<div style={{ display: 'flex', flexDirection: 'row' }}>
 			<div style={{ order: 1, width: '50%' }}>
 				{/* <RadvizD3 labels={labelMapping} content={data} colorAccessor={colorAccessor} /> */}
-				<RadvizStatisticalD3 oppositeLabel={oppositeLabel} labels={labelMapping} colorAccessor={colorAccessor} content={normalizedData} min={min} max={max} />
+				<RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' zoom={false} />
+				{/* <RadvizStatisticalD3 oppositeLabel={oppositeLabel} labels={labelMapping} colorAccessor={colorAccessor} content={normalizedData} min={min} max={max} /> */}
 				<button onClick={fetchData} className='btn' style={{ backgroundColor: "#fa7f72", color: "#000000" }}>fetchData</button>
 			</div>
 			<div style={{ order: 2, width: '50%' }}>

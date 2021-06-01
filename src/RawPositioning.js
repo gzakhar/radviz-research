@@ -93,10 +93,10 @@ function RawPositioning(props) {
 	let CHART_R = 200;
 	let data = props.content;
 	let labels = Object.keys(props.labels);
-	let numberOfAnchors = Object.keys(labels).length;
+	let numberOfAnchors = labels.length;
 
 	let labelDomain = [0, 2 * Math.PI];
-	let label2Theta = (label) => scaleLinear().domain([0, labels.length]).range(labelDomain)(labels.indexOf(label));
+	let label2Theta = (label) => scaleLinear().domain([0, numberOfAnchors]).range(labelDomain)(labels.indexOf(label));
 	let theta2Label = scaleQuantize().domain(labelDomain).range(labels);
 
 	// initialize directory of anchor Information.
@@ -135,10 +135,21 @@ function RawPositioning(props) {
 		return func[theta2Label(angle)](angle);
 	});
 
-	let result = [];
+
+	// Point coordinates.
+	let points = []
 	props.content.forEach(e => {
-		result.push(mapRadvizpoint(e, anchorInfo, borderFunctions))
+		points.push(mapRadvizpoint(e, anchorInfo, borderFunctions))
 	});
+
+	// Label coordinatess
+	let labelsPositions = labels.map(label => ({
+		'label': label,
+		'anchor': props.labels[label],
+		'angle': rad2deg(anchorInfo[label]['angle'])
+	}))
+
+	let result = { 'points': points, 'labels': labelsPositions }
 
 	return result;
 }

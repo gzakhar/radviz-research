@@ -126,30 +126,30 @@ function RadvixBorderTestGraph() {
 	// 	setData(res.data)
 	// }
 
-	// async function fetchData() {
-	// 	let res = await axios('./radviz_demographic_data.json')
-	// 	setData(res.data)
-	// }
-	// let labelMapping = {
-	// 	age_median: 'Age Median',
-	// 	white_ratio: 'White Ratio',
-	// 	income_per_capita: 'Income Per Capita'
-	// };
-	// let colorAccessor = 'county_name'
-
-
 	async function fetchData() {
-		let res = await axios('./new_bruh.json')
+		let res = await axios('./radviz_demographic_data.json')
 		setData(res.data)
 	}
 	let labelMapping = {
-		'Population Equality': "Population Equality",
-		'Polsby Popper': "Polsby Popper",
-		'Majority-Minority Seat Share': "MMSeat",
-		// 'Democratic Seat Share': "DemSeatShare",
-		// 'Efficiency Gap': "Efficiency Gap"
+		age_median: 'Age Median',
+		white_ratio: 'White Ratio',
+		income_per_capita: 'Income Per Capita'
 	};
 	let colorAccessor = null
+
+
+	// async function fetchData() {
+	// 	let res = await axios('./new_bruh.json')
+	// 	setData(res.data)
+	// }
+	// let labelMapping = {
+	// 	'Population Equality': "Population Equality",
+	// 	'Polsby Popper': "Polsby Popper",
+	// 	'Majority-Minority Seat Share': "MMSeat",
+	// 	// 'Democratic Seat Share': "DemSeatShare",
+	// 	// 'Efficiency Gap': "Efficiency Gap"
+	// };
+	// let colorAccessor = null
 
 
 
@@ -168,9 +168,9 @@ function RadvixBorderTestGraph() {
 		<div style={{ display: 'flex', direction: 'row' }}>
 			<div style={{ width: '40%', order: 1 }}>
 
-				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' handleMouseClick={handleClick} zoom={false} /> */}
+				<RadvizD32 labels={labelMapping} content={data} colorAccessor="color" textLabel='text' handleMouseClick={handleClick} zoom={false} />
 				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel='GeoName' handleMouseClick={handleClick} zoom={false}/> */}
-				<RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel={colorAccessor} handleMouseClick={handleClick} zoom={zoom} />
+				{/* <RadvizD32 labels={labelMapping} content={data} colorAccessor={colorAccessor} textLabel={colorAccessor} handleMouseClick={handleClick} zoom={zoom} /> */}
 
 
 				<button onClick={fetchData} className={'btn'} style={{ backgroundColor: "#fa7f72", color: "#000000" }}>Fetch Data</button>

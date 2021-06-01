@@ -162,7 +162,7 @@ function RadvizD3(props) {
 			.style('font-size', '24px')
 			.style('font-weight', '500')
 			.style('text-anchor', d => d === HEMI_TOP ? 'start' : 'end')
-			.style('fill', 'red')
+			.style('fill', 'black')
 			.style('fill-opacity', 1)
 			.style('cursor', 'default')
 			.text((_, i) => props.labels[dimension.label[i]])
@@ -181,7 +181,7 @@ function RadvizD3(props) {
 			.style('font-size', '24px')
 			.style('font-weight', '500')
 			.style('text-anchor', d => d === HEMI_TOP ? 'start' : 'end')
-			.style('fill', 'red')
+			.style('fill', 'black')
 			.style('fill-opacity', 1)
 			.style('cursor', 'default')
 			.text((_, i) => props.oppositeLabel[dimensionOppositeLables.label[i]])
@@ -504,7 +504,7 @@ function RadvizD3(props) {
 			row.coordinates.y *= (CHART_R - BORDER_BUFF) / maximumRadius;
 		})
 
-		drawOneStd(dialRV)
+		// drawOneStd(dialRV)
 
 		drawAnchors(dialRV);
 
