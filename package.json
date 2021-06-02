@@ -15,6 +15,7 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.21",
     "mathjs": "^9.3.0",
+    "mapbox-gl": "^2.2.0",
     "plotly.js": "^1.58.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

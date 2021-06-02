@@ -3,11 +3,14 @@ import { RawPositioning } from './RawPositioning';
 import axios from 'axios';
 import Radviz from './Radviz';
 
+
 let rad2deg = rad => rad * 180 / Math.PI;
 
 function TestingUpdate() {
 
+	
 	const [data, setData] = useState([])
+	const [countyColorMap, setCountyColorMap] = useState({})
 
 	// let data = [
 	// 	{ 'first': 0, 'second': 0, 'third': 0, 'fourth': 0 },
@@ -31,23 +34,42 @@ function TestingUpdate() {
 	// 	'fourth': 'Bottom'
 	// }
 
+	// let labelMapping = {
+	// 	sepalWidth: 'Sepal Width',
+	// 	sepalLength: 'Sepal Length',
+	// 	petalLength: 'Petal Length',
+	// 	petalWidth: 'Petal Width'
+	// };
+
+	// let labelMapping = {
+	// 	"2020:Q1": 'q1',
+	// 	"2020:Q2": 'q2',
+	// 	"2020:Q3": 'q3'
+	// }
+
 	let labelMapping = {
-		sepalWidth: 'Sepal Width',
-		sepalLength: 'Sepal Length',
-		petalLength: 'Petal Length',
-		petalWidth: 'Petal Width'
-	};
+		"age_median": 'age',
+		"white_ratio": 'nationality',
+		"income_per_capita": "income"
+	}
 
 	useEffect(() => {
 		async function fetchData() {
-			let res = await axios('./iris.json')
-			setData(RawPositioning({ 'content': res.data, 'labels': labelMapping }))
+			let res = await axios('./radviz_demographic_data.json')
+			
+			let {points, labels} = RawPositioning({ 'content': res.data, 'labels': labelMapping })
+			setData({points, labels})
+
+			let countyColorMap = {}
+			points.forEach((county) => {
+				countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
+			})
+			setCountyColorMap(countyColorMap)
 		}
 
 		fetchData()
 	}, [])
 
-	console.log(data.points)
 
 	return (
 		<div className='d-flex'>
@@ -56,14 +78,15 @@ function TestingUpdate() {
 			</div>
 			<div className='d-flex flex-wrap' style={{ width: '500px' }}>
 				{data.points && data.points.map((point, index) =>
-					<p style={{ 
-						textAlign: 'center',
-						margin: '3px',
-						width: '50px',
-						border: 'solid', 
-						borderWidth: '5px',
-						borderColor: `hsl(${rad2deg(point.coordinates.angle)}, ${point.coordinates.radius * 100}%, 50%)` }}>
-						{index}
+					<p key={index}
+						style={{
+							textAlign: 'center',
+							margin: '3px',
+							border: 'solid',
+							borderWidth: '5px',
+							borderColor: `hsl(${rad2deg(point.coordinates.angle)}, ${point.coordinates.radius * 100}%, 50%)`
+						}}>
+						{point.data['county_name']}
 					</p>
 				)}
 			</div>

@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from '@testing-library/dom';
 import { scaleOrdinal, scaleLinear, scaleThreshold, scaleQuantize } from 'd3-scale';
 import { extent } from 'd3-array'
 
@@ -32,7 +31,7 @@ let xIntersect = (x, y, slope) => {
 	return null;
 }
 
-let mapRadvizpoint = (row, anchorInfo, borderFunctions) => {
+let mapRadvizpoint = (row, anchorInfo) => {
 
 	let x = 0;
 	let y = 0;
@@ -52,7 +51,7 @@ let mapRadvizpoint = (row, anchorInfo, borderFunctions) => {
 		}
 	})
 
-	let angle = getTheta(x, y);
+
 
 	// console.log('norm: ', row)
 	if (sumUnits != 0) {
@@ -63,19 +62,14 @@ let mapRadvizpoint = (row, anchorInfo, borderFunctions) => {
 		y = scaling * y;
 		// console.log('radviz: ', [x, y])
 
-		scaling = 1 / borderFunctions(angle);
-		// console.log(rad2deg(angle), borderFunctions(angle))
-		// Border Scaling
-		x = scaling * x;
-		y = scaling * y;
-		// console.log('border: ', [x, y])
 	}
 
+	// let angle = getTheta(x, y);
 	// set points
 	point.x = x;
 	point.y = y;
-	point.angle = angle;
-	point.radius = hypotneous(x, y)
+	// point.angle = angle;
+	// point.radius = hypotneous(x, y)
 
 	return {
 		data: row,
@@ -88,9 +82,8 @@ function normalize(minMaxArray) {
 	return scaleLinear().domain(minMaxArray).range([0, 1]);
 }
 
-function RawPositioning(props) {
+function RawPositioning(props, zoom = true) {
 
-	let CHART_R = 200;
 	let data = props.content;
 	let labels = Object.keys(props.labels);
 	let numberOfAnchors = labels.length;
@@ -103,10 +96,16 @@ function RawPositioning(props) {
 	let anchorInfo = (() => {
 		let labelInfo = {}
 		labels.forEach(label => {
-			labelInfo[label] = { 'angle': label2Theta(label), 'normalization': normalize(extent(data.map(row => row[label])), CHART_R) }
+			labelInfo[label] = { 'angle': label2Theta(label), 'normalization': normalize(extent(data.map(row => row[label]))) }
 		});
 		return labelInfo;
 	})();
+
+	// map points onto radviz.
+	let points = []
+	props.content.forEach(e => {
+		points.push(mapRadvizpoint(e, anchorInfo))
+	});
 
 	// initialized a dictionary of border functions.
 	let borderFunctions = ((angle) => {
@@ -121,7 +120,9 @@ function RawPositioning(props) {
 			let b = xIntersect(dotX(1, angle), dotY(1, angle), a);
 
 			func[label] = (theta) => {
-				if (theta == -Math.PI / 2 || theta == Math.PI / 2 || theta == 3 * Math.PI / 2) {
+
+				let thetaRonded = round(theta, ROUND_TO)
+				if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
 					return round(Math.abs(b), ROUND_TO)
 				}
 				let a2 = Math.tan(theta)
@@ -135,12 +136,52 @@ function RawPositioning(props) {
 		return func[theta2Label(angle)](angle);
 	});
 
+	// scaling by border functions
+	points = points.map((point) => {
+		let scaling = 1 / borderFunctions(getTheta(point.coordinates.x, point.coordinates.y));
+		const x = scaling * point.coordinates.x
+		const y = scaling * point.coordinates.y
+		const coordinates = { ...point.coordinates, x: x, y: y }
+		return { ...point, coordinates: coordinates }
+	})
 
-	// Point coordinates.
-	let points = []
-	props.content.forEach(e => {
-		points.push(mapRadvizpoint(e, anchorInfo, borderFunctions))
-	});
+
+	if (zoom) {
+
+		// get min and max of radius
+		let minRadius = 1
+		let maxRadius = 0
+		points.forEach((point) => {
+			const x = point.coordinates.x
+			const y = point.coordinates.y
+			const radius = hypotneous(x, y)
+			if (minRadius > radius)
+				minRadius = radius
+			if (maxRadius < radius)
+				maxRadius = radius
+		})
+
+		// linear zooming
+		points = points.map(point => {
+			let scaling = 1 / maxRadius
+			// point.coordinates.x *= CHART_R / maximumRadius;
+			// point.coordinates.y *= CHART_R / maximumRadius;
+			const x = scaling * point.coordinates.x
+			const y = scaling * point.coordinates.y
+			const coordinates = { ...point.coordinates, x: x, y: y }
+			return { ...point, coordinates: coordinates }
+		})
+	}
+	// adding angle and radius to coordinates data.
+	points = points.map((point) => {
+		const x = point.coordinates.x
+		const y = point.coordinates.y
+		const angle = getTheta(x, y)
+		const radius = hypotneous(x, y)
+		const coordinates = { ...point.coordinates, angle: angle, radius: radius }
+
+		return { ...point, coordinates: coordinates }
+	})
 
 	// Label coordinatess
 	let labelsPositions = labels.map(label => ({
