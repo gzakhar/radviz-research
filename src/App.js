@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import axios from 'axios';
 import Radviz from './Radviz'
-import {RawPositioning} from './RawPositioning'
+import { RawPositioning } from './RawPositioning'
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -21,9 +21,9 @@ export default function App() {
 	const [countyColorMap, setCountyColorMap] = useState({});
 
 	let labelMapping = {
-		"age_median": 'age',
-		"white_ratio": 'nationality',
-		"income_per_capita": 'income',
+		"white_ratio": 'white ratio',
+		"age_median": 'age median',
+		"income_per_capita": 'income per capita',
 	}
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ export default function App() {
 		}
 
 		fetchData()
-	},[])
+	}, [])
 
 
 	useEffect(() => {
@@ -52,7 +52,7 @@ export default function App() {
 			center: [lng, lat],
 			zoom: zoom
 		});
-	},[]);
+	}, []);
 
 	useEffect(async () => {
 		if (!map.current) return; // wait for map to initialize
@@ -149,7 +149,7 @@ export default function App() {
 			})
 
 		});
-	},[countyColorMap]);
+	}, [countyColorMap]);
 
 	useEffect(() => {
 		if (!map.current) return; // wait for map to initialize
@@ -163,10 +163,21 @@ export default function App() {
 
 	return (
 		<div>
-			<div style={{ width: '25%', height: '100%', overflow: 'auto', position: 'fixed' }}>
+			{/* <div style={{ width: '25%', height: '100%', overflow: 'auto', position: 'fixed' }}> */}
+			<div style={{ width: '25%', height: '100%', position: 'fixed' }}>
+				<div style={{
+					backgroundColor: '#eeeeee',
+					margin: '5px',
+					border: 'solid',
+					borderRadius: '10px',
+					borderWidth: '2px',
+					borderColor: 'black',
+					padding: '10px'
+				}}>
 
-				{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
 
+				</div>
 			</div>
 			<div className="sidebar">
 				Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}

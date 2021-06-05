@@ -4,14 +4,14 @@ import React, { useEffect } from 'react';
 function Radviz(props) {
 
 	let CHART_R = 200
-	let MARGIN = 10
+	let MARGIN = 50
 
 	useEffect(() => {
 
 		let svg = select('svg')
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs)
+		colorInCircumfrence(svg, defs, CHART_R, MARGIN)
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
@@ -24,7 +24,7 @@ function Radviz(props) {
 		}
 
 		if (props.points) {
-			drawDots(dialRV, props.points, CHART_R);
+			drawDots(dialRV, props.points, CHART_R, MARGIN);
 		}
 
 
@@ -32,7 +32,7 @@ function Radviz(props) {
 	})
 
 	return (
-		<svg viewBox='0 0 480 480' />
+		<svg viewBox='0 0 500 500' />
 	)
 }
 
@@ -112,15 +112,16 @@ let drawAnchors = (dial, labels, CHART_R) => {
 }
 
 // Plot data points
-let drawDots = (dial, dotData, CHART_R) => {
+let drawDots = (dial, dotData, CHART_R, MARGIN) => {
 
+	let BORDER_MARGIN = 10
 
 	dial.selectAll()
 		.data(dotData)
 		.enter()
 		.append('circle')
-		.attr('cx', d => (CHART_R - 10) * d.coordinates.x)
-		.attr('cy', d => (CHART_R - 10) * d.coordinates.y)
+		.attr('cx', d => (CHART_R - BORDER_MARGIN) * d.coordinates.x)
+		.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
 		.attr('r', 2.5)
 		.attr('id', (_, i) => `dot${i}`)
 		.style('fill', d => d.fill)
@@ -134,10 +135,8 @@ let drawDots = (dial, dotData, CHART_R) => {
 
 
 // Setting saturation and hsl
-function colorInCircumfrence(svg, defs) {
+function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 
-	let CHART_R = 200
-	let MARGIN = 10
 	const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
 	// remove if refreshed
