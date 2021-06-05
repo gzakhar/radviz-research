@@ -21,8 +21,8 @@ export default function App() {
 	const [countyColorMap, setCountyColorMap] = useState({});
 
 	let labelMapping = {
-		"white_ratio": 'nationality',
 		"age_median": 'age',
+		"white_ratio": 'nationality',
 		"income_per_capita": 'income',
 	}
 
@@ -83,9 +83,6 @@ export default function App() {
 				res.data['features'].forEach(feature => {
 
 					let properties = feature['properties']
-
-					console.log(properties['NAMELSAD20'])
-
 					properties['color'] = countyColorMap[properties['NAMELSAD20']]
 				})
 
@@ -168,7 +165,7 @@ export default function App() {
 		<div>
 			<div style={{ width: '25%', height: '100%', overflow: 'auto', position: 'fixed' }}>
 
-				{useMemo(() => <Radviz points={data.points} content={data} />, [data])}
+				{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
 
 			</div>
 			<div className="sidebar">

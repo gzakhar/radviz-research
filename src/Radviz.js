@@ -9,17 +9,26 @@ function Radviz(props) {
 	useEffect(() => {
 
 		let svg = select('svg')
+		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg)
+		colorInCircumfrence(svg, defs)
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
 			.attr('id', 'dataWheel')
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
-		if (props.points) {
-			drawDots(dialRV, props.points);
+		if (props.labels) {
+			drawAnchors(dialRV, props.labels, CHART_R)
+			printLabels(dialRV, props.labels, CHART_R, defs)
 		}
+
+		if (props.points) {
+			drawDots(dialRV, props.points, CHART_R);
+		}
+
+
+
 	})
 
 	return (
@@ -27,15 +36,91 @@ function Radviz(props) {
 	)
 }
 
+let dotY = (radius, theta) => radius * Math.sin(theta);
+let dotX = (radius, theta) => radius * Math.cos(theta);
+
+
+// Print Labels
+let printLabels = (dial, labels, CHART_R, defs) => {
+
+	let arcs = []
+	for (let label of labels) {
+
+		let top = (label.angle > Math.PI) ? true : false;
+		let startAngle
+		let endAngle
+		let radius
+
+		// TODO: figure out how to make the radius variable (size of label)
+		if (top) {
+			startAngle = label.angle - Math.PI / 4
+			endAngle = label.angle + Math.PI / 4
+			radius = CHART_R + 10
+		} else {
+			startAngle = label.angle + Math.PI / 4
+			endAngle = label.angle - Math.PI / 4
+			radius = CHART_R + 25
+		}
+
+		arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
+	}
+
+	defs.selectAll('g')
+		.append('g')
+		.data(arcs)
+		.enter()
+		.append('path')
+		.attr('id', (_, i) => `labelPath${i}`)
+		.attr('d', d => d);
+
+	dial.selectAll()
+		.append('g')
+		.data(labels)
+		.enter()
+		.append('text')
+		.attr('text-anchor', 'middle')
+		.append('textPath')
+		.attr('xlink:href', (_, i) => `#labelPath${i}`)
+		.attr('startOffset', '50%')
+		.style('font-family', 'sans-serif')
+		.style('font-size', '24px')
+		.style('font-weight', '500')
+		.style('text-anchor', d => d => d.angle > Math.PI ? 'start' : 'end')
+		.style('fill', 'black')
+		.style('fill-opacity', 1)
+		.style('cursor', 'default')
+		.text((d) => d.anchor.toUpperCase())
+
+}
+
+// Draw anchors 
+let drawAnchors = (dial, labels, CHART_R) => {
+
+	dial.selectAll('g').remove()
+
+	dial.selectAll()
+		.append('g')
+		.data(labels)
+		.enter()
+		.append('circle')
+		.attr('cx', d => dotX(CHART_R, d.angle))
+		.attr('cy', d => dotY(CHART_R, d.angle))
+		.attr('r', 2.5)
+		.style('fill', 'red')
+		.style('stroke', '#000')
+		.style('stroke-width', 1.5)
+}
+
 // Plot data points
-let drawDots = (dial, dotData) => {
+let drawDots = (dial, dotData, CHART_R) => {
+
 
 	dial.selectAll()
 		.data(dotData)
 		.enter()
 		.append('circle')
-		.attr('cx', d => 200 * d.coordinates.x)
-		.attr('cy', d => 200 * d.coordinates.y)
+		.attr('cx', d => (CHART_R - 10) * d.coordinates.x)
+		.attr('cy', d => (CHART_R - 10) * d.coordinates.y)
 		.attr('r', 2.5)
 		.attr('id', (_, i) => `dot${i}`)
 		.style('fill', d => d.fill)
@@ -49,12 +134,13 @@ let drawDots = (dial, dotData) => {
 
 
 // Setting saturation and hsl
-function colorInCircumfrence(svg) {
+function colorInCircumfrence(svg, defs) {
 
 	let CHART_R = 200
 	let MARGIN = 10
 	const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
+	// remove if refreshed
 	svg.select('#hueWheel').remove()
 
 	const g = svg.append('g')
@@ -64,13 +150,13 @@ function colorInCircumfrence(svg) {
 	{
 		HUE_STEPS.forEach(angle => (
 			g.append('path')
-				.attr('key', { angle })
+				.attr('key', angle)
 				.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, CHART_R / 2, angle, angle + 1.5))
 				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
 		))
 	}
 
-	svg.select('circle').remove()
+	svg.selectAll("circle").remove()
 
 	svg.append('circle')
 		.attr('cx', CHART_R + MARGIN)
@@ -78,7 +164,7 @@ function colorInCircumfrence(svg) {
 		.attr('r', CHART_R)
 		.style('fill', 'url(#saturation)')
 
-	let defs = svg.select('defs')
+
 
 	let saturation = defs.append('radialGradient')
 		.attr('id', 'saturation')
@@ -90,6 +176,16 @@ function colorInCircumfrence(svg) {
 		.attr('offset', '100%')
 		.attr('stop-color', '#fff')
 		.attr('stop-opacity', 0)
+
+	// color the boreder in black
+	svg.append('circle')
+		.style('fill', 'none')
+		.style('stroke', 'black')
+		.style('stroke-width', 1.5)
+		.style('stroke-opacity', 1)
+		.attr('cx', CHART_R + MARGIN)
+		.attr('cy', CHART_R + MARGIN)
+		.attr('r', CHART_R)
 
 	function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 		var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;

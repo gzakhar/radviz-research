@@ -187,7 +187,7 @@ function RawPositioning(props, zoom = true) {
 	let labelsPositions = labels.map(label => ({
 		'label': label,
 		'anchor': props.labels[label],
-		'angle': rad2deg(anchorInfo[label]['angle'])
+		'angle': anchorInfo[label]['angle']
 	}))
 
 	let result = { 'points': points, 'labels': labelsPositions }

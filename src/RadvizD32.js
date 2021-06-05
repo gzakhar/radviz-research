@@ -6,7 +6,7 @@ import { select } from 'd3-selection';
 
 
 
-function RadvizD3(props) {
+function RadvizD32(props) {
 
 	let MARGIN = 40;
 	let CHART_R = 200;
@@ -516,4 +516,4 @@ function RadvizD3(props) {
 	);
 }
 
-export default RadvizD3;
+export default RadvizD32;
