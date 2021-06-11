@@ -1,65 +1,32 @@
 [
 	{
 		"top": 1,
-		"right": 1,
+		"right": 0,
 		"bottom": 0,
-		"left": 0,
-		"tt": 0,
-		"color": 0,
-		"text": "hello"
+		"left": 0
 	},
 	{
 		"top": 0,
 		"right": 1,
-		"bottom": 1,
-		"left": 0,
-		"tt": 0,
-		"color": 1,
-		"text": "My"
+		"bottom": 0,
+		"left": 0
 	},
 	{
 		"top": 0,
 		"right": 0,
 		"bottom": 1,
-		"left": 1,
-		"tt": 0,
-		"color": 2,
-		"text": "name"
+		"left": 0
 	},
 	{
 		"top": 0,
 		"right": 0,
 		"bottom": 0,
-		"left": 1,
-		"tt": 1,
-		"color": 3,
-		"text": "is"
+		"left": 1
 	},
 	{
 		"top": 1,
-		"right": 0,
+		"right": 1,
 		"bottom": 0,
-		"left": 0,
-		"tt": 1,
-		"color": 4,
-		"text": "geogre"
-	},
-	{
-		"top": 1,
-		"right": 1,
-		"bottom": 1,
-		"left": 0,
-		"tt": 1,
-		"color": 4,
-		"text": "would"
-	},
-	{
-		"top": 1,
-		"right": 1,
-		"bottom": 1,
-		"left": 1,
-		"tt": 1,
-		"color": 4,
-		"text": "you"
+		"left": 0
 	}
 ]

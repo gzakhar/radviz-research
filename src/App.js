@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import axios from 'axios';
 import Radviz from './Radviz'
-import { RawPositioning } from './RawPositioning'
+import { RawPositioning } from './RawPositioningDynamicLabels'
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -26,11 +26,21 @@ export default function App() {
 		"income_per_capita": 'income per capita',
 	}
 
+
+
+
+	let labelAngles = {
+		"white_ratio": 300,
+		"age_median": 50,
+		"income_per_capita": 240,
+	}
+
+
 	useEffect(() => {
 		async function fetchData() {
 			let res = await axios('./radviz_demographic_data.json')
 
-			let { points, labels } = RawPositioning({ 'content': res.data, 'labels': labelMapping })
+			let { points, labels } = RawPositioning({ 'content': res.data, 'labels': labelMapping, 'labelsDict': labelAngles })
 			setData({ points, labels })
 
 			let countyColorMap = {}
@@ -105,9 +115,7 @@ export default function App() {
 							0.6
 						]
 					}
-				},
-					firstSymbolId
-				);
+				}, firstSymbolId);
 
 				map.current.addLayer({
 					id: 'county-borders',
@@ -118,7 +126,7 @@ export default function App() {
 						'line-color': 'black',
 						'line-width': 1
 					}
-				})
+				}, firstSymbolId)
 
 				let hoveredCountyeId = null;
 
@@ -164,7 +172,7 @@ export default function App() {
 	return (
 		<div>
 			{/* <div style={{ width: '25%', height: '100%', overflow: 'auto', position: 'fixed' }}> */}
-			<div style={{ width: '25%', height: '100%', position: 'fixed' }}>
+			<div style={{ width: '30%', height: '100%', position: 'fixed' }}>
 				<div style={{
 					backgroundColor: '#eeeeee',
 					margin: '5px',

@@ -1,5 +1,6 @@
 import { scaleLinear, scaleQuantize } from 'd3-scale';
 import { extent } from 'd3-array'
+import { upperFirst } from 'lodash';
 
 const ROUND_TO = 10000
 
@@ -20,15 +21,13 @@ let slope = (x1, x2, y1, y2) => {
 	if (Math.abs(x1 - x2) != 0) {
 		return (y2 - y1) / (x2 - x1);
 	}
-	console.log("ERROR: invalid slope");
+	console.warn("ERROR: invalid slope");
 	return null;
 }
+
 let xIntersect = (x, y, slope) => {
-	if (x * slope != 0) {
-		return (y - (x * slope))
-	}
-	console.log("ERROR: slope is 0");
-	return null;
+	if (slope === undefined) console.warn('slope undefined')
+	return (y - (x * slope))
 }
 
 let mapRadvizpoint = (row, anchorInfo) => {
@@ -83,13 +82,43 @@ function normalize(minMaxArray) {
 function RawPositioning(props, zoom = true) {
 
 	let data = props.content;
-	let labels = Object.keys(props.labels);
+	// TODO: order of labels is determined by the angles at which they are displayed.
+	// let labels = Object.keys(props.labels);
+	// Sorted Array of labels.
+	let labels = Object.keys(props.labelsDict)
+	labels.sort((f, s) => props.labelsDict[f] - props.labelsDict[s])
+	// console.log('sorted-array-of-labels: ', labels)
 	let numberOfAnchors = labels.length;
 
 	// Mappings from label to angle of label
 	let labelDomain = [0, 2 * Math.PI];
-	let label2Theta = (label) => scaleLinear().domain([0, numberOfAnchors]).range(labelDomain)(labels.indexOf(label));
-	let theta2Label = scaleQuantize().domain(labelDomain).range(labels);
+	// TODO: label2Theta is puerly determined by the dictoinary of labels provided.
+	// let label2Theta = (label) => scaleLinear().domain([0, numberOfAnchors]).range(labelDomain)(labels.indexOf(label));
+	let label2Theta = (label) => deg2rad(props.labelsDict[label])
+	// console.log('label2Theta test1: (white_ratio) => ', rad2deg(label2Theta('white_ratio')))
+	// console.log('label2Theta test2: (age_median) => ', rad2deg(label2Theta('age_median')))
+	// console.log('label2Theta test3: (income_per_capita) => ', rad2deg(label2Theta('income_per_capita')))
+	// TODO: theta2Index should return the index of borderFunction which is the next smallers value.
+	let theta2Index = ((angle) => {
+		for (let i = 0; i < labels.length - 1; i++) {
+			let label = labels[i]
+			let nextLabel = labels[i + 1]
+			if (angle >= deg2rad(props.labelsDict[label]) && angle < deg2rad(props.labelsDict[nextLabel])) {
+				return i
+			}
+		}
+		return labels.length - 1
+	})
+
+	// console.log('theta2Index test1: (0) => ', labels[theta2Index(0)])
+	// console.log('theta2Index test2: (60) => ', labels[theta2Index(60)])
+	// console.log('theta2Index test3: (120) => ', labels[theta2Index(120)])
+	// console.log('theta2Index test4: (180) => ', labels[theta2Index(180)])
+	// console.log('theta2Index test5: (240) => ', labels[theta2Index(240)])
+	// console.log('theta2Index test6: (300) => ', labels[theta2Index(300)])
+	// console.log('theta2Index test7: (360) => ', labels[theta2Index(360)])
+	// console.log('theta2Index test8: (20) => ', labels[theta2Index(20)])
+
 
 	// initialize directory of anchor Information.
 	let anchorInfo = (() => {
@@ -100,40 +129,96 @@ function RawPositioning(props, zoom = true) {
 		return labelInfo;
 	})();
 
+	// console.log('anchorInformation: ', anchorInfo)
+
 	// map points onto radviz.
 	let points = []
 	props.content.forEach(e => {
 		points.push(mapRadvizpoint(e, anchorInfo))
 	});
 
+
 	// initialized a dictionary of border functions.
-	let borderFunctions = ((angle) => {
+	let borderFunctionDict = (() => {
 		let func = {}
 		labels.forEach((label, i, labelsArray) => {
-
+			// console.log('startLabel: ', label)
+			// console.log('nextLabel: ', labelsArray[(i + 1) % numberOfAnchors])
 			let angle = label2Theta(label);
 			let nextAngle = label2Theta((labelsArray[(i + 1) % numberOfAnchors]));
+
+			// console.log('angle: ', rad2deg(angle))
+			// console.log('nextAngle:', rad2deg(nextAngle))
 
 			// y = ax + b
 			let a = slope(dotX(1, angle), dotX(1, nextAngle), dotY(1, angle), dotY(1, nextAngle));
 			let b = xIntersect(dotX(1, angle), dotY(1, angle), a);
+			let xIntersept = dotX(1, angle)
+			// console.log('slope: ', round(a, 100))
+			// console.log('y-intersect: ', round(b, 100))
 
-			func[label] = (theta) => {
+			// if slope of border function is (effective) zero. 
+			if (Math.abs(round(a, 10000000)) === 0) {
+				func[i] = (theta) => {
+					// console.log('border function slope is zero ')
+					let thetaRonded = round(theta, ROUND_TO)
+					// if tan(theta) undefined
+					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
+						// find intersection with x = 0 and y=ax+b
+						return round(Math.abs(b), ROUND_TO)
+					}
 
-				let thetaRonded = round(theta, ROUND_TO)
-				if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
-					return round(Math.abs(b), ROUND_TO)
+					// if not y = b
+					let a2 = Math.tan(theta)
+					let y = b
+					let x = round(y / a2, ROUND_TO)
+					return hypotneous(x, y)
 				}
-				let a2 = Math.tan(theta)
-				let x = round(-b / (a - a2), ROUND_TO);
-				let y = round(a2 * x, ROUND_TO);
-
-				return hypotneous(x, y)
 			}
-		})
+			// if slope of border function is (effective) undefined.
+			else if (a > 10000000) {
+				func[i] = (theta) => {
+					// console.log('border function slope is undefined')
+					let a2 = Math.tan(theta)
+					let x = xIntersept
+					let y = a2 * x
 
-		return func[theta2Label(angle)](angle);
-	});
+					return hypotneous(x, y)
+				}
+			}
+			// else border function is regular
+			else {
+				func[i] = (theta) => {
+					// console.log('border function slope is normal')
+					let thetaRonded = round(theta, ROUND_TO)
+
+					// if tan(theta) undefined
+					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
+						// find intersection with x = 0 and y=ax+b
+						return round(Math.abs(b), ROUND_TO)
+					}
+
+					let a2 = Math.tan(theta)
+					let x = round(-b / (a - a2), ROUND_TO);
+					let y = round(a2 * x, ROUND_TO);
+
+
+					return hypotneous(x, y)
+				}
+			}
+
+		})
+		return func
+	})();
+
+	let borderFunctions = (angle) => {
+		console.log(`index of border function, angle ${angle}: `, theta2Index(angle))
+		let borderFunction = borderFunctionDict[theta2Index(angle)]
+		let length = borderFunction(angle)
+		console.log(`angle: ${rad2deg(angle)}: length: `, length)
+		return length
+	}
+
 
 	// scaling by border functions
 	points = points.map((point) => {
