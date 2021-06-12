@@ -92,13 +92,7 @@ function RawPositioning(props, zoom = true) {
 
 	// Mappings from label to angle of label
 	let labelDomain = [0, 2 * Math.PI];
-	// TODO: label2Theta is puerly determined by the dictoinary of labels provided.
-	// let label2Theta = (label) => scaleLinear().domain([0, numberOfAnchors]).range(labelDomain)(labels.indexOf(label));
 	let label2Theta = (label) => deg2rad(props.labelsDict[label])
-	// console.log('label2Theta test1: (white_ratio) => ', rad2deg(label2Theta('white_ratio')))
-	// console.log('label2Theta test2: (age_median) => ', rad2deg(label2Theta('age_median')))
-	// console.log('label2Theta test3: (income_per_capita) => ', rad2deg(label2Theta('income_per_capita')))
-	// TODO: theta2Index should return the index of borderFunction which is the next smallers value.
 	let theta2Index = ((angle) => {
 		for (let i = 0; i < labels.length - 1; i++) {
 			let label = labels[i]
@@ -110,16 +104,6 @@ function RawPositioning(props, zoom = true) {
 		return labels.length - 1
 	})
 
-	// console.log('theta2Index test1: (0) => ', labels[theta2Index(0)])
-	// console.log('theta2Index test2: (60) => ', labels[theta2Index(60)])
-	// console.log('theta2Index test3: (120) => ', labels[theta2Index(120)])
-	// console.log('theta2Index test4: (180) => ', labels[theta2Index(180)])
-	// console.log('theta2Index test5: (240) => ', labels[theta2Index(240)])
-	// console.log('theta2Index test6: (300) => ', labels[theta2Index(300)])
-	// console.log('theta2Index test7: (360) => ', labels[theta2Index(360)])
-	// console.log('theta2Index test8: (20) => ', labels[theta2Index(20)])
-
-
 	// initialize directory of anchor Information.
 	let anchorInfo = (() => {
 		let labelInfo = {}
@@ -128,8 +112,6 @@ function RawPositioning(props, zoom = true) {
 		});
 		return labelInfo;
 	})();
-
-	// console.log('anchorInformation: ', anchorInfo)
 
 	// map points onto radviz.
 	let points = []
@@ -142,25 +124,19 @@ function RawPositioning(props, zoom = true) {
 	let borderFunctionDict = (() => {
 		let func = {}
 		labels.forEach((label, i, labelsArray) => {
-			// console.log('startLabel: ', label)
-			// console.log('nextLabel: ', labelsArray[(i + 1) % numberOfAnchors])
+
 			let angle = label2Theta(label);
 			let nextAngle = label2Theta((labelsArray[(i + 1) % numberOfAnchors]));
-
-			// console.log('angle: ', rad2deg(angle))
-			// console.log('nextAngle:', rad2deg(nextAngle))
 
 			// y = ax + b
 			let a = slope(dotX(1, angle), dotX(1, nextAngle), dotY(1, angle), dotY(1, nextAngle));
 			let b = xIntersect(dotX(1, angle), dotY(1, angle), a);
 			let xIntersept = dotX(1, angle)
-			// console.log('slope: ', round(a, 100))
-			// console.log('y-intersect: ', round(b, 100))
 
 			// if slope of border function is (effective) zero. 
 			if (Math.abs(round(a, 10000000)) === 0) {
 				func[i] = (theta) => {
-					// console.log('border function slope is zero ')
+
 					let thetaRonded = round(theta, ROUND_TO)
 					// if tan(theta) undefined
 					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
@@ -178,7 +154,7 @@ function RawPositioning(props, zoom = true) {
 			// if slope of border function is (effective) undefined.
 			else if (a > 10000000) {
 				func[i] = (theta) => {
-					// console.log('border function slope is undefined')
+
 					let a2 = Math.tan(theta)
 					let x = xIntersept
 					let y = a2 * x
@@ -189,9 +165,8 @@ function RawPositioning(props, zoom = true) {
 			// else border function is regular
 			else {
 				func[i] = (theta) => {
-					// console.log('border function slope is normal')
-					let thetaRonded = round(theta, ROUND_TO)
 
+					let thetaRonded = round(theta, ROUND_TO)
 					// if tan(theta) undefined
 					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
 						// find intersection with x = 0 and y=ax+b
@@ -202,23 +177,14 @@ function RawPositioning(props, zoom = true) {
 					let x = round(-b / (a - a2), ROUND_TO);
 					let y = round(a2 * x, ROUND_TO);
 
-
 					return hypotneous(x, y)
 				}
 			}
-
 		})
 		return func
 	})();
 
-	let borderFunctions = (angle) => {
-		console.log(`index of border function, angle ${angle}: `, theta2Index(angle))
-		let borderFunction = borderFunctionDict[theta2Index(angle)]
-		let length = borderFunction(angle)
-		console.log(`angle: ${rad2deg(angle)}: length: `, length)
-		return length
-	}
-
+	let borderFunctions = (angle) => borderFunctionDict[theta2Index(angle)](angle)
 
 	// scaling by border functions
 	points = points.map((point) => {
@@ -248,14 +214,13 @@ function RawPositioning(props, zoom = true) {
 		// linear zooming
 		points = points.map(point => {
 			let scaling = 1 / maxRadius
-			// point.coordinates.x *= CHART_R / maximumRadius;
-			// point.coordinates.y *= CHART_R / maximumRadius;
 			const x = scaling * point.coordinates.x
 			const y = scaling * point.coordinates.y
 			const coordinates = { ...point.coordinates, x: x, y: y }
 			return { ...point, coordinates: coordinates }
 		})
 	}
+
 	// adding angle and radius to coordinates data.
 	points = points.map((point) => {
 		const x = point.coordinates.x

@@ -17,8 +17,14 @@ export default function App() {
 	const [lng, setLng] = useState(-76.0861);
 	const [lat, setLat] = useState(42.9420);
 	const [zoom, setZoom] = useState(6.38);
+	const [rawData, setRawData] = useState([])
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
+	const [labelAngles, setLabelAngles] = useState({
+		"white_ratio": 0,
+		"age_median": 120,
+		"income_per_capita": 240,
+	})
 
 	let labelMapping = {
 		"white_ratio": 'white ratio',
@@ -27,32 +33,30 @@ export default function App() {
 	}
 
 
-
-
-	let labelAngles = {
-		"white_ratio": 300,
-		"age_median": 50,
-		"income_per_capita": 240,
-	}
-
-
 	useEffect(() => {
+
 		async function fetchData() {
+
 			let res = await axios('./radviz_demographic_data.json')
-
-			let { points, labels } = RawPositioning({ 'content': res.data, 'labels': labelMapping, 'labelsDict': labelAngles })
-			setData({ points, labels })
-
-			let countyColorMap = {}
-			points.forEach((county) => {
-				countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
-			})
-			setCountyColorMap(countyColorMap)
+			setRawData(res.data)
 		}
 
 		fetchData()
 	}, [])
 
+
+	useEffect(() => {
+
+		let { points, labels } = RawPositioning({ 'content': rawData, 'labels': labelMapping, 'labelsDict': labelAngles })
+		setData({ points, labels })
+
+		let countyColorMap = {}
+		points.forEach((county) => {
+			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
+		})
+		setCountyColorMap(countyColorMap)
+
+	}, [labelAngles])
 
 	useEffect(() => {
 		if (map.current) return; // initialize map only once
@@ -182,9 +186,30 @@ export default function App() {
 					borderColor: 'black',
 					padding: '10px'
 				}}>
+					<div>
+						{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
+					</div>
 
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
-
+					<div>
+						{Object.keys(labelAngles).map(d =>
+							<div class="d-flex justify-content-center my-4">
+								<div class="w-75">
+									<h7>{d}</h7>
+									<input type="range" class="custom-range" min="0" max="360"
+										id={d}
+										value={labelAngles[d]}
+										onChange={(e) => {
+											let updatedState = { ...labelAngles, [d]: e.target.value }
+											setLabelAngles(updatedState)
+										}} />
+								</div>
+								<span for={d} class="font-weight-bold text-primary ml-2 valueSpan2"></span>
+							</div>
+						)}
+					</div>
+					<div className='d-flex flex-row-reverse'>
+						<button className='btn btn-primary' onClick={console.log('recolor')}>Re-color</button>
+					</div>
 				</div>
 			</div>
 			<div className="sidebar">

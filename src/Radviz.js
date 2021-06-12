@@ -9,6 +9,7 @@ function Radviz(props) {
 	useEffect(() => {
 
 		let svg = select('svg')
+		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
 		colorInCircumfrence(svg, defs, CHART_R, MARGIN)
@@ -26,9 +27,6 @@ function Radviz(props) {
 		if (props.points) {
 			drawDots(dialRV, props.points, CHART_R, MARGIN);
 		}
-
-
-
 	})
 
 	return (
@@ -162,8 +160,6 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 		.attr('cy', CHART_R + MARGIN)
 		.attr('r', CHART_R)
 		.style('fill', 'url(#saturation)')
-
-
 
 	let saturation = defs.append('radialGradient')
 		.attr('id', 'saturation')
