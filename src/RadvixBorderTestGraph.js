@@ -57,7 +57,7 @@ function normalize(data, colorAccessor) {
 		})
 	}
 
-	return [normalizedData, min, max];
+	return {data: normalizedData, min: min, max:max};
 }
 
 function DotDisplay(props) {
@@ -160,8 +160,8 @@ function RadvixBorderTestGraph() {
 	}
 
 	function normalizeData() {
-		let [norm, min, max] = normalize(data, colorAccessor)
-		setData(norm)
+		let {data, min, max} = normalize(data, colorAccessor)
+		setData(data)
 	}
 
 	return (

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import axios from 'axios';
 import Radviz from './Radviz'
-import { RawPositioning } from './RawPositioningDynamicLabels'
+import { RawPositioning } from './RawPositioningMuellerViz'
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -21,9 +21,9 @@ export default function App() {
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": 0,
-		"age_median": 120,
-		"income_per_capita": 240,
+		"white_ratio": 1,
+		"age_median": 60,
+		"income_per_capita": 120,
 	})
 
 	let labelMapping = {
@@ -32,31 +32,16 @@ export default function App() {
 		"income_per_capita": 'income per capita',
 	}
 
+	let labelMappingMueller = {
+		"white_ratio": {high: 'white', low: 'colored'},
+		"age_median": {high: 'old', low: 'young'},
+		"income_per_capita": {high: 'rich', low: 'poor'},
+	}
+
 
 	useEffect(() => {
-
-		async function fetchData() {
-
-			let res = await axios('./radviz_demographic_data.json')
-			setRawData(res.data)
-		}
-
-		fetchData()
+		fetchRawData()
 	}, [])
-
-
-	useEffect(() => {
-
-		let { points, labels } = RawPositioning({ 'content': rawData, 'labels': labelMapping, 'labelsDict': labelAngles })
-		setData({ points, labels })
-
-		let countyColorMap = {}
-		points.forEach((county) => {
-			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
-		})
-		setCountyColorMap(countyColorMap)
-
-	}, [labelAngles])
 
 	useEffect(() => {
 		if (map.current) return; // initialize map only once
@@ -68,11 +53,24 @@ export default function App() {
 		});
 	}, []);
 
+	useEffect(() => {
+
+		let { points, labels } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles })
+		setData({ points, labels })
+
+		let countyColorMap = {}
+		points.forEach((county) => {
+			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
+		})
+		setCountyColorMap(countyColorMap)
+
+	}, [labelAngles, rawData])
+
 	useEffect(async () => {
 		if (!map.current) return; // wait for map to initialize
 		if (Object.keys(countyColorMap).length === 0) return;
 		map.current.on('load', () => {
-
+			console.log('loaded')
 			let layers = map.current.getStyle().layers;
 			// Find the index of the first symbol layer in the map style
 			let firstSymbolId;
@@ -93,7 +91,7 @@ export default function App() {
 
 
 			axios('./NYCounties.json').then(res => {
-
+				
 				res.data['features'].forEach(feature => {
 
 					let properties = feature['properties']
@@ -173,9 +171,15 @@ export default function App() {
 	});
 
 
+	async function fetchRawData() {
+		let res = await axios('./radviz_demographic_data.json')
+		setRawData(res.data)
+	}
+
+
+
 	return (
 		<div>
-			{/* <div style={{ width: '25%', height: '100%', overflow: 'auto', position: 'fixed' }}> */}
 			<div style={{ width: '30%', height: '100%', position: 'fixed' }}>
 				<div style={{
 					backgroundColor: '#eeeeee',
@@ -208,7 +212,7 @@ export default function App() {
 						)}
 					</div>
 					<div className='d-flex flex-row-reverse'>
-						<button className='btn btn-primary' onClick={console.log('recolor')}>Re-color</button>
+						<button className='btn btn-primary' onClick={() => console.log('recolor')}>Re-color</button>
 					</div>
 				</div>
 			</div>
