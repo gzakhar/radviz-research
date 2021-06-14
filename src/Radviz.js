@@ -24,6 +24,10 @@ function Radviz(props) {
 			printLabels(dialRV, props.labels, CHART_R, defs)
 		}
 
+		if(props.std){
+			drawStd(dialRV, props.std, CHART_R)
+		}
+
 		if (props.points) {
 			drawDots(dialRV, props.points, CHART_R, MARGIN);
 		}
@@ -193,6 +197,18 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 
 		return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y2}`;
 	}
+}
+
+function drawStd(dial, std, CHART_R) {
+	
+	dial.append('circle')
+		.attr('cx', 0)
+		.attr('cy', 0)
+		.attr('r', std * CHART_R)
+		.style('fill', 'none')
+		.style('stroke', 'black')
+		.style('stroke-width', 2)
+		.style('stroke-opacity', 1)
 }
 
 export default Radviz;

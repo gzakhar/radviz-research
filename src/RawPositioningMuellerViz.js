@@ -275,7 +275,7 @@ function RawPositioning(props, zoom = true) {
 	// Label coordinatess
 	let labelsPositions = []
 	labels.forEach(label => {
-		
+
 		let high = {
 			'label': label,
 			'anchor': props.labels[label]['high'],
@@ -291,6 +291,10 @@ function RawPositioning(props, zoom = true) {
 	})
 
 	let result = { 'points': points, 'labels': labelsPositions }
+
+	if (props.std) {
+		result['std'] = normalizationFunction(props.std)
+	}
 
 	return result;
 }

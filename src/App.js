@@ -20,9 +20,10 @@ export default function App() {
 	const [rawData, setRawData] = useState([])
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
+	const [stddiv, setStddiv] = useState(0)
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": 1,
-		"age_median": 60,
+		"white_ratio": 60,
+		"age_median": 1,
 		"income_per_capita": 120,
 	})
 
@@ -33,9 +34,9 @@ export default function App() {
 	}
 
 	let labelMappingMueller = {
-		"white_ratio": {high: 'white', low: 'colored'},
-		"age_median": {high: 'old', low: 'young'},
-		"income_per_capita": {high: 'rich', low: 'poor'},
+		"white_ratio": { high: 'white', low: 'colored' },
+		"age_median": { high: 'old', low: 'young' },
+		"income_per_capita": { high: 'rich', low: 'poor' },
 	}
 
 
@@ -55,8 +56,8 @@ export default function App() {
 
 	useEffect(() => {
 
-		let { points, labels } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles })
-		setData({ points, labels })
+		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
+		setData({ points, labels, std })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
@@ -64,7 +65,7 @@ export default function App() {
 		})
 		setCountyColorMap(countyColorMap)
 
-	}, [labelAngles, rawData])
+	}, [labelAngles, rawData, stddiv])
 
 	useEffect(async () => {
 		if (!map.current) return; // wait for map to initialize
@@ -91,7 +92,7 @@ export default function App() {
 
 
 			axios('./NYCounties.json').then(res => {
-				
+
 				res.data['features'].forEach(feature => {
 
 					let properties = feature['properties']
@@ -191,15 +192,27 @@ export default function App() {
 					padding: '10px'
 				}}>
 					<div>
-						{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
+						{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
 					</div>
 
+					<div>
+						<div class="d-flex justify-content-center my-4">
+							<div class="w-75">
+								<h7>Standard Deviation</h7>
+								<input type="range" className="custom-range" min="0" max="3"
+									id={'std'}
+									value={stddiv}
+									onChange={(e) => setStddiv(e.target.value)} />
+							</div>
+							<span for={'std'} className="font-weight-bold text-primary ml-2 valueSpan2">{stddiv}</span>
+						</div>
+					</div>
 					<div>
 						{Object.keys(labelAngles).map(d =>
 							<div class="d-flex justify-content-center my-4">
 								<div class="w-75">
 									<h7>{d}</h7>
-									<input type="range" class="custom-range" min="0" max="360"
+									<input type="range" className="custom-range" min="0" max="360"
 										id={d}
 										value={labelAngles[d]}
 										onChange={(e) => {
@@ -207,7 +220,7 @@ export default function App() {
 											setLabelAngles(updatedState)
 										}} />
 								</div>
-								<span for={d} class="font-weight-bold text-primary ml-2 valueSpan2"></span>
+								<span for={d} className="font-weight-bold text-primary ml-2 valueSpan2">{labelAngles[d]}</span>
 							</div>
 						)}
 					</div>
