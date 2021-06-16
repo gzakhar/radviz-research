@@ -12,6 +12,7 @@
     "d3-scale": "^3.2.3",
     "d3-selection": "^2.0.0",
     "d3-shape": "^2.0.0",
+    "deck.gl": "^8.4.17",
     "fs": "0.0.1-security",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.2.0",
@@ -20,6 +21,7 @@
     "plotly.js": "^1.58.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-map-gl": "^6.1.16",
     "react-plotly.js": "^2.5.1",
     "react-scripts": "4.0.2",
     "web-vitals": "^1.0.1"

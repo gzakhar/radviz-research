@@ -208,6 +208,7 @@ function drawStd(dial, std, CHART_R) {
 		.style('fill', 'none')
 		.style('stroke', 'black')
 		.style('stroke-width', 2)
+		.style('stroke-dasharray', '3, 5')
 		.style('stroke-opacity', 1)
 }
 

@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import RadvizGraph from './RadvizGraph';
 import RadvixBorderTestGraph from './RadvixBorderTestGraph';
 import TestingUpdate from './TestingUpdate';
+// import App from './AppMapBox';
 import App from './App';
 
 ReactDOM.render(

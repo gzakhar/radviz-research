@@ -1,30 +1,25 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import DeckGL from '@deck.gl/react';
+import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import Radviz from './Radviz'
 import { RawPositioning } from './RawPositioningMuellerViz'
+import { StaticMap } from 'react-map-gl';
 
-
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
 export default function App() {
 
-
-	const mapContainer = useRef(null);
-	const map = useRef(null);
-	const [lng, setLng] = useState(-76.0861);
-	const [lat, setLat] = useState(42.9420);
-	const [zoom, setZoom] = useState(6.38);
 	const [rawData, setRawData] = useState([])
+	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const [stddiv, setStddiv] = useState(0)
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": 60,
-		"age_median": 1,
-		"income_per_capita": 120,
+		"white_ratio": 92,
+		"age_median": 31,
+		"income_per_capita": 125,
 	})
 
 	let labelMapping = {
@@ -42,17 +37,8 @@ export default function App() {
 
 	useEffect(() => {
 		fetchRawData()
+		fetchGeoJsonData()
 	}, [])
-
-	useEffect(() => {
-		if (map.current) return; // initialize map only once
-		map.current = new mapboxgl.Map({
-			container: mapContainer.current,
-			style: 'mapbox://styles/mapbox/streets-v11',
-			center: [lng, lat],
-			zoom: zoom
-		});
-	}, []);
 
 	useEffect(() => {
 
@@ -61,123 +47,79 @@ export default function App() {
 
 		let countyColorMap = {}
 		points.forEach((county) => {
-			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, 50%)`
+			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
 		})
 		setCountyColorMap(countyColorMap)
 
 	}, [labelAngles, rawData, stddiv])
-
-	useEffect(async () => {
-		if (!map.current) return; // wait for map to initialize
-		if (Object.keys(countyColorMap).length === 0) return;
-		map.current.on('load', () => {
-			console.log('loaded')
-			let layers = map.current.getStyle().layers;
-			// Find the index of the first symbol layer in the map style
-			let firstSymbolId;
-			for (let i = 0; i < layers.length; i++) {
-				if (layers[i].type === 'symbol') {
-					firstSymbolId = layers[i].id;
-					break;
-				}
-			}
-
-			// Setting all the highway layer to visilibilty none
-			for (let i = 35; i < 59; i++) {
-				let level_name = layers[i].id;
-				map.current.setLayoutProperty(level_name, 'visibility', 'none');
-			}
-			map.current.setLayoutProperty('road-label', 'visibility', 'none');
-			map.current.setLayoutProperty('road-number-shield', 'visibility', 'none');
-
-
-			axios('./NYCounties.json').then(res => {
-
-				res.data['features'].forEach(feature => {
-
-					let properties = feature['properties']
-					properties['color'] = countyColorMap[properties['NAMELSAD20']]
-				})
-
-				map.current.addSource('counties', {
-					'type': 'geojson',
-					'data': res.data,
-					'generateId': true // This ensures that all features have unique IDs
-				});
-
-				map.current.addLayer({
-					id: "county-fills",
-					type: 'fill',
-					source: 'counties',
-					layout: {},
-					paint: {
-						'fill-color': ['get', 'color'],
-						'fill-opacity': [
-							'case', ['boolean', ['feature-state', 'hover'], false],
-							1,
-							0.6
-						]
-					}
-				}, firstSymbolId);
-
-				map.current.addLayer({
-					id: 'county-borders',
-					type: 'line',
-					source: 'counties',
-					layout: {},
-					paint: {
-						'line-color': 'black',
-						'line-width': 1
-					}
-				}, firstSymbolId)
-
-				let hoveredCountyeId = null;
-
-				map.current.on('mousemove', 'county-fills', (e) => {
-					map.current.getCanvas().style.cursor = 'pointer';
-					if (e.features.length > 0) {
-						if (hoveredCountyeId) {
-							// set the hover attribute to false with feature state
-							map.current.setFeatureState({
-								source: 'counties',
-								id: hoveredCountyeId
-							}, {
-								hover: false
-							});
-						}
-
-						hoveredCountyeId = e.features[0].id;
-						// set the hover attribute to true with feature state
-						map.current.setFeatureState({
-							source: 'counties',
-							id: hoveredCountyeId
-						}, {
-							hover: true
-						});
-					}
-				});
-
-			})
-
-		});
-	}, [countyColorMap]);
-
-	useEffect(() => {
-		if (!map.current) return; // wait for map to initialize
-		map.current.on('move', () => {
-			setLng(map.current.getCenter().lng.toFixed(4));
-			setLat(map.current.getCenter().lat.toFixed(4));
-			setZoom(map.current.getZoom().toFixed(2));
-		});
-	});
-
 
 	async function fetchRawData() {
 		let res = await axios('./radviz_demographic_data.json')
 		setRawData(res.data)
 	}
 
+	async function fetchGeoJsonData() {
+		let res = await axios('./NYCounties.json')
+		setGeoJsonData(res.data['features'])
+	}
 
+	function getCountyColor(county) {
+		let countyName = county.properties['NAMELSAD20']
+		let hsl = countyColorMap[countyName]
+		let rgb = HSLToRGB(hsl)
+		let rgba = [...rgb, 200]
+		return rgba
+	}
+
+	const countyLayer = new GeoJsonLayer({
+		id: 'geojson-layer',
+		data: geoJsonData,
+		pickable: true,
+		stroked: true,
+		filled: true,
+		lineWidthUnits: 'pixels',
+		getFillColor: (d) => getCountyColor(d),
+		getLineColor: [250, 250, 250, 255],
+		getLineWidth: 1,
+		updateTriggers: { getFillColor: [getCountyColor] }
+	})
+
+	function HSLToRGB(hsl) {
+		let sep = hsl.indexOf(",") > -1 ? "," : " ";
+		hsl = hsl.substr(4).split(")")[0].split(sep);
+
+		console.log(hsl)
+		let h = hsl[0],
+			s = hsl[1].substr(0, hsl[1].length - 1) / 100,
+			l = hsl[2].substr(0, hsl[2].length - 1) / 100;
+
+		let c = (1 - Math.abs(2 * l - 1)) * s,
+			x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+			m = l - c / 2,
+			r = 0,
+			g = 0,
+			b = 0;
+
+		if (0 <= h && h < 60) {
+			r = c; g = x; b = 0;
+		} else if (60 <= h && h < 120) {
+			r = x; g = c; b = 0;
+		} else if (120 <= h && h < 180) {
+			r = 0; g = c; b = x;
+		} else if (180 <= h && h < 240) {
+			r = 0; g = x; b = c;
+		} else if (240 <= h && h < 300) {
+			r = x; g = 0; b = c;
+		} else if (300 <= h && h < 360) {
+			r = c; g = 0; b = x;
+		}
+		r = Math.round((r + m) * 255);
+		g = Math.round((g + m) * 255);
+		b = Math.round((b + m) * 255);
+
+		console.log(r, g, b)
+		return [r, g, b]
+	}
 
 	return (
 		<div>
@@ -196,9 +138,9 @@ export default function App() {
 					</div>
 
 					<div>
-						<div class="d-flex justify-content-center my-4">
-							<div class="w-75">
-								<h7>Standard Deviation</h7>
+						<div className="d-flex justify-content-center my-4">
+							<div className="w-75">
+								<h5>Standard Deviation</h5>
 								<input type="range" className="custom-range" min="0" max="3"
 									id={'std'}
 									value={stddiv}
@@ -209,9 +151,9 @@ export default function App() {
 					</div>
 					<div>
 						{Object.keys(labelAngles).map(d =>
-							<div class="d-flex justify-content-center my-4">
-								<div class="w-75">
-									<h7>{d}</h7>
+							<div className="d-flex justify-content-center my-4">
+								<div className="w-75">
+									<h5>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</h5>
 									<input type="range" className="custom-range" min="0" max="360"
 										id={d}
 										value={labelAngles[d]}
@@ -220,19 +162,25 @@ export default function App() {
 											setLabelAngles(updatedState)
 										}} />
 								</div>
-								<span for={d} className="font-weight-bold text-primary ml-2 valueSpan2">{labelAngles[d]}</span>
+								<span for={d} className="font-weight-bold text-primary ml-2 valueSpan2">{labelAngles[d]}º</span>
 							</div>
 						)}
 					</div>
-					<div className='d-flex flex-row-reverse'>
-						<button className='btn btn-primary' onClick={() => console.log('recolor')}>Re-color</button>
-					</div>
 				</div>
 			</div>
-			<div className="sidebar">
-				Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+			<div className="map-container">
+				<DeckGL
+					initialViewState={{
+						longitude: -76.0861,
+						latitude: 42.9420,
+						zoom: 6.38
+					}}
+					controller={true}
+					layers={[countyLayer]}
+				>
+					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
+				</DeckGL>
 			</div>
-			<div ref={mapContainer} className="map-container" />
 		</div>
 	);
 }
