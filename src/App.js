@@ -2,8 +2,9 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
+// import { RawPositioning } from './RawPositioningMuellerViz'
+import { RawPositioning } from './RawPositioningDynamicLabels';
 import Radviz from './Radviz'
-import { RawPositioning } from './RawPositioningMuellerViz'
 import { StaticMap } from 'react-map-gl';
 
 
@@ -17,9 +18,9 @@ export default function App() {
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const [stddiv, setStddiv] = useState(0)
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": 92,
-		"age_median": 31,
-		"income_per_capita": 125,
+		"white_ratio": 0,
+		"age_median": 120,
+		"income_per_capita": 240,
 	})
 
 	let labelMapping = {
@@ -42,7 +43,8 @@ export default function App() {
 
 	useEffect(() => {
 
-		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
+		// Statistical and Regualr require different label Mappings.
+		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMapping, 'labelsDict': labelAngles, 'std': stddiv })
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
@@ -123,37 +125,40 @@ export default function App() {
 
 	return (
 		<div>
-			<div style={{ width: '30%', height: '100%', position: 'fixed' }}>
-				<div style={{
-					backgroundColor: '#eeeeee',
-					margin: '5px',
-					border: 'solid',
-					borderRadius: '10px',
-					borderWidth: '2px',
-					borderColor: 'black',
-					padding: '10px'
-				}}>
+			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
+				<div id='sidebar'>
 					<div>
 						{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
 					</div>
 
 					<div>
 						<div className="d-flex justify-content-center my-4">
-							<div className="w-75">
-								<h5>Standard Deviation</h5>
+							<div style={{ width: '75%' }}>
+								<div className='d-flex align-items-center justify-content-between'>
+									<span className='control-labels'>Standard Deviation</span>
+									<span
+										for={'std'}
+										className='control-value'
+										style={{  color: '#DDDDDD' }}>{stddiv}</span>
+								</div>
 								<input type="range" className="custom-range" min="0" max="3"
 									id={'std'}
 									value={stddiv}
 									onChange={(e) => setStddiv(e.target.value)} />
 							</div>
-							<span for={'std'} className="font-weight-bold text-primary ml-2 valueSpan2">{stddiv}</span>
+
 						</div>
 					</div>
 					<div>
 						{Object.keys(labelAngles).map(d =>
-							<div className="d-flex justify-content-center my-4">
-								<div className="w-75">
-									<h5>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</h5>
+							<div className="d-flex justify-content-center my-4 control-container">
+								<div style={{ width: '85%' }}>
+									<div className='d-flex align-items-center justify-content-between'>
+										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
+										<span for={d}
+											className='control-value'
+											style={{ width: '10px' }}>{labelAngles[d]}º</span>
+									</div>
 									<input type="range" className="custom-range" min="0" max="360"
 										id={d}
 										value={labelAngles[d]}
@@ -161,14 +166,23 @@ export default function App() {
 											let updatedState = { ...labelAngles, [d]: e.target.value }
 											setLabelAngles(updatedState)
 										}} />
+									<div className="ticks">
+										<span class="tick">0º</span>
+										<span class="tick">90º</span>
+										<span class="tick">180º</span>
+										<span class="tick">270º</span>
+										<span class="tick">360º</span>
+									</div>
 								</div>
-								<span for={d} className="font-weight-bold text-primary ml-2 valueSpan2">{labelAngles[d]}º</span>
+								{/* <span for={d}
+									className="font-weight-bold text-primary ml-2 valueSpan2"
+									style={{ width: '10px' }}>{labelAngles[d]}º</span> */}
 							</div>
 						)}
 					</div>
 				</div>
 			</div>
-			<div className="map-container">
+			<div className="map-container" >
 				<DeckGL
 					initialViewState={{
 						longitude: -76.0861,

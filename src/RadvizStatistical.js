@@ -1,12 +1,10 @@
 import { select } from 'd3-selection';
 import React, { useEffect } from 'react';
 
-let borderColor = '#DDDDDD';
 function Radviz(props) {
 
-	let CHART_R = 200;
-	let MARGIN = 50;
-	
+	let CHART_R = 200
+	let MARGIN = 50
 
 	useEffect(() => {
 
@@ -88,11 +86,12 @@ let printLabels = (dial, labels, CHART_R, defs) => {
 		.attr('startOffset', '50%')
 		.style('font-family', 'sans-serif')
 		.style('font-size', '24px')
-		.style('font-weight', '600')
+		.style('font-weight', '500')
+		.style('text-anchor', d => d => d.angle > Math.PI ? 'start' : 'end')
+		.style('fill', 'black')
 		.style('fill-opacity', 1)
 		.style('cursor', 'default')
 		.text((d) => d.anchor.toUpperCase())
-		.attr('id', 'anchor-labels')
 
 }
 
@@ -108,7 +107,7 @@ let drawAnchors = (dial, labels, CHART_R) => {
 		.append('circle')
 		.attr('cx', d => dotX(CHART_R, d.angle))
 		.attr('cy', d => dotY(CHART_R, d.angle))
-		.attr('r', 5)
+		.attr('r', 2.5)
 		.style('fill', 'red')
 		.style('stroke', '#000')
 		.style('stroke-width', 1.5)
@@ -180,8 +179,8 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 	// color the boreder in black
 	svg.append('circle')
 		.style('fill', 'none')
-		.style('stroke', borderColor)
-		.style('stroke-width', 3)
+		.style('stroke', 'black')
+		.style('stroke-width', 1.5)
 		.style('stroke-opacity', 1)
 		.attr('cx', CHART_R + MARGIN)
 		.attr('cy', CHART_R + MARGIN)
