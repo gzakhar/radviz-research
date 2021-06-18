@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-// import { RawPositioning } from './RawPositioningMuellerViz'
-import { RawPositioning } from './RawPositioningDynamicLabels';
+import { RawPositioning } from './RawPositioningMuellerViz'
+// import { RawPositioning } from './RawPositioningDynamicLabels';
 import Radviz from './Radviz'
 import { StaticMap } from 'react-map-gl';
 
@@ -44,7 +44,7 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMapping, 'labelsDict': labelAngles, 'std': stddiv })
+		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
 		setData({ points, labels, std })
 
 		let countyColorMap = {}

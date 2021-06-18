@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import axios from 'axios';
-import Radviz from './Radviz'
-import { RawPositioning } from './RawPositioningMuellerViz'
+import Radviz from '../Radviz'
+import { RawPositioning } from '../RawPositioningMuellerViz'
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;

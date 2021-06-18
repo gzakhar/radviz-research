@@ -6,7 +6,7 @@ function Radviz(props) {
 
 	let CHART_R = 200;
 	let MARGIN = 50;
-	
+
 
 	useEffect(() => {
 
@@ -26,7 +26,7 @@ function Radviz(props) {
 			printLabels(dialRV, props.labels, CHART_R, defs)
 		}
 
-		if(props.std){
+		if (props.std) {
 			drawStd(dialRV, props.std, CHART_R)
 		}
 
@@ -127,9 +127,9 @@ let drawDots = (dial, dotData, CHART_R, MARGIN) => {
 		.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
 		.attr('r', 2.5)
 		.attr('id', (_, i) => `dot${i}`)
-		.style('fill', d => d.fill)
-		.style('fill-opacity', 0.9)
-		.style('stroke', '#000')
+		.style('fill', '#000000')
+		.style('fill-opacity', 0.8)
+		.style('stroke', '#FFFFFF')
 		.style('stroke-width', 0.1)
 	// .on('mouseover', handleHoverOn)
 	// .on('mouseout', handleHoverOff)
@@ -177,7 +177,6 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 		.attr('stop-color', '#fff')
 		.attr('stop-opacity', 0)
 
-	// color the boreder in black
 	svg.append('circle')
 		.style('fill', 'none')
 		.style('stroke', borderColor)
@@ -201,15 +200,26 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 }
 
 function drawStd(dial, std, CHART_R) {
-	
+
 	dial.append('circle')
 		.attr('cx', 0)
 		.attr('cy', 0)
 		.attr('r', std * CHART_R)
 		.style('fill', 'none')
-		.style('stroke', 'black')
-		.style('stroke-width', 2)
-		.style('stroke-dasharray', '3, 5')
+		.style('stroke', '#313131')
+		.style('stroke-width', 3)
+		.style('stroke-dasharray', '2, 5')
+		.style('stroke-opacity', 1)
+
+	dial.append('circle')
+		.attr('cx', 0)
+		.attr('cy', 0)
+		.attr('r', std * CHART_R)
+		.style('fill', 'none')
+		.style('stroke', '#DDDDDD')
+		.style('stroke-width', 3)
+		.style('stroke-dasharray', '5, 2')
+		.style('stroke-dashoffset', 5)
 		.style('stroke-opacity', 1)
 }
 

@@ -101,37 +101,37 @@ function RadvizGraph() {
 	// 	setData(res.data)
 	// }
 
-	async function fetchData() {
-		let res = await axios('./radviz_demographic_data.json')
-		setData(res.data)
-	}
-	let labelMapping = {
-		age_median: 'Old',
-		white_ratio: 'Colored',
-		income_per_capita: 'Poor'
-	}
-	let oppositeLabel = {
-		age_median: 'Young',
-		white_ratio: 'White',
-		income_per_capita: 'Rich'
-	}
-	let colorAccessor = 'county_name'
-
 	// async function fetchData() {
-	// 	let res = await axios('./bruh_geogre.json')
+	// 	let res = await axios('./radviz_demographic_data.json')
 	// 	setData(res.data)
 	// }
 	// let labelMapping = {
-	// 	'Population Equality': "+Pop Equality",
-	// 	'Polsby Popper': "+Polsby Popper",
-	// 	'Objective Function': "+Objective Func"
-	// };
+	// 	age_median: 'Old',
+	// 	white_ratio: 'Colored',
+	// 	income_per_capita: 'Poor'
+	// }
 	// let oppositeLabel = {
-	// 	'Population Equality': "-Pop Equality",
-	// 	'Polsby Popper': "-Polsby Popper",
-	// 	'Objective Function': "-Objective Func"
-	// };
-	// let colorAccessor = NaN
+	// 	age_median: 'Young',
+	// 	white_ratio: 'White',
+	// 	income_per_capita: 'Rich'
+	// }
+	// let colorAccessor = 'county_name'
+
+	async function fetchData() {
+		let res = await axios('./bruh_geogre.json')
+		setData(res.data)
+	}
+	let labelMapping = {
+		'Population Equality': "+Pop Equality",
+		'Polsby Popper': "+Polsby Popper",
+		'Objective Function': "+Objective Func"
+	};
+	let oppositeLabel = {
+		'Population Equality': "-Pop Equality",
+		'Polsby Popper': "-Polsby Popper",
+		'Objective Function': "-Objective Func"
+	};
+	let colorAccessor = NaN
 
 	let [normalizedData, min, max] = normalize(data, colorAccessor);
 

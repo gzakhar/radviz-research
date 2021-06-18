@@ -7,13 +7,17 @@ import RadvixBorderTestGraph from './RadvixBorderTestGraph';
 import TestingUpdate from './TestingUpdate';
 // import App from './AppMapBox';
 import App from './App';
+import TestingDataWithStatisticalDynamicRadviz from './TestingDataWithStatisticalDynamicRadviz';
+import TestingDataWithDynamicRadviz from './TestingDataWithDynamicRadviz';
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <RadvizGraph /> */}
     {/* <RadvixBorderTestGraph /> */}
     {/* <TestingUpdate/> */}
-    <App />
+    {/* <App /> */}
+    <TestingDataWithStatisticalDynamicRadviz />
+    {/* <TestingDataWithDynamicRadviz /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
