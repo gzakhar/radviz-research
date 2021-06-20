@@ -1,4 +1,5 @@
 import { scaleLinear } from 'd3-scale';
+import { filter, max } from 'lodash';
 import { std, mean } from 'mathjs';
 
 const ROUND_TO = 10000
@@ -77,8 +78,6 @@ let mapRadvizpoint = (row, anchorInfo, normalization) => {
 
 function normalizeData(data, labels) {
 
-	let maxOutliar = Number.MIN_SAFE_INTEGER
-
 	let dim = (() => {
 		const stats = { label: [], mean: [], stddiv: [] }
 		if (data.length != 0) {
@@ -100,37 +99,61 @@ function normalizeData(data, labels) {
 	if (data.length != 0) {
 		data.forEach(row => {
 			dim.label.forEach(d => {
-
 				let i = dim.label.indexOf(d)
 				row[d] = (row[d] - dim.mean[i]) / dim.stddiv[i];
-				if (Math.abs(row[d]) > maxOutliar) {
-					maxOutliar = Math.abs(row[d])
-				}
 			})
 		})
 	}
 
-	return { maxOutliar: maxOutliar };
 }
 
-function RawPositioning(props, zoom = true) {
+function filterDataStdDiv(data, labels, stddiv) {
 
-	let data = props.content;
+	data = data.filter(row => {
+		for (let label of labels) {
+			if (Math.abs(row[label]) >= stddiv) {
+				return false
+			}
+			return true
+		}
+	})
+	return data;
+}
+
+function findMaxOutliar(data, labels) {
+
+	let maxOutliar = Number.MIN_SAFE_INTEGER
+	// console.log(labels)
+
+	data.forEach(row => {
+		labels.forEach(label => {
+			if (Math.abs(row[label]) > maxOutliar) {
+				maxOutliar = Math.abs(row[label])
+			}
+		})
+	})
+
+	return maxOutliar;
+}
+
+
+function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDeviation, textAccessor = null, zoom = true) {
+
 	// TODO: order of labels is determined by the angles at which they are displayed.
-	// let labels = Object.keys(props.labels);
+	// let labels = Object.keys(labelTextMapping);
 	// Sorted Array of labels.
-	let labels = Object.keys(props.labelsDict)
-	labels.sort((f, s) => props.labelsDict[f] - props.labelsDict[s])
+	let labels = Object.keys(labelAngleMapping)
+	labels.sort((f, s) => labelAngleMapping[f] - labelAngleMapping[s])
 	// console.log('sorted-array-of-labels: ', labels)
 	let numberOfAnchors = labels.length;
 
 	// Mappings from label to angle of label
-	let label2Theta = (label) => deg2rad(props.labelsDict[label])
+	let label2Theta = (label) => deg2rad(labelAngleMapping[label])
 	let theta2Index = ((angle) => {
 		for (let i = 0; i < labels.length - 1; i++) {
 			let label = labels[i]
 			let nextLabel = labels[i + 1]
-			if (angle >= deg2rad(props.labelsDict[label]) && angle < deg2rad(props.labelsDict[nextLabel])) {
+			if (angle >= deg2rad(labelAngleMapping[label]) && angle < deg2rad(labelAngleMapping[nextLabel])) {
 				return i
 			}
 		}
@@ -146,16 +169,20 @@ function RawPositioning(props, zoom = true) {
 		return labelInfo;
 	})();
 
-	// console.log(data)
-	// console.log(labels)
-	let { maxOutliar } = normalizeData(data, labels)
+
+	normalizeData(data, labels)
+
+	let maxOutliar = findMaxOutliar(data, labels)
+
+	// filtering data
+	// data = filterDataStdDiv(data, labels, standardDeviation)
 
 	// initialize Normalization Function.
 	let normalizationFunction = scaleLinear().domain([-maxOutliar, maxOutliar]).range([-1, 1]);
 
 	// map points onto radviz.
 	let points = []
-	props.content.forEach(e => {
+	data.forEach(e => {
 		points.push(mapRadvizpoint(e, anchorInfo, normalizationFunction))
 	});
 
@@ -224,8 +251,9 @@ function RawPositioning(props, zoom = true) {
 		return func
 	})();
 
-	let borderFunctions = (angle) => borderFunctionDict[theta2Index(angle)](angle)
 
+	// Not being used in Muller Viz
+	// let borderFunctions = (angle) => borderFunctionDict[theta2Index(angle)](angle)
 	// scaling by border functions
 	// points = points.map((point) => {
 	// 	let scaling = 1 / borderFunctions(getTheta(point.coordinates.x, point.coordinates.y));
@@ -278,22 +306,27 @@ function RawPositioning(props, zoom = true) {
 
 		let high = {
 			'label': label,
-			'anchor': props.labels[label]['high'],
+			'anchor': labelTextMapping[label]['high'],
 			'angle': anchorInfo[label]['angle']
 		}
 		let low = {
 			'label': label,
-			'anchor': props.labels[label]['low'],
+			'anchor': labelTextMapping[label]['low'],
 			'angle': (anchorInfo[label]['angle'] < Math.PI) ? (anchorInfo[label]['angle'] + Math.PI) : (anchorInfo[label]['angle'] - Math.PI)
 		}
 		labelsPositions.push(high)
 		labelsPositions.push(low)
 	})
 
+	if (textAccessor) {
+		points = points.map(row => ({ ...row, 'textFloater': row.data[textAccessor] }))
+	}
+
 	let result = { 'points': points, 'labels': labelsPositions }
 
-	if (props.std) {
-		result['std'] = normalizationFunction(props.std)
+
+	if (standardDeviation) {
+		result['std'] = normalizationFunction(standardDeviation)
 	}
 
 	return result;

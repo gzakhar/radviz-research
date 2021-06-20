@@ -19,7 +19,7 @@ export default function App() {
 	const [stddiv, setStddiv] = useState(0)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
-		"age_median": 120,
+		// "age_median": 120,
 		"income_per_capita": 240,
 	})
 
@@ -30,8 +30,8 @@ export default function App() {
 	}
 
 	let labelMappingMueller = {
-		"white_ratio": { high: 'white', low: 'colored' },
-		"age_median": { high: 'old', low: 'young' },
+		"white_ratio": { high: 'white', low: 'non-white' },
+		// "age_median": { high: 'old', low: 'young' },
 		"income_per_capita": { high: 'rich', low: 'poor' },
 	}
 
@@ -44,7 +44,8 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
+		// let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
+		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name')
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
@@ -127,10 +128,7 @@ export default function App() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					<div>
-						{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
-					</div>
-
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
 					<div>
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
@@ -139,7 +137,7 @@ export default function App() {
 									<span
 										for={'std'}
 										className='control-value'
-										style={{  color: '#DDDDDD' }}>{stddiv}</span>
+										style={{ color: '#DDDDDD' }}>{stddiv}</span>
 								</div>
 								<input type="range" className="custom-range" min="0" max="3"
 									id={'std'}
@@ -174,9 +172,6 @@ export default function App() {
 										<span class="tick">360º</span>
 									</div>
 								</div>
-								{/* <span for={d}
-									className="font-weight-bold text-primary ml-2 valueSpan2"
-									style={{ width: '10px' }}>{labelAngles[d]}º</span> */}
 							</div>
 						)}
 					</div>

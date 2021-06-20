@@ -49,6 +49,11 @@ code {
   fill: #DDDDDD;
 }
 
+#dot-labels{
+  font-size: 20px;
+  font-weight: 500;
+}
+
 .control-container {
   background-color: #CA3E47;
   margin: 0px 30px 0px 30px;

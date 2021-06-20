@@ -79,25 +79,24 @@ function normalize(minMaxArray) {
 	return scaleLinear().domain(minMaxArray).range([0, 1]);
 }
 
-function RawPositioning(props, zoom = true) {
+function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor = null, zoom = true) {
 
-	let data = props.content;
 	// TODO: order of labels is determined by the angles at which they are displayed.
-	// let labels = Object.keys(props.labels);
+	// let labels = Object.keys(labelTextMapping);
 	// Sorted Array of labels.
-	let labels = Object.keys(props.labelsDict)
-	labels.sort((f, s) => props.labelsDict[f] - props.labelsDict[s])
+	let labels = Object.keys(labelAngleMapping)
+	labels.sort((f, s) => labelAngleMapping[f] - labelAngleMapping[s])
 	// console.log('sorted-array-of-labels: ', labels)
 	let numberOfAnchors = labels.length;
 
 	// Mappings from label to angle of label
 	let labelDomain = [0, 2 * Math.PI];
-	let label2Theta = (label) => deg2rad(props.labelsDict[label])
+	let label2Theta = (label) => deg2rad(labelAngleMapping[label])
 	let theta2Index = ((angle) => {
 		for (let i = 0; i < labels.length - 1; i++) {
 			let label = labels[i]
 			let nextLabel = labels[i + 1]
-			if (angle >= deg2rad(props.labelsDict[label]) && angle < deg2rad(props.labelsDict[nextLabel])) {
+			if (angle >= deg2rad(labelAngleMapping[label]) && angle < deg2rad(labelAngleMapping[nextLabel])) {
 				return i
 			}
 		}
@@ -115,7 +114,7 @@ function RawPositioning(props, zoom = true) {
 
 	// map points onto radviz.
 	let points = []
-	props.content.forEach(e => {
+	data.forEach(e => {
 		points.push(mapRadvizpoint(e, anchorInfo))
 	});
 
@@ -235,7 +234,7 @@ function RawPositioning(props, zoom = true) {
 	// Label coordinatess
 	let labelsPositions = labels.map(label => ({
 		'label': label,
-		'anchor': props.labels[label],
+		'anchor': labelTextMapping[label],
 		'angle': anchorInfo[label]['angle']
 	}))
 

@@ -131,9 +131,37 @@ let drawDots = (dial, dotData, CHART_R, MARGIN) => {
 		.style('fill-opacity', 0.8)
 		.style('stroke', '#FFFFFF')
 		.style('stroke-width', 0.1)
-	// .on('mouseover', handleHoverOn)
-	// .on('mouseout', handleHoverOff)
+		.on('mouseover', handleHoverOn)
+		.on('mouseout', handleHoverOff)
 	// .on('click', props.handleMouseClick)
+}
+
+function handleHoverOn(i, d) {
+
+	select(this)
+		.attr('r', 6)
+		.style('fill', 'white')
+
+	// TODO make the id of dot labels more unique
+	select(this.parentNode).append('text')
+		.attr('id', "dot-labels")
+		.attr('x', this.getAttribute('cx') - 10)
+		.attr('y', this.getAttribute('cy') - 10)
+		// .attr('x', d.coordinates.x - 10)
+		// .attr('y', d.coordinates.y - 10)
+		.text(d.textFloater)
+		
+}
+
+function handleHoverOff(i, d) {
+
+	select(this)
+		.style('fill', i.fill)
+		.attr('r', 2.5)
+
+	// TODO make the id of dot labels more unique
+	select(this.parentNode).select("#dot-labels")
+		.remove()
 }
 
 

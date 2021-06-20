@@ -8,7 +8,7 @@ export default function TestingDataWithStatisticalDynamicRadviz() {
 
 	const [rawData, setRawData] = useState([])
 	const [data, setData] = useState([]);
-	const [stddiv, setStddiv] = useState(0)
+	const [stddiv, setStddiv] = useState(3)
 
 
 	// 																County Demographic Data (3 dimensions)
@@ -50,15 +50,15 @@ export default function TestingDataWithStatisticalDynamicRadviz() {
 	const [labelAngles, setLabelAngles] = useState({
 		"Population Equality": 0,
 		"Polsby Popper": 60,
-		"Majority-Minority Seat Share": 120,
-		"Democratic Seat Share":  130,
+		// "Majority-Minority Seat Share": 120,
+		// "Democratic Seat Share":  130,
 		"Efficiency Gap": 140,
 	})
 	let anchorLabels = {
 		"Population Equality": { high: '+pe', low: '-pe' },
 		"Polsby Popper": { high: '+pp', low: '-pp' },
-		"Majority-Minority Seat Share": { high: '+mmss', low: '-mmss' },
-		"Democratic Seat Share":  { high: '+dss', low: '-dss' },
+		// "Majority-Minority Seat Share": { high: '+mmss', low: '-mmss' },
+		// "Democratic Seat Share":  { high: '+dss', low: '-dss' },
 		"Efficiency Gap": { high: '+ef', low: '-ef' },
 	}
 	async function fetchRawData() {
@@ -72,7 +72,7 @@ export default function TestingDataWithStatisticalDynamicRadviz() {
 
 	useEffect(() => {
 
-		let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': anchorLabels, 'labelsDict': labelAngles, 'std': stddiv })
+		let { points, labels, std } = RawPositioning(rawData, anchorLabels, labelAngles, stddiv)
 		setData({ points, labels, std })
 
 	}, [labelAngles, rawData, stddiv])
@@ -87,7 +87,6 @@ export default function TestingDataWithStatisticalDynamicRadviz() {
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
 				</div>
 
-
 				<div style={{ width: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 					<div className="d-flex justify-content-center my-4">
 						<div style={{ width: '75%' }}>
@@ -98,7 +97,7 @@ export default function TestingDataWithStatisticalDynamicRadviz() {
 									className='control-value'
 									style={{ color: '#DDDDDD' }}>{stddiv}</span>
 							</div>
-							<input type="range" className="custom-range" min="0" max="3"
+							<input type="range" className="custom-range" min="0" max="4"
 								id={'std'}
 								value={stddiv}
 								onChange={(e) => setStddiv(e.target.value)} />
