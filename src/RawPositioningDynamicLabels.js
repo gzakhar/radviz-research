@@ -1,6 +1,5 @@
-import { scaleLinear, scaleQuantize } from 'd3-scale';
+import { scaleLinear} from 'd3-scale';
 import { extent } from 'd3-array'
-import { upperFirst } from 'lodash';
 
 const ROUND_TO = 10000
 
@@ -237,6 +236,10 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor 
 		'anchor': labelTextMapping[label],
 		'angle': anchorInfo[label]['angle']
 	}))
+
+	if (textAccessor) {
+		points = points.map(row => ({ ...row, 'textFloater': row.data[textAccessor] }))
+	}
 
 	let result = { 'points': points, 'labels': labelsPositions }
 

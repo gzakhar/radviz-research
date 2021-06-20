@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
@@ -19,7 +19,7 @@ export default function App() {
 	const [stddiv, setStddiv] = useState(0)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
-		// "age_median": 120,
+		"age_median": 277,
 		"income_per_capita": 240,
 	})
 
@@ -31,7 +31,7 @@ export default function App() {
 
 	let labelMappingMueller = {
 		"white_ratio": { high: 'white', low: 'non-white' },
-		// "age_median": { high: 'old', low: 'young' },
+		"age_median": { high: 'old', low: 'young' },
 		"income_per_capita": { high: 'rich', low: 'poor' },
 	}
 
@@ -44,8 +44,9 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		// let { points, labels, std } = RawPositioning({ 'content': rawData, 'labels': labelMappingMueller, 'labelsDict': labelAngles, 'std': stddiv })
+		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
 		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name')
+		console.log(points)
 		setData({ points, labels, std })
 
 		let countyColorMap = {}

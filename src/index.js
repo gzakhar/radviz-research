@@ -14,9 +14,9 @@ ReactDOM.render(
     {/* <RadvizGraph /> */}
     {/* <RadvixBorderTestGraph /> */}
     {/* <TestingUpdate/> */}
-    {/* <App /> */}
+    <App />
     {/* <TestingDataWithStatisticalDynamicRadviz /> */}
-    <TestingDataWithDynamicRadviz />
+    {/* <TestingDataWithDynamicRadviz /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

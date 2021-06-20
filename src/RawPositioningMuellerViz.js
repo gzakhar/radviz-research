@@ -324,7 +324,6 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 
 	let result = { 'points': points, 'labels': labelsPositions }
 
-
 	if (standardDeviation) {
 		result['std'] = normalizationFunction(standardDeviation)
 	}
