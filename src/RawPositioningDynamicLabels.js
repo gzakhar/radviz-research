@@ -246,4 +246,4 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor 
 	return result;
 }
 
-export { RawPositioning };
+export default RawPositioning;

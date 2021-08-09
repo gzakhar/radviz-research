@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { RawPositioning } from './RawPositioningMuellerViz';
+import RawPositioning from './RawPositioningMuellerViz';
 import Radviz from './Radviz';
 import axios from 'axios'
 

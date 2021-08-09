@@ -194,4 +194,4 @@ function RawPositioning(props, zoom = true) {
 	return result;
 }
 
-export { RawPositioning };
+export default RawPositioning ;

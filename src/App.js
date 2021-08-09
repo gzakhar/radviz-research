@@ -2,10 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-import { RawPositioning } from './RawPositioningMuellerViz'
-// import { RawPositioning } from './RawPositioningDynamicLabels';
-import Radviz from './Radviz'
+import RawPositioning from './RawPositioningMuellerVizSTD.js'
+import Radviz from './Radviz.js'
+// import RawPositioning from './RawPositioningDynamicLabels';
+// import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
+import { zoom } from 'd3';
 
 
 let rad2deg = rad => rad * 180 / Math.PI;
@@ -16,11 +18,11 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [stddiv, setStddiv] = useState(0)
+	const [stddiv, setStddiv] = useState(100)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
-		"age_median": 277,
-		"income_per_capita": 240,
+		"age_median": 60,
+		"income_per_capita": 120,
 	})
 
 	let labelMapping = {
@@ -45,13 +47,13 @@ export default function App() {
 
 		// Statistical and Regualr require different label Mappings.
 		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name')
-		console.log(points)
+		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name', true)
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
 			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
+			// countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${100 - (50 * county.coordinates.radius)}%)`
 		})
 		setCountyColorMap(countyColorMap)
 
@@ -134,13 +136,13 @@ export default function App() {
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>Standard Deviation</span>
+									<span className='control-labels'>1 - Standard Deviation</span>
 									<span
 										for={'std'}
 										className='control-value'
 										style={{ color: '#DDDDDD' }}>{stddiv}</span>
 								</div>
-								<input type="range" className="custom-range" min="0" max="3"
+								<input type="range" className="custom-range" min="100" max="400"
 									id={'std'}
 									value={stddiv}
 									onChange={(e) => setStddiv(e.target.value)} />
