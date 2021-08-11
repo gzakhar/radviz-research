@@ -6,6 +6,7 @@ import RadvizGraph from './RadvizGraph';
 import RadvixBorderTestGraph from './RadvixBorderTestGraph';
 import TestingUpdate from './TestingUpdate';
 import App from './App';
+import AppSTD from './AppSTD.js';
 import TestingDataWithStatisticalDynamicRadviz from './TestingDataWithStatisticalDynamicRadviz';
 import TestingDataWithDynamicRadviz from './TestingDataWithDynamicRadviz';
 
@@ -14,7 +15,8 @@ ReactDOM.render(
     {/* <RadvizGraph /> */}
     {/* <RadvixBorderTestGraph /> */}
     {/* <TestingUpdate/> */}
-    <App />
+    {/* <App /> */}
+    <AppSTD />
     {/* <TestingDataWithStatisticalDynamicRadviz /> */}
     {/* <TestingDataWithDynamicRadviz /> */}
   </React.StrictMode>,

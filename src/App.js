@@ -2,12 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-import RawPositioning from './RawPositioningMuellerVizSTD.js'
+// import RawPositioning from './RawPositioningMuellerVizSTD.js'
 import Radviz from './Radviz.js'
 // import RawPositioning from './RawPositioningDynamicLabels';
+import RawPositioning from './RawPositioningMuellerViz.js';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
-import { zoom } from 'd3';
 
 
 let rad2deg = rad => rad * 180 / Math.PI;
@@ -18,7 +18,7 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [stddiv, setStddiv] = useState(100)
+	const [stddiv, setStddiv] = useState(1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 60,
@@ -122,8 +122,6 @@ export default function App() {
 		r = Math.round((r + m) * 255);
 		g = Math.round((g + m) * 255);
 		b = Math.round((b + m) * 255);
-
-		console.log(r, g, b)
 		return [r, g, b]
 	}
 
@@ -136,13 +134,13 @@ export default function App() {
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>1 - Standard Deviation</span>
+									<span className='control-labels'>STD</span>
 									<span
 										for={'std'}
 										className='control-value'
 										style={{ color: '#DDDDDD' }}>{stddiv}</span>
 								</div>
-								<input type="range" className="custom-range" min="100" max="400"
+								<input type="range" className="custom-range" min="0" max="3"
 									id={'std'}
 									value={stddiv}
 									onChange={(e) => setStddiv(e.target.value)} />
