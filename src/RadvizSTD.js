@@ -34,6 +34,10 @@ function Radviz(props) {
 			drawStd(dialRV, props.std2, CHART_R)
 		}
 
+		if (props.std3) {
+			drawStd(dialRV, props.std3, CHART_R)
+		}
+
 		if (props.points) {
 			drawDots(dialRV, props.points, CHART_R, MARGIN);
 		}

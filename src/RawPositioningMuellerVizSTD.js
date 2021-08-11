@@ -138,7 +138,7 @@ function findMaxOutliar(data, labels) {
 }
 
 
-function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDeviation, standardDeviation2, textAccessor = null, zoom = true) {
+function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDeviation, standardDeviation2, standardDeviation3, textAccessor = null, zoom = true) {
 
 	// TODO: order of labels is determined by the angles at which they are displayed.
 	// let labels = Object.keys(labelTextMapping);
@@ -283,9 +283,11 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 
 		let scaledStandardDeviation = normalizationFunction(standardDeviation / 100)
 		let scaledStandardDeviation2 = normalizationFunction(standardDeviation2 / 100)
+		let scaledStandardDeviation3 = normalizationFunction(standardDeviation3 / 100)
 		let underScale = (scaledStandardDeviation - 0) / (normalizationFunction(1) - 0)
-		let midScaling = (scaledStandardDeviation2 - scaledStandardDeviation) / (normalizationFunction(2) - normalizationFunction(1))
-		let overScale = (maxRadius - scaledStandardDeviation2) / (maxRadius - normalizationFunction(2))
+		let lowerMidScaling = (scaledStandardDeviation2 - scaledStandardDeviation) / (normalizationFunction(2) - normalizationFunction(1))
+		let overMidScaling = (scaledStandardDeviation3 - scaledStandardDeviation2) / (normalizationFunction(3) - normalizationFunction(2))
+		let overScale = (maxRadius - scaledStandardDeviation3) / (maxRadius - normalizationFunction(3))
 		points = points
 			.map(point => {
 				let x = point.coordinates.x
@@ -298,19 +300,29 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 					let h = hypotneous(x, y)
 					let a = getTheta(x, y)
 					h -= normalizationFunction(1)
-					x = midScaling * dotX(h, a)
-					y = midScaling * dotY(h, a)
+					x = lowerMidScaling * dotX(h, a)
+					y = lowerMidScaling * dotY(h, a)
 					h = hypotneous(x, y) + scaledStandardDeviation
+					a = getTheta(x, y)
+					x = dotX(h, a)
+					y = dotY(h, a)
+				} else if (radius <= normalizationFunction(3)) {
+					let h = hypotneous(x, y)
+					let a = getTheta(x, y)
+					h -= normalizationFunction(2)
+					x = overMidScaling * dotX(h, a)
+					y = overMidScaling * dotY(h, a)
+					h = hypotneous(x, y) + scaledStandardDeviation2
 					a = getTheta(x, y)
 					x = dotX(h, a)
 					y = dotY(h, a)
 				} else {
 					let h = hypotneous(x, y)
 					let a = getTheta(x, y)
-					h -= normalizationFunction(2)
+					h -= normalizationFunction(3)
 					x = overScale * dotX(h, a)
 					y = overScale * dotY(h, a)
-					h = hypotneous(x, y) + scaledStandardDeviation2
+					h = hypotneous(x, y) + scaledStandardDeviation3
 					a = getTheta(x, y)
 					x = dotX(h, a)
 					y = dotY(h, a)
@@ -338,10 +350,9 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 			return { ...point, coordinates: coordinates }
 		})
 
-		scaledStandardDeviation *= scaling
-		scaledStandardDeviation2 *= scaling
-		result['std'] = scaledStandardDeviation
-		result['std2'] = scaledStandardDeviation2
+		result['std'] = scaledStandardDeviation * scaling
+		result['std2'] = scaledStandardDeviation2 * scaling
+		result['std3'] = scaledStandardDeviation3 * scaling
 	}
 
 

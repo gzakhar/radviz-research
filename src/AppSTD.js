@@ -7,7 +7,8 @@ import Radviz from './RadvizSTD.js'
 // import RawPositioning from './RawPositioningDynamicLabels';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
-
+import { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -17,8 +18,7 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [stddiv, setStddiv] = useState(100)
-	const [stddiv2, setStddiv2] = useState(200)
+	const [rangeValue, setRangeValue] = useState([100, 200, 300])
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 60,
@@ -47,8 +47,8 @@ export default function App() {
 
 		// Statistical and Regualr require different label Mappings.
 		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std, std2 } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, stddiv2, 'county_name', true)
-		setData({ points, labels, std, std2 })
+		let { points, labels, std, std2, std3 } = RawPositioning(rawData, labelMappingMueller, labelAngles, rangeValue[0], rangeValue[1], rangeValue[2], 'county_name', true)
+		setData({ points, labels, std, std2, std3 })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
@@ -57,7 +57,7 @@ export default function App() {
 		})
 		setCountyColorMap(countyColorMap)
 
-	}, [labelAngles, rawData, stddiv, stddiv2])
+	}, [labelAngles, rawData, rangeValue])
 
 	async function fetchRawData() {
 		let res = await axios('./radviz_demographic_data.json')
@@ -131,9 +131,18 @@ export default function App() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} />, [data])}
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} />, [data])}
 					<div>
 						<div className="d-flex justify-content-center my-4">
+							<div style={{ width: '75%' }}>
+								<div className='d-flex align-items-center justify-content-between'>
+									<span className='control-labels'>Standard Deviation</span>
+
+								</div>
+								<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
+							</div>
+						</div>
+						{/* <div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
 									<span className='control-labels'>1 - Standard Deviation</span>
@@ -142,27 +151,12 @@ export default function App() {
 										className='control-value'
 										style={{ color: '#DDDDDD' }}>{stddiv}</span>
 								</div>
-								<input type="range" className="custom-range" min="100" max="500"
+								<input type="range" className="custom-range" min="0" max="600"
 									id={'std'}
 									value={stddiv}
 									onChange={(e) => setStddiv(e.target.value)} />
 							</div>
-						</div>
-						<div className="d-flex justify-content-center my-4">
-							<div style={{ width: '75%' }}>
-								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>2 - Standard Deviation</span>
-									<span
-										for={'std2'}
-										className='control-value'
-										style={{ color: '#DDDDDD' }}>{stddiv2}</span>
-								</div>
-								<input type="range" className="custom-range" min="100" max="500"
-									id={'std2'}
-									value={stddiv2}
-									onChange={(e) => setStddiv2(e.target.value)} />
-							</div>
-						</div>
+						</div> */}
 					</div>
 					<div>
 						{Object.keys(labelAngles).map(d =>
