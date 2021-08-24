@@ -2,13 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-// import RawPositioning from './RawPositioningMuellerVizSTD.js'
-import Radviz from './Radviz.js'
-// import RawPositioning from './RawPositioningDynamicLabels';
-import RawPositioning from './RawPositioningMuellerViz.js';
-// import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
+import { Radviz } from 'react-d3-radviz';
+import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
-
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -18,11 +14,11 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [stddiv, setStddiv] = useState(1)
+	const offset = 360 * Math.random()
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": 0,
-		"age_median": 60,
-		"income_per_capita": 120,
+		"white_ratio": Math.round(offset % 360),
+		"age_median": Math.round(offset + 120) % 360,
+		"income_per_capita": Math.round(offset + 240) % 360
 	})
 
 	let labelMapping = {
@@ -30,13 +26,6 @@ export default function App() {
 		"age_median": 'age median',
 		"income_per_capita": 'income per capita',
 	}
-
-	let labelMappingMueller = {
-		"white_ratio": { high: 'white', low: 'non-white' },
-		"age_median": { high: 'old', low: 'young' },
-		"income_per_capita": { high: 'rich', low: 'poor' },
-	}
-
 
 	useEffect(() => {
 		fetchRawData()
@@ -46,18 +35,16 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name', true)
+		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
 			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
-			// countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${100 - (50 * county.coordinates.radius)}%)`
 		})
 		setCountyColorMap(countyColorMap)
 
-	}, [labelAngles, rawData, stddiv])
+	}, [labelAngles, rawData])
 
 	async function fetchRawData() {
 		let res = await axios('./radviz_demographic_data.json')
@@ -94,7 +81,6 @@ export default function App() {
 		let sep = hsl.indexOf(",") > -1 ? "," : " ";
 		hsl = hsl.substr(4).split(")")[0].split(sep);
 
-		console.log(hsl)
 		let h = hsl[0],
 			s = hsl[1].substr(0, hsl[1].length - 1) / 100,
 			l = hsl[2].substr(0, hsl[2].length - 1) / 100;
@@ -129,25 +115,7 @@ export default function App() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
-					<div>
-						<div className="d-flex justify-content-center my-4">
-							<div style={{ width: '75%' }}>
-								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>STD</span>
-									<span
-										for={'std'}
-										className='control-value'
-										style={{ color: '#DDDDDD' }}>{stddiv}</span>
-								</div>
-								<input type="range" className="custom-range" min="0" max="3"
-									id={'std'}
-									value={stddiv}
-									onChange={(e) => setStddiv(e.target.value)} />
-							</div>
-
-						</div>
-					</div>
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
 					<div>
 						{Object.keys(labelAngles).map(d =>
 							<div className="d-flex justify-content-center my-4 control-container">

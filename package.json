@@ -23,6 +23,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-bootstrap-range-slider": "^2.0.2",
+    "react-d3-radviz": "^0.1.9",
     "react-dom": "^17.0.2",
     "react-map-gl": "^6.1.16",
     "react-plotly.js": "^2.5.1",
