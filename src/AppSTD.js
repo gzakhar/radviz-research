@@ -9,6 +9,8 @@ import Radviz from './RadvizSTD.js'
 import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import HSLToRGB from './ColorConversion.js';
+import { isVisible } from 'dom-helpers';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -18,7 +20,12 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [rangeValue, setRangeValue] = useState([100, 200, 300])
+	const [countyOpacityMap, setCountyOpacistyMap] = useState({});
+	const [rangeValue, setRangeValue] = useState([100, 200, 300]);
+	const [z2one, setZ2one] = useState(true);
+	const [one2two, setOne2two] = useState(true);
+	const [two2three, setTwo2three] = useState(true);
+	const [three2inf, setThree2inf] = useState(true);
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 60,
@@ -57,7 +64,29 @@ export default function App() {
 		})
 		setCountyColorMap(countyColorMap)
 
-	}, [labelAngles, rawData, rangeValue])
+		let countyOpacistyMap = {}
+		points.forEach((county) => {
+			let r = county.coordinates.radius
+			let isVisible = true
+			switch(true) {
+				case r < std:
+					isVisible = z2one
+					break;
+				case r < std2:
+					isVisible = one2two
+					break;
+				case r < std3:
+					isVisible = two2three
+					break;
+				default:
+					isVisible = three2inf
+					break;
+			}
+			countyOpacistyMap[county['data']['county_name']] = isVisible
+		})
+		setCountyOpacistyMap(countyOpacistyMap)
+
+	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf])
 
 	async function fetchRawData() {
 		let res = await axios('./radviz_demographic_data.json')
@@ -73,7 +102,8 @@ export default function App() {
 		let countyName = county.properties['NAMELSAD20']
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
-		let rgba = [...rgb, 200]
+		let opacity = countyOpacityMap[countyName]
+		let rgba = [...rgb, opacity ? 200 : 0]
 		return rgba
 	}
 
@@ -90,42 +120,6 @@ export default function App() {
 		updateTriggers: { getFillColor: [getCountyColor] }
 	})
 
-	function HSLToRGB(hsl) {
-		let sep = hsl.indexOf(",") > -1 ? "," : " ";
-		hsl = hsl.substr(4).split(")")[0].split(sep);
-
-		console.log(hsl)
-		let h = hsl[0],
-			s = hsl[1].substr(0, hsl[1].length - 1) / 100,
-			l = hsl[2].substr(0, hsl[2].length - 1) / 100;
-
-		let c = (1 - Math.abs(2 * l - 1)) * s,
-			x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-			m = l - c / 2,
-			r = 0,
-			g = 0,
-			b = 0;
-
-		if (0 <= h && h < 60) {
-			r = c; g = x; b = 0;
-		} else if (60 <= h && h < 120) {
-			r = x; g = c; b = 0;
-		} else if (120 <= h && h < 180) {
-			r = 0; g = c; b = x;
-		} else if (180 <= h && h < 240) {
-			r = 0; g = x; b = c;
-		} else if (240 <= h && h < 300) {
-			r = x; g = 0; b = c;
-		} else if (300 <= h && h < 360) {
-			r = c; g = 0; b = x;
-		}
-		r = Math.round((r + m) * 255);
-		g = Math.round((g + m) * 255);
-		b = Math.round((b + m) * 255);
-
-		console.log(r, g, b)
-		return [r, g, b]
-	}
 
 	return (
 		<div>
@@ -133,6 +127,16 @@ export default function App() {
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} />, [data])}
 					<div>
+						<div className="d-flex justify-content-center my-4">
+							<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
+							<div style={{ color: 'white' }}>0-1</div>
+							<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
+							<div style={{ color: 'white' }}>1-2</div>
+							<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
+							<div style={{ color: 'white' }}>2-3</div>
+							<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
+							<div style={{ color: 'white' }}>3-inf</div>
+						</div>
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
@@ -142,23 +146,6 @@ export default function App() {
 								<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
 							</div>
 						</div>
-						{/* <div className="d-flex justify-content-center my-4">
-							<div style={{ width: '75%' }}>
-								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>1 - Standard Deviation</span>
-									<span
-										for={'std'}
-										className='control-value'
-										style={{ color: '#DDDDDD' }}>{stddiv}</span>
-								</div>
-								<input type="range" className="custom-range" min="0" max="600"
-									id={'std'}
-									value={stddiv}
-									onChange={(e) => setStddiv(e.target.value)} />
-							</div>
-						</div> */}
-					</div>
-					<div>
 						{Object.keys(labelAngles).map(d =>
 							<div className="d-flex justify-content-center my-4 control-container">
 								<div style={{ width: '85%' }}>
