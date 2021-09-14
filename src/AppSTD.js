@@ -68,7 +68,7 @@ export default function App() {
 		points.forEach((county) => {
 			let r = county.coordinates.radius
 			let isVisible = true
-			switch(true) {
+			switch (true) {
 				case r < std:
 					isVisible = z2one
 					break;
@@ -107,6 +107,15 @@ export default function App() {
 		return rgba
 	}
 
+	// function getCountyHoverOn(county) {
+	// 	let countyName = county.properties['NAMELSAD20']
+	// 	let hsl = countyColorMap[countyName]
+	// 	let rgb = HSLToRGB(hsl)
+	// 	let opacity = countyOpacityMap[countyName]
+	// 	let rgba = [...rgb, opacity ? 200 : 0]
+	// 	return rgba
+	// }
+
 	const countyLayer = new GeoJsonLayer({
 		id: 'geojson-layer',
 		data: geoJsonData,
@@ -115,7 +124,11 @@ export default function App() {
 		filled: true,
 		lineWidthUnits: 'pixels',
 		getFillColor: (d) => getCountyColor(d),
-		getLineColor: [250, 250, 250, 255],
+		getLineColor: d => {
+			if (d.properties['NAMELSAD20'] == 'New York County')
+				return [250, 0, 0, 255]
+			return [250, 250, 250, 255]
+		},
 		getLineWidth: 1,
 		updateTriggers: { getFillColor: [getCountyColor] }
 	})
@@ -127,15 +140,23 @@ export default function App() {
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} />, [data])}
 					<div>
-						<div className="d-flex justify-content-center my-4">
-							<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
-							<div style={{ color: 'white' }}>0-1</div>
-							<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
-							<div style={{ color: 'white' }}>1-2</div>
-							<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
-							<div style={{ color: 'white' }}>2-3</div>
-							<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
-							<div style={{ color: 'white' }}>3-inf</div>
+						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
+							<div>
+								<div style={{ color: 'white' }}>0-1</div>
+								<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>1-2</div>
+								<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>2-3</div>
+								<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>3-inf</div>
+								<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
+							</div>
 						</div>
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>
