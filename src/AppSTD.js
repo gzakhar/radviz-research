@@ -64,18 +64,19 @@ export default function App() {
 		})
 		setCountyColorMap(countyColorMap)
 
+		console.log(std, std2, std3)
 		let countyOpacistyMap = {}
 		points.forEach((county) => {
 			let r = county.coordinates.radius
 			let isVisible = true
 			switch (true) {
-				case r < std:
+				case r <= std:
 					isVisible = z2one
 					break;
-				case r < std2:
+				case r <= std2:
 					isVisible = one2two
 					break;
-				case r < std3:
+				case r <= std3:
 					isVisible = two2three
 					break;
 				default:

@@ -21,26 +21,29 @@ function Radviz(props) {
 			.attr('id', 'dataWheel')
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
+		drawShadeStd(dialRV);
+		
 		if (props.labels) {
-			drawAnchors(dialRV, props.labels, CHART_R)
-			printLabels(dialRV, props.labels, CHART_R, defs)
+			drawAnchors(dialRV, props.labels, CHART_R);
+			printLabels(dialRV, props.labels, CHART_R, defs);
 		}
 
 		if (props.std) {
-			drawStd(dialRV, props.std, CHART_R)
+			drawStd(dialRV, props.std, CHART_R);
 		}
 
 		if (props.std2) {
-			drawStd(dialRV, props.std2, CHART_R)
+			drawStd(dialRV, props.std2, CHART_R);
 		}
 
 		if (props.std3) {
-			drawStd(dialRV, props.std3, CHART_R)
+			drawStd(dialRV, props.std3, CHART_R);
 		}
 
 		if (props.points) {
 			drawDots(dialRV, props.points, CHART_R, MARGIN);
 		}
+
 	})
 
 	return (
@@ -158,7 +161,7 @@ function handleHoverOn(i, d) {
 		// .attr('x', d.coordinates.x - 10)
 		// .attr('y', d.coordinates.y - 10)
 		.text(d.textFloater)
-		
+
 }
 
 function handleHoverOff(i, d) {
@@ -257,6 +260,20 @@ function drawStd(dial, std, CHART_R) {
 		.style('stroke-dasharray', '5, 2')
 		.style('stroke-dashoffset', 5)
 		.style('stroke-opacity', 1)
+}
+
+function drawShadeStd(dial) {
+
+	dial.append('path')
+		.attr('d', `M 0 0 
+					m -100 0 
+					a 1 1 0 0 0 200 0 
+					a 1 1 0 0 0 -200 0 
+					Z`)
+		.style('stroke', 'none')
+		.style('fill', 'gray')
+		.style('opacity', '0.3')
+
 }
 
 export default Radviz;
