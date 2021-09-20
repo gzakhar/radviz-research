@@ -13,7 +13,7 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs, CHART_R, MARGIN)
+		colorInCircumfrence(svg, defs)
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
