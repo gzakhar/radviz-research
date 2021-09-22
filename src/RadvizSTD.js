@@ -121,7 +121,7 @@ function printLabels(dial, labels, defs) {
 		.style('font-weight', '600')
 		.style('fill-opacity', 1)
 		.style('cursor', 'default')
-		.text((d) => d.anchor.toUpperCase())
+		.text((d) => d.anchor)
 		.attr('id', 'anchor-labels')
 
 }

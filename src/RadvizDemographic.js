@@ -22,9 +22,9 @@ export default function RadvizDemographic() {
 	})
 
 	let labelMapping = {
-		"white_ratio": 'white ratio',
-		"age_median": 'age median',
-		"income_per_capita": 'income per capita',
+		"white_ratio": 'WHITE RATIO',
+		"age_median": 'AGE MEDIAN',
+		"income_per_capita": 'INCOME/CAPITA',
 	}
 
 	useEffect(() => {

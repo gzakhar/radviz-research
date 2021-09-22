@@ -29,9 +29,9 @@ export default function SRadvizDemographic() {
 		"income_per_capita": 120,
 	})
 	let labelMappingMueller = {
-		"white_ratio": { high: 'white', low: 'non-white' },
-		"age_median": { high: 'old', low: 'young' },
-		"income_per_capita": { high: 'rich', low: 'poor' },
+		"white_ratio": { high: 'WHITE', low: 'NON-WHITE' },
+		"age_median": { high: 'OLD', low: 'YOUNG' },
+		"income_per_capita": { high: 'RICH', low: 'POOR' },
 	}
 
 
