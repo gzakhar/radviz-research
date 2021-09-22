@@ -43,14 +43,12 @@ export default function SRadvizDemographic() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
 		let { points, labels, std, std2, std3 } = RawPositioning(rawData, labelMappingMueller, labelAngles, rangeValue[0], rangeValue[1], rangeValue[2], 'county_name', true)
 		setData({ points, labels, std, std2, std3 })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
 			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
-			// countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${100 - (50 * county.coordinates.radius)}%)`
 		})
 		setCountyColorMap(countyColorMap)
 
@@ -59,13 +57,13 @@ export default function SRadvizDemographic() {
 			let r = county.coordinates.radius
 			let isVisible = true
 			switch (true) {
-				case r < std:
+				case r <= std:
 					isVisible = z2one
 					break;
-				case r < std2:
+				case r <= std2:
 					isVisible = one2two
 					break;
-				case r < std3:
+				case r <= std3:
 					isVisible = two2three
 					break;
 				default:
@@ -115,17 +113,25 @@ export default function SRadvizDemographic() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} />, [data])}
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }} />, [data])}
 					<div>
-						<div className="d-flex justify-content-center my-4">
-							<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
-							<div style={{ color: 'white' }}>0-1</div>
-							<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
-							<div style={{ color: 'white' }}>1-2</div>
-							<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
-							<div style={{ color: 'white' }}>2-3</div>
-							<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
-							<div style={{ color: 'white' }}>3-inf</div>
+						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
+							<div>
+								<div style={{ color: 'white' }}>0-1</div>
+								<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>1-2</div>
+								<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>2-3</div>
+								<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
+							</div>
+							<div>
+								<div style={{ color: 'white' }}>3-inf</div>
+								<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
+							</div>
 						</div>
 						<div className="d-flex justify-content-center my-4">
 							<div style={{ width: '75%' }}>

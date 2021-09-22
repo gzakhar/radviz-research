@@ -1,12 +1,11 @@
 import { select } from 'd3-selection';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-let borderColor = '#DDDDDD';
+const BORDER_COLOR = '#DDDDDD';
+const CHART_R = 200;
+const MARGIN = 50;
+
 function Radviz(props) {
-
-	let CHART_R = 200;
-	let MARGIN = 50;
-
 
 	useEffect(() => {
 
@@ -14,32 +13,55 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs, CHART_R, MARGIN)
+		colorInCircumfrence(svg, defs)
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
 			.attr('id', 'dataWheel')
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
+
+
+		if (props.shade) {
+			for (const [key, value] of Object.entries(props.shade)) {
+				if (!value) {
+					switch (key) {
+						case 'z2one':
+							drawShadeStd(dialRV, 0, props.std);
+							break;
+						case 'one2two':
+							drawShadeStd(dialRV, props.std, props.std2);
+							break;
+						case 'two2three':
+							drawShadeStd(dialRV, props.std2, props.std3);
+							break;
+						case 'three2inf':
+							drawShadeStd(dialRV, props.std3, 1);
+							break;
+					}
+				}
+			}
+		}
+
 		if (props.labels) {
-			drawAnchors(dialRV, props.labels, CHART_R)
-			printLabels(dialRV, props.labels, CHART_R, defs)
+			drawAnchors(dialRV, props.labels);
+			printLabels(dialRV, props.labels, defs);
 		}
 
 		if (props.std) {
-			drawStd(dialRV, props.std, CHART_R)
+			drawStd(dialRV, props.std);
 		}
 
 		if (props.std2) {
-			drawStd(dialRV, props.std2, CHART_R)
+			drawStd(dialRV, props.std2);
 		}
 
 		if (props.std3) {
-			drawStd(dialRV, props.std3, CHART_R)
+			drawStd(dialRV, props.std3);
 		}
 
 		if (props.points) {
-			drawDots(dialRV, props.points, CHART_R, MARGIN);
+			drawDots(dialRV, props.points);
 		}
 	})
 
@@ -53,7 +75,7 @@ let dotX = (radius, theta) => radius * Math.cos(theta);
 
 
 // Print Labels
-let printLabels = (dial, labels, CHART_R, defs) => {
+function printLabels(dial, labels, defs) {
 
 	let arcs = []
 	for (let label of labels) {
@@ -105,7 +127,7 @@ let printLabels = (dial, labels, CHART_R, defs) => {
 }
 
 // Draw anchors 
-let drawAnchors = (dial, labels, CHART_R) => {
+function drawAnchors(dial, labels) {
 
 	dial.selectAll('g').remove()
 
@@ -123,7 +145,7 @@ let drawAnchors = (dial, labels, CHART_R) => {
 }
 
 // Plot data points
-let drawDots = (dial, dotData, CHART_R, MARGIN) => {
+function drawDots(dial, dotData) {
 
 	let BORDER_MARGIN = 10
 
@@ -158,7 +180,7 @@ function handleHoverOn(i, d) {
 		// .attr('x', d.coordinates.x - 10)
 		// .attr('y', d.coordinates.y - 10)
 		.text(d.textFloater)
-		
+
 }
 
 function handleHoverOff(i, d) {
@@ -174,7 +196,7 @@ function handleHoverOff(i, d) {
 
 
 // Setting saturation and hsl
-function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
+function colorInCircumfrence(svg, defs) {
 
 	const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
@@ -215,7 +237,7 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 
 	svg.append('circle')
 		.style('fill', 'none')
-		.style('stroke', borderColor)
+		.style('stroke', BORDER_COLOR)
 		.style('stroke-width', 3)
 		.style('stroke-opacity', 1)
 		.attr('cx', CHART_R + MARGIN)
@@ -235,7 +257,7 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 	}
 }
 
-function drawStd(dial, std, CHART_R) {
+function drawStd(dial, std) {
 
 	dial.append('circle')
 		.attr('cx', 0)
@@ -257,6 +279,32 @@ function drawStd(dial, std, CHART_R) {
 		.style('stroke-dasharray', '5, 2')
 		.style('stroke-dashoffset', 5)
 		.style('stroke-opacity', 1)
+}
+
+function drawShadeStd(dial, innerRadius, outerRadius) {
+
+	let smallArcRadius = innerRadius * CHART_R
+	let largeArcRadius = outerRadius * CHART_R
+
+	// two arc paths that work togeather to create a donut.
+	dial.append('path')
+		.attr('d', `M 0 0 
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 1 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					M 0 0
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 0 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 1 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					Z`)
+		.style('stroke', 'none')
+		.style('fill', 'gray')
+		.style('opacity', '0.5')
+
 }
 
 export default Radviz;
