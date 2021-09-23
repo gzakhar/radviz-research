@@ -13,7 +13,14 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs)
+		if (props.showHSV) {
+			colorInCircumfrence(svg, defs)
+			drawBorder(svg)
+		} else {
+			colorInWhite(svg)
+			drawBorder(svg, 'gray')
+		}
+
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
@@ -195,6 +202,14 @@ function handleHoverOff(i, d) {
 }
 
 
+function colorInWhite(svg) {
+	svg.append('circle')
+		.attr('cx', CHART_R + MARGIN)
+		.attr('cy', CHART_R + MARGIN)
+		.attr('r', CHART_R)
+		.style('fill', 'white')
+}
+
 // Setting saturation and hsl
 function colorInCircumfrence(svg, defs) {
 
@@ -235,15 +250,6 @@ function colorInCircumfrence(svg, defs) {
 		.attr('stop-color', '#fff')
 		.attr('stop-opacity', 0)
 
-	svg.append('circle')
-		.style('fill', 'none')
-		.style('stroke', BORDER_COLOR)
-		.style('stroke-width', 3)
-		.style('stroke-opacity', 1)
-		.attr('cx', CHART_R + MARGIN)
-		.attr('cy', CHART_R + MARGIN)
-		.attr('r', CHART_R)
-
 	function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 		var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
 		startAngle *= Math.PI / 180;
@@ -256,6 +262,19 @@ function colorInCircumfrence(svg, defs) {
 		return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y2}`;
 	}
 }
+
+function drawBorder(svg, borderColor = BORDER_COLOR) {
+
+	svg.append('circle')
+		.style('fill', 'none')
+		.style('stroke', borderColor)
+		.style('stroke-width', 3)
+		.style('stroke-opacity', 1)
+		.attr('cx', CHART_R + MARGIN)
+		.attr('cy', CHART_R + MARGIN)
+		.attr('r', CHART_R)
+}
+
 
 function drawStd(dial, std) {
 
