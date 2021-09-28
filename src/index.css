@@ -124,3 +124,12 @@ div.rc-slider-handle {
   padding-top: 10px;
   font-size: 20px;
 }
+
+.line {
+  border: 1px solid #bbb;
+  width: 30%;
+  height: 1px;
+  position: absolute;
+  margin-top: 25px;
+  flex-grow: 1;
+}

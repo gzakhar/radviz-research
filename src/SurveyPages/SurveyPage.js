@@ -42,7 +42,15 @@ export default function SurveyPage() {
                         className='d-flex flex-column align-items-center justify-content-between'
                         style={{ height: '550px' }}
                     >
-                        <span className='dot'>{index + 1}</span>
+
+                        <div
+                            style={{ display: 'inline-block'}}>
+                            <span className='dot'>
+                                {index + 1}
+                            </span>
+                            {(index < order.length - 1) && <span className='line' />}
+                        </div>
+
                         <div
                             className='d-flex flex-column justify-content-lg-between'
                             style={{ border: 'solid', borderColor: 'green', height: '485.4px', width: '300px', padding: '5px' }}
