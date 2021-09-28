@@ -1,10 +1,24 @@
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #2a273d; */
   background-color: #525252;
+}
+
+html{
+  height: 100%;
+}
+
+body {
+  border: solid;
+  border-color: yellow;
+  min-height: 100%;
+  height: 1px;
+}
+
+#root {
+  height: 100%;
+  overflow: auto;
 }
 
 code {
@@ -98,4 +112,15 @@ code {
 div.rc-slider-handle {
   background: gray;
   border: none;
+}
+
+.dot {
+  height: 50px;
+  width: 50px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 20px;
 }

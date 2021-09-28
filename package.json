@@ -34,7 +34,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "craco start",
+    "dev": "react-scripts start",
     "start": "serve -s build",
     "build": "craco build",
     "heroku-postbuild": "npm run build",
