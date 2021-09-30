@@ -222,14 +222,14 @@ function colorInCircumfrence(svg, defs) {
 		.attr('id', "hueWheel")
 		.attr('stroke-width', CHART_R)
 
-	{
-		HUE_STEPS.forEach(angle => (
-			g.append('path')
-				.attr('key', angle)
-				.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, CHART_R / 2, angle, angle + 1.5))
-				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
-		))
-	}
+
+	HUE_STEPS.forEach(angle => (
+		g.append('path')
+			.attr('key', angle)
+			.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, CHART_R / 2, angle, angle + 1.5))
+			.attr('stroke', `hsl(${angle}, 100%, 50%)`)
+	))
+
 
 	svg.selectAll("circle").remove()
 
