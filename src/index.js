@@ -15,8 +15,8 @@ ReactDOM.render(
     {/* <RadvizGraph /> */}
     {/* <RadvixBorderTestGraph /> */}
     {/* <TestingUpdate/> */}
-    {/* <App /> */}
-    <AppSTD />
+    <App />
+    {/* <AppSTD /> */}
     {/* <TestingDataWithStatisticalDynamicRadviz /> */}
     {/* <TestingDataWithDynamicRadviz /> */}
   </React.StrictMode>,

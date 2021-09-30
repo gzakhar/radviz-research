@@ -1,5 +1,5 @@
-import { select } from 'd3-selection';
 import React, { useEffect } from 'react';
+import { select, selectAll } from 'd3-selection';
 
 let borderColor = '#DDDDDD';
 function Radviz(props) {

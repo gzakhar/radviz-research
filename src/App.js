@@ -4,8 +4,8 @@ import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 // import RawPositioning from './RawPositioningMuellerVizSTD.js'
 import Radviz from './Radviz.js'
-// import RawPositioning from './RawPositioningDynamicLabels';
-import RawPositioning from './RawPositioningMuellerViz.js';
+import RawPositioning from './RawPositioningDynamicLabels';
+// import RawPositioning from './RawPositioningMuellerViz.js';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
 import HSLToRGB from './ColorConversion.js';
@@ -38,6 +38,15 @@ export default function App() {
 		"income_per_capita": { high: 'rich', low: 'poor' },
 	}
 
+	let labelMapingARSData = {
+		"Polsby Popper": "abc",
+		"Efficiency Gap": "abc",
+		"Population Equality": "abc",
+		"Democratic Seat Share": "abc",
+		"Majority-Minority Seat Share": "abc",
+		"democraticSeats": "abc",
+	}
+
 
 	useEffect(() => {
 		fetchRawData()
@@ -48,7 +57,7 @@ export default function App() {
 
 		// Statistical and Regualr require different label Mappings.
 		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name', true)
+		let { points, labels, std } = RawPositioning(rawData, labelMapingARSData, labelAngles, stddiv, 'county_name', true)
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
