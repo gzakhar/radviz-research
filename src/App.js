@@ -8,18 +8,17 @@ import WelcomePage from './SurveyInfra/WelcomePage.js';
 import HomePage from './SurveyInfra/HomePage.js';
 import SurveyPage from './SurveyInfra/SurveyPage.js';
 
-
 export default function App() {
 
     return (
         <Router>
             <Switch>
-                <Route exact path='/' component={HomePage}/>
-                <ProtectedRoute path='/survey' component={SurveyPage}/>
+                <Route exact path='/' component={HomePage} />
                 <Route exact path='/welcome' component={WelcomePage} />
-                <Route path='/radviz' component={RadvizDemographic} />
-                <Route path='/sradviz/:showControls?' component={SRadvizDemographic} />
-                <Route path='/login' component={Login}/>
+                <ProtectedRoute path='/survey' component={SurveyPage} />
+                <Route path='/radviz/:showControls?' component={RadvizDemographic} />
+                <ProtectedRoute path='/sradviz/:showControls?' component={SRadvizDemographic} />
+                <Route path='/login' component={Login} />
             </Switch>
         </Router>
     )

@@ -5,20 +5,22 @@ import axios from 'axios';
 import { Radviz } from 'react-d3-radviz';
 import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
+import { useParams } from 'react-router-dom';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
 export default function RadvizDemographic() {
 
+	const { showControls } = useParams();
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const offset = 360 * Math.random()
 	const [labelAngles, setLabelAngles] = useState({
-		"white_ratio": Math.round(offset % 360),
-		"age_median": Math.round(offset + 120) % 360,
-		"income_per_capita": Math.round(offset + 240) % 360
+		"white_ratio": 0,
+		"age_median": 120,
+		"income_per_capita":240,
 	})
 
 	let labelMapping = {
@@ -116,34 +118,39 @@ export default function RadvizDemographic() {
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
-					<div>
-						{Object.keys(labelAngles).map(d =>
-							<div className="d-flex justify-content-center my-4 control-container">
-								<div style={{ width: '85%' }}>
-									<div className='d-flex align-items-center justify-content-between'>
-										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-										<span for={d}
-											className='control-value'
-											style={{ width: '10px' }}>{labelAngles[d]}º</span>
-									</div>
-									<input type="range" className="custom-range" min="0" max="360"
-										id={d}
-										value={labelAngles[d]}
-										onChange={(e) => {
-											let updatedState = { ...labelAngles, [d]: e.target.value }
-											setLabelAngles(updatedState)
-										}} />
-									<div className="ticks">
-										<span class="tick">0º</span>
-										<span class="tick">90º</span>
-										<span class="tick">180º</span>
-										<span class="tick">270º</span>
-										<span class="tick">360º</span>
+
+					{showControls == 'show' ?
+						<div>
+							{Object.keys(labelAngles).map(d =>
+								<div className="d-flex justify-content-center my-4 control-container">
+									<div style={{ width: '85%' }}>
+										<div className='d-flex align-items-center justify-content-between'>
+											<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
+											<span for={d}
+												className='control-value'
+												style={{ width: '10px' }}>{labelAngles[d]}º</span>
+										</div>
+										<input type="range" className="custom-range" min="0" max="360"
+											id={d}
+											value={labelAngles[d]}
+											onChange={(e) => {
+												let updatedState = { ...labelAngles, [d]: e.target.value }
+												setLabelAngles(updatedState)
+											}} />
+										<div className="ticks">
+											<span class="tick">0º</span>
+											<span class="tick">90º</span>
+											<span class="tick">180º</span>
+											<span class="tick">270º</span>
+											<span class="tick">360º</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						)}
-					</div>
+							)}
+						</div>
+						:
+						<></>
+					}
 				</div>
 			</div>
 			<div className="map-container" >

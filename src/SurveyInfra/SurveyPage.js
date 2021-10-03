@@ -6,18 +6,18 @@ const configuration = [
         imgSrc: './images/radviz.png',
         text: 'Radviz',
         linkTo: '/radviz',
-        googleForm: '/'
+        googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLSdhcmQ7fwtcSZoP0nq21dfkgHFAQUb7nLqvLTsl4lbC-lgTPQ/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/sradviz.png',
         text: 'S-Radviz',
         linkTo: '/sradviz',
-        googleForm: '/'
+        googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScFvSh9ce5AZUQj5YJBzQlmeQa7nHMfVgcTTCKS258NDGA2Pg/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/controls.png',
         text: 'Controls',
-        linkTo: '/control',
+        linkTo: '/sradviz/show',
         googleForm: '/'
     }
 ]
@@ -80,10 +80,11 @@ export default function SurveyPage() {
                             <div
                                 style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
                             >
-                                <Link
+                                <a
                                     className='take-survey'
-                                    to={value['googleForm']}
-                                >Google Form</Link>
+                                    href={value['googleForm']}
+                                    target="_blank"
+                                >Google Form</a>
                             </div>
                         </div>
                     </div>

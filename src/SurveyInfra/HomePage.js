@@ -25,7 +25,7 @@ export default function HomePage() {
                         style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
                     >
                         <Link
-                            to='/survey'
+                            to='/radviz/show'
                             className='take-survey'
                         >
                             Demo

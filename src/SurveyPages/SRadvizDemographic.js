@@ -116,7 +116,7 @@ export default function SRadvizDemographic() {
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }} />, [data])}
-					{showControls == 'true' ?
+					{showControls == 'show' ?
 						<div>
 							<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 								<div>
@@ -173,7 +173,7 @@ export default function SRadvizDemographic() {
 							)}
 						</div>
 						:
-						<></>
+						<div>No Control</div>
 					}
 				</div>
 			</div>
