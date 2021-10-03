@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 export default function HomePage() {
 
     return (
 
-        <div className='d-flex align-items-center' style={{height: '100%'}}>
+        <div
+            className='d-flex align-items-center'
+            style={{ height: '100%' }}
+        >
 
             <div
                 className='d-flex justify-content-lg-around align-items-lg-center'
@@ -19,7 +23,14 @@ export default function HomePage() {
                     >hello</div>
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
-                    >how</div>
+                    >
+                        <Link
+                            to='/survey'
+                            className='take-survey'
+                        >
+                            Demo
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div
@@ -38,7 +49,14 @@ export default function HomePage() {
                     >are</div>
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
-                    >you</div>
+                    >
+                        <Link
+                            to='/survey'
+                            className='take-survey'
+                        >
+                            Take Survey
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

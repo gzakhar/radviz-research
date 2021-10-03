@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 
 const configuration = [
     {
         imgSrc: './images/radviz.png',
-        text: 'Radviz'
+        text: 'Radviz',
+        linkTo: '/radviz'
     },
     {
         imgSrc: './images/sradviz.png',
-        text: 'S-Radviz'
+        text: 'S-Radviz',
+        linkTo: '/sradviz'
     },
     {
         imgSrc: './images/controls.png',
-        text: 'Controls'
+        text: 'Controls',
+        linkTo: '/control'
     }
 ]
 
@@ -44,7 +48,7 @@ export default function SurveyPage() {
                     >
 
                         <div
-                            style={{ display: 'inline-block'}}>
+                            style={{ display: 'inline-block' }}>
                             <span className='dot'>
                                 {index + 1}
                             </span>
@@ -65,9 +69,10 @@ export default function SurveyPage() {
                             <div
                                 style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
                             >
-                                <button
-                                    style={{ height: '100%', width: '100%' }}
-                                >Start {value['text']} Survey</button>
+                                <Link
+                                    to={value['linkTo']}
+                                    className='take-survey'
+                                >Start {value['text']} Survey</Link>
                             </div>
                         </div>
                     </div>

@@ -133,3 +133,21 @@ div.rc-slider-handle {
   margin-top: 25px;
   flex-grow: 1;
 }
+
+.take-survey {
+  text-align: center;
+  display: inline-block;
+  color: #313131;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-color: #4d93dd;
+}
+
+.take-survey:hover{
+  color: #DDDDDD;
+  text-decoration: none;
+  background-color: #4d93ddee;
+}
