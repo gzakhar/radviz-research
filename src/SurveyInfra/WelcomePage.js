@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card.js';
+import Card from '../UI/Card.js';
 
 export default function WelcomePage() {
 

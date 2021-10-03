@@ -5,17 +5,20 @@ const configuration = [
     {
         imgSrc: './images/radviz.png',
         text: 'Radviz',
-        linkTo: '/radviz'
+        linkTo: '/radviz',
+        googleForm: '/'
     },
     {
         imgSrc: './images/sradviz.png',
         text: 'S-Radviz',
-        linkTo: '/sradviz'
+        linkTo: '/sradviz',
+        googleForm: '/'
     },
     {
         imgSrc: './images/controls.png',
         text: 'Controls',
-        linkTo: '/control'
+        linkTo: '/control',
+        googleForm: '/'
     }
 ]
 
@@ -67,12 +70,20 @@ export default function SurveyPage() {
                                     src={value['imgSrc']} />
                             </div>
                             <div
-                                style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
+                                style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
                             >
                                 <Link
-                                    to={value['linkTo']}
                                     className='take-survey'
-                                >Start {value['text']} Survey</Link>
+                                    to={value['linkTo']}
+                                >Start {value['text']}</Link>
+                            </div>
+                            <div
+                                style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
+                            >
+                                <Link
+                                    className='take-survey'
+                                    to={value['googleForm']}
+                                >Google Form</Link>
                             </div>
                         </div>
                     </div>

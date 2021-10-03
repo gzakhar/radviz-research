@@ -135,9 +135,11 @@ div.rc-slider-handle {
 }
 
 .take-survey {
+  color: #313131;
+  font-size: 24px;
+  font-weight: 700;
   text-align: center;
   display: inline-block;
-  color: #313131;
   text-decoration: none;
   height: 100%;
   width: 100%;
@@ -147,7 +149,7 @@ div.rc-slider-handle {
 }
 
 .take-survey:hover{
-  color: #DDDDDD;
+  color: #313131;
   text-decoration: none;
-  background-color: #4d93ddee;
+  background-color: #1774d6ee;
 }

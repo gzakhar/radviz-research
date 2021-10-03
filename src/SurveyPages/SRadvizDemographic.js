@@ -7,12 +7,14 @@ import RawPositioning from './RawPositioning.js'
 import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import HSLToRGB from './ColorConversion.js';
+import HSLToRGB from '../UI/ColorConversion.js';
+import { useParams } from 'react-router-dom';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
 export default function SRadvizDemographic() {
 
+	const { showControls } = useParams();
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
@@ -114,61 +116,65 @@ export default function SRadvizDemographic() {
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }} />, [data])}
-					<div>
-						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
-							<div>
-								<div style={{ color: 'white' }}>0-1</div>
-								<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
-							</div>
-							<div>
-								<div style={{ color: 'white' }}>1-2</div>
-								<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
-							</div>
-							<div>
-								<div style={{ color: 'white' }}>2-3</div>
-								<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
-							</div>
-							<div>
-								<div style={{ color: 'white' }}>3-inf</div>
-								<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
-							</div>
-						</div>
-						<div className="d-flex justify-content-center my-4">
-							<div style={{ width: '75%' }}>
-								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>Standard Deviation</span>
-
+					{showControls == 'true' ?
+						<div>
+							<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
+								<div>
+									<div style={{ color: 'white' }}>0-1</div>
+									<input type="checkbox" checked={z2one} onChange={() => setZ2one(!z2one)} />
 								</div>
-								<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
+								<div>
+									<div style={{ color: 'white' }}>1-2</div>
+									<input type="checkbox" checked={one2two} onChange={() => setOne2two(!one2two)} />
+								</div>
+								<div>
+									<div style={{ color: 'white' }}>2-3</div>
+									<input type="checkbox" checked={two2three} onChange={() => setTwo2three(!two2three)} />
+								</div>
+								<div>
+									<div style={{ color: 'white' }}>3-inf</div>
+									<input type="checkbox" checked={three2inf} onChange={() => setThree2inf(!three2inf)} />
+								</div>
 							</div>
-						</div>
-						{Object.keys(labelAngles).map(d =>
-							<div className="d-flex justify-content-center my-4 control-container">
-								<div style={{ width: '85%' }}>
+							<div className="d-flex justify-content-center my-4">
+								<div style={{ width: '75%' }}>
 									<div className='d-flex align-items-center justify-content-between'>
-										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-										<span for={d}
-											className='control-value'
-											style={{ width: '10px' }}>{labelAngles[d]}º</span>
+										<span className='control-labels'>Standard Deviation</span>
+
 									</div>
-									<input type="range" className="custom-range" min="0" max="360"
-										id={d}
-										value={labelAngles[d]}
-										onChange={(e) => {
-											let updatedState = { ...labelAngles, [d]: e.target.value }
-											setLabelAngles(updatedState)
-										}} />
-									<div className="ticks">
-										<span class="tick">0º</span>
-										<span class="tick">90º</span>
-										<span class="tick">180º</span>
-										<span class="tick">270º</span>
-										<span class="tick">360º</span>
-									</div>
+									<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
 								</div>
 							</div>
-						)}
-					</div>
+							{Object.keys(labelAngles).map(d =>
+								<div className="d-flex justify-content-center my-4 control-container">
+									<div style={{ width: '85%' }}>
+										<div className='d-flex align-items-center justify-content-between'>
+											<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
+											<span for={d}
+												className='control-value'
+												style={{ width: '10px' }}>{labelAngles[d]}º</span>
+										</div>
+										<input type="range" className="custom-range" min="0" max="360"
+											id={d}
+											value={labelAngles[d]}
+											onChange={(e) => {
+												let updatedState = { ...labelAngles, [d]: e.target.value }
+												setLabelAngles(updatedState)
+											}} />
+										<div className="ticks">
+											<span class="tick">0º</span>
+											<span class="tick">90º</span>
+											<span class="tick">180º</span>
+											<span class="tick">270º</span>
+											<span class="tick">360º</span>
+										</div>
+									</div>
+								</div>
+							)}
+						</div>
+						:
+						<></>
+					}
 				</div>
 			</div>
 			<div className="map-container" >

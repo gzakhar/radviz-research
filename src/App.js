@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ProtectedRoute from './ProtectedRoute.js';
-import RadvizDemographic from './RadvizDemographic.js';
-import SRadvizDemographic from './SRadvizDemographic.js';
-import Login from './Login.js';
-import WelcomePage from './WelcomePage.js';
-import HomePage from './SurveyPages/HomePage.js';
-import SurveyPage from './SurveyPages/SurveyPage.js';
+import ProtectedRoute from './LogIn/ProtectedRoute.js';
+import RadvizDemographic from './SurveyPages/RadvizDemographic.js';
+import SRadvizDemographic from './SurveyPages/SRadvizDemographic.js';
+import Login from './LogIn/Login.js';
+import WelcomePage from './SurveyInfra/WelcomePage.js';
+import HomePage from './SurveyInfra/HomePage.js';
+import SurveyPage from './SurveyInfra/SurveyPage.js';
 
 
 export default function App() {
@@ -15,10 +15,10 @@ export default function App() {
         <Router>
             <Switch>
                 <Route exact path='/' component={HomePage}/>
-                <Route path='/survey' component={SurveyPage}/>
+                <ProtectedRoute path='/survey' component={SurveyPage}/>
                 <Route exact path='/welcome' component={WelcomePage} />
                 <Route path='/radviz' component={RadvizDemographic} />
-                <ProtectedRoute path='/sradviz' component={SRadvizDemographic} />
+                <Route path='/sradviz/:showControls?' component={SRadvizDemographic} />
                 <Route path='/login' component={Login}/>
             </Switch>
         </Router>
