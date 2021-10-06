@@ -17,7 +17,7 @@ export default function App() {
                 <Route exact path='/welcome' component={WelcomePage} />
                 <ProtectedRoute path='/survey' component={SurveyPage} />
                 <Route path='/radviz/:showControls?' component={RadvizDemographic} />
-                <ProtectedRoute path='/sradviz/:showControls?' component={SRadvizDemographic} />
+                <Route path='/sradviz/:showControls?' component={SRadvizDemographic} />
                 <Route path='/login' component={Login} />
             </Switch>
         </Router>
