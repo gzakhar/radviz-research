@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const configuration = [
     {
@@ -18,7 +18,7 @@ const configuration = [
         imgSrc: './images/controls.png',
         text: 'Controls',
         linkTo: '/sradviz/show',
-        googleForm: '/'
+        googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScQ1kmRsEQ8ll8nbI6mOUUZsdk3etAuULHcVtLf6dvMeQEEVw/viewform?usp=sf_link'
     }
 ]
 
