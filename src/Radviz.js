@@ -125,15 +125,14 @@ let drawDots = (dial, dotData, CHART_R, MARGIN) => {
 		.append('circle')
 		.attr('cx', d => (CHART_R - BORDER_MARGIN) * d.coordinates.x)
 		.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
-		.attr('r', 2.5)
+		.attr('r', d => d.coordinates.depth * 7)
 		.attr('id', (_, i) => `dot${i}`)
 		.style('fill', '#000000')
-		.style('fill-opacity', 0.8)
+		.style('fill-opacity', d => 1 - d.coordinates.depth)
 		.style('stroke', '#FFFFFF')
-		.style('stroke-width', 0.1)
+		.style('stroke-width', d => d.coordinates.depth)
 		.on('mouseover', handleHoverOn)
 		.on('mouseout', handleHoverOff)
-	// .on('click', props.handleMouseClick)
 }
 
 function handleHoverOn(i, d) {
@@ -150,7 +149,7 @@ function handleHoverOn(i, d) {
 		// .attr('x', d.coordinates.x - 10)
 		// .attr('y', d.coordinates.y - 10)
 		.text(d.textFloater)
-		
+
 }
 
 function handleHoverOff(i, d) {

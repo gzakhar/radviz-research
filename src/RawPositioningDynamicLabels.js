@@ -78,14 +78,11 @@ function normalize(minMaxArray) {
 	return scaleLinear().domain(minMaxArray).range([0, 1]);
 }
 
-function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor = null, zoom = true) {
+function RawPositioning(data, labelTextMapping, labelAngleMapping, depthAccessor = null, textAccessor = null, zoom = true) {
 
-	// TODO: order of labels is determined by the angles at which they are displayed.
-	// let labels = Object.keys(labelTextMapping);
 	// Sorted Array of labels.
 	let labels = Object.keys(labelAngleMapping)
 	labels.sort((f, s) => labelAngleMapping[f] - labelAngleMapping[s])
-	// console.log('sorted-array-of-labels: ', labels)
 	let numberOfAnchors = labels.length;
 
 	// Mappings from label to angle of label
@@ -182,9 +179,8 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor 
 		return func
 	})();
 
-	let borderFunctions = (angle) => borderFunctionDict[theta2Index(angle)](angle)
-
 	// scaling by border functions
+	let borderFunctions = (angle) => borderFunctionDict[theta2Index(angle)](angle)
 	points = points.map((point) => {
 		let scaling = 1 / borderFunctions(getTheta(point.coordinates.x, point.coordinates.y));
 		const x = scaling * point.coordinates.x
@@ -193,6 +189,12 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor 
 		return { ...point, coordinates: coordinates }
 	})
 
+	// create depth attribute scale.
+	let depthNormalization = normalize(extent(data.map(row => row[depthAccessor])))
+	points = points.map(point => {
+		const coordinates = {...point.coordinates, 'depth': depthNormalization(point.data[depthAccessor])}
+		return {...point, coordinates: coordinates}
+	})
 
 	if (zoom) {
 

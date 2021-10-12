@@ -16,7 +16,6 @@ export default function App() {
 	const [geoJsonData, setGeoJsonData] = useState({})
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const [stddiv, setStddiv] = useState(1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 120,
@@ -37,7 +36,7 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
+		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'f_depth', 'county_name')
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
@@ -46,10 +45,10 @@ export default function App() {
 		})
 		setCountyColorMap(countyColorMap)
 
-	}, [labelAngles, rawData, stddiv])
+	}, [labelAngles, rawData])
 
 	async function fetchRawData() {
-		let res = await axios('./radviz_demographic_data.json')
+		let res = await axios('./radviz_demographic_data_depth.json')
 		setRawData(res.data)
 	}
 
@@ -83,13 +82,13 @@ export default function App() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} depthControl={'f_depth'} />, [data])}
 					{Object.keys(labelAngles).map(d =>
 						<div className="d-flex justify-content-center my-4 control-container">
 							<div style={{ width: '85%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
 									<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-									<span for={d}
+									<span htmlFor={d}
 										className='control-value'
 										style={{ width: '10px' }}>{labelAngles[d]}º</span>
 								</div>
@@ -101,11 +100,11 @@ export default function App() {
 										setLabelAngles(updatedState)
 									}} />
 								<div className="ticks">
-									<span class="tick">0º</span>
-									<span class="tick">90º</span>
-									<span class="tick">180º</span>
-									<span class="tick">270º</span>
-									<span class="tick">360º</span>
+									<span className="tick">0º</span>
+									<span className="tick">90º</span>
+									<span className="tick">180º</span>
+									<span className="tick">270º</span>
+									<span className="tick">360º</span>
 								</div>
 							</div>
 						</div>
