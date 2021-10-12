@@ -20,7 +20,11 @@ export default function HomePage() {
                 >
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '72.5%' }}
-                    >hello</div>
+                    >
+                        <img
+                            src='./images/radviz.png'
+                            style={{ height: '100%', width: '100%' }} />
+                    </div>
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
                     >
@@ -46,7 +50,11 @@ export default function HomePage() {
                 >
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '72.5%' }}
-                    >are</div>
+                    >
+                        <img
+                            src='./images/SurveyPicture.png'
+                            style={{ height: '100%', width: '100%' }} />
+                    </div>
                     <div
                         style={{ border: 'solid', borderColor: 'blue', height: '22.5%' }}
                     >
