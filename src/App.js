@@ -2,11 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-// import RawPositioning from './RawPositioningMuellerVizSTD.js'
 import Radviz from './Radviz.js'
 import RawPositioning from './RawPositioningDynamicLabels';
-// import RawPositioning from './RawPositioningMuellerViz.js';
-// import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
 import HSLToRGB from './ColorConversion.js';
 
@@ -22,8 +19,8 @@ export default function App() {
 	const [stddiv, setStddiv] = useState(1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
-		"age_median": 60,
-		"income_per_capita": 120,
+		"age_median": 120,
+		"income_per_capita": 240,
 	})
 
 	let labelMapping = {
@@ -31,22 +28,6 @@ export default function App() {
 		"age_median": 'age median',
 		"income_per_capita": 'income per capita',
 	}
-
-	let labelMappingMueller = {
-		"white_ratio": { high: 'white', low: 'non-white' },
-		"age_median": { high: 'old', low: 'young' },
-		"income_per_capita": { high: 'rich', low: 'poor' },
-	}
-
-	let labelMapingARSData = {
-		"Polsby Popper": "abc",
-		"Efficiency Gap": "abc",
-		"Population Equality": "abc",
-		"Democratic Seat Share": "abc",
-		"Majority-Minority Seat Share": "abc",
-		"democraticSeats": "abc",
-	}
-
 
 	useEffect(() => {
 		fetchRawData()
@@ -56,14 +37,12 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std } = RawPositioning(rawData, labelMapingARSData, labelAngles, stddiv, 'county_name', true)
+		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
 		points.forEach((county) => {
 			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
-			// countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${100 - (50 * county.coordinates.radius)}%)`
 		})
 		setCountyColorMap(countyColorMap)
 
@@ -105,50 +84,32 @@ export default function App() {
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
 					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
-					<div>
-						<div className="d-flex justify-content-center my-4">
-							<div style={{ width: '75%' }}>
+					{Object.keys(labelAngles).map(d =>
+						<div className="d-flex justify-content-center my-4 control-container">
+							<div style={{ width: '85%' }}>
 								<div className='d-flex align-items-center justify-content-between'>
-									<span className='control-labels'>STD</span>
-									<span
-										for={'std'}
+									<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
+									<span for={d}
 										className='control-value'
-										style={{ color: '#DDDDDD' }}>{stddiv}</span>
+										style={{ width: '10px' }}>{labelAngles[d]}º</span>
 								</div>
-								<input type="range" className="custom-range" min="0" max="3"
-									id={'std'}
-									value={stddiv}
-									onChange={(e) => setStddiv(e.target.value)} />
+								<input type="range" className="custom-range" min="0" max="360"
+									id={d}
+									value={labelAngles[d]}
+									onChange={(e) => {
+										let updatedState = { ...labelAngles, [d]: e.target.value }
+										setLabelAngles(updatedState)
+									}} />
+								<div className="ticks">
+									<span class="tick">0º</span>
+									<span class="tick">90º</span>
+									<span class="tick">180º</span>
+									<span class="tick">270º</span>
+									<span class="tick">360º</span>
+								</div>
 							</div>
-
 						</div>
-						{Object.keys(labelAngles).map(d =>
-							<div className="d-flex justify-content-center my-4 control-container">
-								<div style={{ width: '85%' }}>
-									<div className='d-flex align-items-center justify-content-between'>
-										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-										<span for={d}
-											className='control-value'
-											style={{ width: '10px' }}>{labelAngles[d]}º</span>
-									</div>
-									<input type="range" className="custom-range" min="0" max="360"
-										id={d}
-										value={labelAngles[d]}
-										onChange={(e) => {
-											let updatedState = { ...labelAngles, [d]: e.target.value }
-											setLabelAngles(updatedState)
-										}} />
-									<div className="ticks">
-										<span class="tick">0º</span>
-										<span class="tick">90º</span>
-										<span class="tick">180º</span>
-										<span class="tick">270º</span>
-										<span class="tick">360º</span>
-									</div>
-								</div>
-							</div>
-						)}
-					</div>
+					)}
 				</div>
 			</div>
 			<div className="map-container" >
