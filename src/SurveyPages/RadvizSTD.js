@@ -268,6 +268,8 @@ function drawStd(dial, std) {
 		.style('stroke-width', 3)
 		.style('stroke-dasharray', '2, 5')
 		.style('stroke-opacity', 1)
+		.style('cursor', 'pointer')
+
 
 	dial.append('circle')
 		.attr('cx', 0)
@@ -279,6 +281,8 @@ function drawStd(dial, std) {
 		.style('stroke-dasharray', '5, 2')
 		.style('stroke-dashoffset', 5)
 		.style('stroke-opacity', 1)
+		.style('cursor', 'pointer')
+		.on('mouseover', () => console.log('hover'))
 }
 
 function drawShadeStd(dial, innerRadius, outerRadius) {

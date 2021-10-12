@@ -23,7 +23,7 @@ export default function WelcomePage() {
                 <li>Get professors feedback from professor about the questions.</li>
                 <li>Fix the effectivness case study website (find correct controls and delete the controls)</li>
                 <li>Create SUS (system usablilty) webiste portions (just the statistical-radviz)</li>
-                <li>Write up a goodle form for the SUS (https://www.usability.gov/how-to-and-tools/methods/system-usability-scale.html).</li>
+                <li>Write up a google form for the SUS (https://www.usability.gov/how-to-and-tools/methods/system-usability-scale.html).</li>
             </ol>
         </div>
     )
