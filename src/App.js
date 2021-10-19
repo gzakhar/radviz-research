@@ -2,9 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
+import { StaticMap } from 'react-map-gl';
 import Radviz from './Radviz.js'
 import RawPositioning from './RawPositioningDynamicLabels';
-import { StaticMap } from 'react-map-gl';
 import HSLToRGB from './ColorConversion.js';
 
 

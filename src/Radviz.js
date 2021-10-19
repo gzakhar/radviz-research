@@ -155,8 +155,9 @@ function handleHoverOn(i, d) {
 function handleHoverOff(i, d) {
 
 	select(this)
+		.attr('r', d => d.coordinates.depth * 7)
 		.style('fill', i.fill)
-		.attr('r', 2.5)
+		.style('stroke-width', d => d.coordinates.depth)
 
 	// TODO make the id of dot labels more unique
 	select(this.parentNode).select("#dot-labels")
