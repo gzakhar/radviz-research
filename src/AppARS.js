@@ -60,7 +60,7 @@ export default function App() {
 		<div>
 			<div style={{ width: '100%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} />, [data])}
+					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} showHSV={false} />, [data])}
 				</div>
 			</div>
 		</div>

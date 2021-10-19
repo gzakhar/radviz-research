@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { select, selectAll } from 'd3-selection';
 
-let borderColor = '#DDDDDD';
+const BORDER_COLOR = '#DDDDDD';
+let CHART_R = 200;
+let MARGIN = 50;
+
 function Radviz(props) {
-
-	let CHART_R = 200;
-	let MARGIN = 50;
-
 
 	useEffect(() => {
 
@@ -14,7 +13,14 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs, CHART_R, MARGIN)
+		if (props.showHSV) {
+			colorInCircumfrence(svg, defs)
+			drawBorder(svg)
+		} else {
+			colorInWhite(svg)
+			drawBorder(svg, 'gray')
+		}
+
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
@@ -22,16 +28,16 @@ function Radviz(props) {
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
 		if (props.labels) {
-			drawAnchors(dialRV, props.labels, CHART_R)
-			printLabels(dialRV, props.labels, CHART_R, defs)
+			drawAnchors(dialRV, props.labels)
+			printLabels(dialRV, props.labels, defs)
 		}
 
 		if (props.std) {
-			drawStd(dialRV, props.std, CHART_R)
+			drawStd(dialRV, props.std)
 		}
 
 		if (props.points) {
-			drawDots(dialRV, props.points, CHART_R, MARGIN);
+			drawDots(dialRV, props.points);
 		}
 	})
 
@@ -45,7 +51,7 @@ let dotX = (radius, theta) => radius * Math.cos(theta);
 
 
 // Print Labels
-let printLabels = (dial, labels, CHART_R, defs) => {
+function printLabels(dial, labels, defs) {
 
 	let arcs = []
 	for (let label of labels) {
@@ -97,7 +103,7 @@ let printLabels = (dial, labels, CHART_R, defs) => {
 }
 
 // Draw anchors 
-let drawAnchors = (dial, labels, CHART_R) => {
+function drawAnchors(dial, labels) {
 
 	dial.selectAll('g').remove()
 
@@ -115,7 +121,7 @@ let drawAnchors = (dial, labels, CHART_R) => {
 }
 
 // Plot data points
-let drawDots = (dial, dotData, CHART_R, MARGIN) => {
+function drawDots(dial, dotData) {
 
 	let BORDER_MARGIN = 10
 
@@ -128,9 +134,9 @@ let drawDots = (dial, dotData, CHART_R, MARGIN) => {
 		.attr('r', d => d.coordinates.depth * 7)
 		.attr('id', (_, i) => `dot${i}`)
 		.style('fill', '#000000')
-		.style('fill-opacity', d => 1 - d.coordinates.depth)
-		.style('stroke', '#FFFFFF')
-		.style('stroke-width', d => d.coordinates.depth)
+		.style('fill-opacity', d => 0.9 - 0.8 * d.coordinates.depth)
+		.style('stroke', '#000000')
+		.style('stroke-width', 0.2)
 		.on('mouseover', handleHoverOn)
 		.on('mouseout', handleHoverOff)
 }
@@ -146,8 +152,6 @@ function handleHoverOn(i, d) {
 		.attr('id', "dot-labels")
 		.attr('x', this.getAttribute('cx') - 10)
 		.attr('y', this.getAttribute('cy') - 10)
-		// .attr('x', d.coordinates.x - 10)
-		// .attr('y', d.coordinates.y - 10)
 		.text(d.textFloater)
 
 }
@@ -157,7 +161,7 @@ function handleHoverOff(i, d) {
 	select(this)
 		.attr('r', d => d.coordinates.depth * 7)
 		.style('fill', i.fill)
-		.style('stroke-width', d => d.coordinates.depth)
+		.style('stroke-width', 0.2)
 
 	// TODO make the id of dot labels more unique
 	select(this.parentNode).select("#dot-labels")
@@ -165,8 +169,16 @@ function handleHoverOff(i, d) {
 }
 
 
+function colorInWhite(svg) {
+	svg.append('circle')
+		.attr('cx', CHART_R + MARGIN)
+		.attr('cy', CHART_R + MARGIN)
+		.attr('r', CHART_R)
+		.style('fill', 'white')
+}
+
 // Setting saturation and hsl
-function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
+function colorInCircumfrence(svg, defs) {
 
 	const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
@@ -205,15 +217,6 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 		.attr('stop-color', '#fff')
 		.attr('stop-opacity', 0)
 
-	svg.append('circle')
-		.style('fill', 'none')
-		.style('stroke', borderColor)
-		.style('stroke-width', 3)
-		.style('stroke-opacity', 1)
-		.attr('cx', CHART_R + MARGIN)
-		.attr('cy', CHART_R + MARGIN)
-		.attr('r', CHART_R)
-
 	function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 		var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
 		startAngle *= Math.PI / 180;
@@ -227,7 +230,20 @@ function colorInCircumfrence(svg, defs, CHART_R, MARGIN) {
 	}
 }
 
-function drawStd(dial, std, CHART_R) {
+function drawBorder(svg, borderColor = BORDER_COLOR) {
+
+	svg.append('circle')
+		.style('fill', 'none')
+		.style('stroke', borderColor)
+		.style('stroke-width', 3)
+		.style('stroke-opacity', 1)
+		.attr('cx', CHART_R + MARGIN)
+		.attr('cy', CHART_R + MARGIN)
+		.attr('r', CHART_R)
+}
+
+
+function drawStd(dial, std) {
 
 	dial.append('circle')
 		.attr('cx', 0)
