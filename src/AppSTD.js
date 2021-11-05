@@ -147,7 +147,6 @@ export default function App() {
 		}, [])
 	}
 
-
 	return (
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
