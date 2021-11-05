@@ -123,46 +123,6 @@ function drawAnchors(dial, labels) {
 		.style('stroke-width', 1.5)
 }
 
-// // Plot data points
-// function drawDots(dial, dotData) {
-// 	let BORDER_MARGIN = 10
-// 	dial.selectAll()
-// 		.data(dotData)
-// 		.enter()
-// 		.append('circle')
-// 		.attr('cx', d => (CHART_R - BORDER_MARGIN) * d.coordinates.x)
-// 		.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
-// 		.attr('r', d => d.coordinates.depth * 7)
-// 		.attr('id', (_, i) => `dot${i}`)
-// 		.style('fill', '#000000')
-// 		.style('fill-opacity', d => 0.9 - 0.8 * d.coordinates.depth)
-// 		.style('stroke', '#000000')
-// 		.style('stroke-width', 0.2)
-// 		.on('mouseover', handleHoverOn)
-// 		.on('mouseout', handleHoverOff)
-// }
-// function handleHoverOn(i, d) {
-// 	select(this)
-// 		.attr('r', 6)
-// 		.style('fill', 'white')
-// 	// TODO make the id of dot labels more unique
-// 	select(this.parentNode).append('text')
-// 		.attr('id', "dot-labels")
-// 		.attr('x', this.getAttribute('cx') - 10)
-// 		.attr('y', this.getAttribute('cy') - 10)
-// 		.text(d.textFloater)
-// }
-// function handleHoverOff(i, d) {
-// 	select(this)
-// 		.attr('r', d => d.coordinates.depth * 7)
-// 		.style('fill', i.fill)
-// 		.style('stroke-width', 0.2)
-// 	// TODO make the id of dot labels more unique
-// 	select(this.parentNode).select("#dot-labels")
-// 		.remove()
-// }
-
-
 // Plot data points
 function drawDots(dial, dotData) {
 
