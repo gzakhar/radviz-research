@@ -16,8 +16,8 @@ let rad2deg = rad => rad * 180 / Math.PI;
 export default function App() {
 
 	const [rawData, setRawData] = useState([])
-	const [geoJsonData, setGeoJsonData] = useState({})
-	const [data, setData] = useState([]);
+	const [geoJsonData, setGeoJsonData] = useState([])
+	const [data, setData] = useState({});
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const [countyOpacityMap, setCountyOpacistyMap] = useState({});
 	const [rangeValue, setRangeValue] = useState([100, 200, 300]);
@@ -25,6 +25,7 @@ export default function App() {
 	const [one2two, setOne2two] = useState(true);
 	const [two2three, setTwo2three] = useState(true);
 	const [three2inf, setThree2inf] = useState(true);
+	const [hoverCounty, setHoverCounty] = useState(-1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 60,
@@ -106,35 +107,42 @@ export default function App() {
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
+		if (countyName == hoverCounty){
+			opacity = 0
+		}
 		let rgba = [...rgb, opacity ? 200 : 0]
 		return rgba
 	}
 
-	// function getCountyHoverOn(county) {
-	// 	let countyName = county.properties['NAMELSAD20']
-	// 	let hsl = countyColorMap[countyName]
-	// 	let rgb = HSLToRGB(hsl)
-	// 	let opacity = countyOpacityMap[countyName]
-	// 	let rgba = [...rgb, opacity ? 200 : 0]
-	// 	return rgba
-	// }
+	let countyLayer = {}
 
-	const countyLayer = new GeoJsonLayer({
-		id: 'geojson-layer',
-		data: geoJsonData,
-		pickable: true,
-		stroked: true,
-		filled: true,
-		lineWidthUnits: 'pixels',
-		getFillColor: (d) => getCountyColor(d),
-		getLineColor: d => {
-			if (d.properties['county_name'] == 'New York County')
-				return [250, 0, 0, 255]
-			return [250, 250, 250, 255]
-		},
-		getLineWidth: 1,
-		updateTriggers: { getFillColor: [getCountyColor] }
-	})
+	if (data.points && geoJsonData) {
+		countyLayer = data.points.map((point) => {
+
+			let geoData = geoJsonData.find(obj => obj.properties['county_name'] == point.data['county_name']);
+
+			let layer = new GeoJsonLayer({
+				id: point.data.county_name,
+				data: geoData,
+				pickable: true,
+				stroked: true,
+				filled: true,
+				lineWidthUnits: 'pixels',
+				getFillColor: d => getCountyColor(d),
+				getLineColor: [255, 255, 255],
+				getLineWidth: 1,
+				updateTriggers: { getFillColor: [getCountyColor], getLineColor: hoverCounty },
+				onHover: d => {
+					d.picked ? setHoverCounty(d.layer.id) : setHoverCounty(-1)
+				}
+			})
+
+			return layer
+		}).reduce((prev, curr) => {
+			prev.push(curr)
+			return prev
+		}, [])
+	}
 
 
 	return (
@@ -144,11 +152,13 @@ export default function App() {
 					{useMemo(() => <Radviz
 						points={data.points}
 						labels={data.labels}
+						hoverId={hoverCounty}
+						hoverOver={setHoverCounty}
 						std={data.std}
 						std2={data.std2}
 						std3={data.std3}
 						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
-						showHSV={true} />, [data])}
+						showHSV={true} />, [data, hoverCounty])}
 					<div>
 						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 							<div>
