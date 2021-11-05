@@ -10,7 +10,6 @@ import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from './ColorConversion.js';
-import { isVisible } from 'dom-helpers';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -89,17 +88,21 @@ export default function App() {
 	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf])
 
 	async function fetchRawData() {
-		let res = await axios('./radviz_demographic_data.json')
+		const nyData = './nyDem.json'
+		const njData = './njDem.json'
+		let res = await axios(nyData)
 		setRawData(res.data)
 	}
 
 	async function fetchGeoJsonData() {
-		let res = await axios('./NYCounties.json')
+		const nyGeo = './nyGeo.json'
+		const njGeo = './njGeo.json'
+		let res = await axios(nyGeo)
 		setGeoJsonData(res.data['features'])
 	}
 
 	function getCountyColor(county) {
-		let countyName = county.properties['NAMELSAD20']
+		let countyName = county.properties['county_name']
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
@@ -125,7 +128,7 @@ export default function App() {
 		lineWidthUnits: 'pixels',
 		getFillColor: (d) => getCountyColor(d),
 		getLineColor: d => {
-			if (d.properties['NAMELSAD20'] == 'New York County')
+			if (d.properties['county_name'] == 'New York County')
 				return [250, 0, 0, 255]
 			return [250, 250, 250, 255]
 		},

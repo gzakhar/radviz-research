@@ -1,0 +1,374 @@
+[
+	{
+		"county_name": "Albany County",
+		"age_median": 38.2,
+		"white_ratio": 0.7578836422,
+		"income_per_capita": 63037
+	},
+	{
+		"county_name": "Allegany County",
+		"age_median": 40.0,
+		"white_ratio": 0.9556746436,
+		"income_per_capita": 36164
+	},
+	{
+		"county_name": "Bronx County",
+		"age_median": 34.8,
+		"white_ratio": 0.4472407766,
+		"income_per_capita": 39711
+	},
+	{
+		"county_name": "Broome County",
+		"age_median": 39.7,
+		"white_ratio": 0.8581800428,
+		"income_per_capita": 46361
+	},
+	{
+		"county_name": "Cattaraugus County",
+		"age_median": 42.4,
+		"white_ratio": 0.9185727236,
+		"income_per_capita": 41774
+	},
+	{
+		"county_name": "Cayuga County",
+		"age_median": 43.5,
+		"white_ratio": 0.920954346,
+		"income_per_capita": 44520
+	},
+	{
+		"county_name": "Chautauqua County",
+		"age_median": 43.0,
+		"white_ratio": 0.9355097988,
+		"income_per_capita": 42355
+	},
+	{
+		"county_name": "Chemung County",
+		"age_median": 41.9,
+		"white_ratio": 0.882944306,
+		"income_per_capita": 46421
+	},
+	{
+		"county_name": "Chenango County",
+		"age_median": 44.8,
+		"white_ratio": 0.9643908742,
+		"income_per_capita": 44146
+	},
+	{
+		"county_name": "Clinton County",
+		"age_median": 40.4,
+		"white_ratio": 0.9217742436,
+		"income_per_capita": 45112
+	},
+	{
+		"county_name": "Columbia County",
+		"age_median": 49.0,
+		"white_ratio": 0.9000689528,
+		"income_per_capita": 58123
+	},
+	{
+		"county_name": "Cortland County",
+		"age_median": 36.6,
+		"white_ratio": 0.9448729535,
+		"income_per_capita": 42252
+	},
+	{
+		"county_name": "Delaware County",
+		"age_median": 48.9,
+		"white_ratio": 0.9494732072,
+		"income_per_capita": 42220
+	},
+	{
+		"county_name": "Dutchess County",
+		"age_median": 42.5,
+		"white_ratio": 0.8100592078,
+		"income_per_capita": 58478
+	},
+	{
+		"county_name": "Erie County",
+		"age_median": 40.3,
+		"white_ratio": 0.7930319081,
+		"income_per_capita": 53498
+	},
+	{
+		"county_name": "Essex County",
+		"age_median": 48.6,
+		"white_ratio": 0.9448014098,
+		"income_per_capita": 48181
+	},
+	{
+		"county_name": "Franklin County",
+		"age_median": 40.4,
+		"white_ratio": 0.8406900964,
+		"income_per_capita": 39649
+	},
+	{
+		"county_name": "Fulton County",
+		"age_median": 43.9,
+		"white_ratio": 0.9510331004,
+		"income_per_capita": 45459
+	},
+	{
+		"county_name": "Genesee County",
+		"age_median": 43.1,
+		"white_ratio": 0.9288407821,
+		"income_per_capita": 46181
+	},
+	{
+		"county_name": "Greene County",
+		"age_median": 47.0,
+		"white_ratio": 0.8980461134,
+		"income_per_capita": 49100
+	},
+	{
+		"county_name": "Hamilton County",
+		"age_median": 56.3,
+		"white_ratio": 0.9619565217,
+		"income_per_capita": 55578
+	},
+	{
+		"county_name": "Herkimer County",
+		"age_median": 44.2,
+		"white_ratio": 0.9602080921,
+		"income_per_capita": 43479
+	},
+	{
+		"county_name": "Jefferson County",
+		"age_median": 33.1,
+		"white_ratio": 0.8749203343,
+		"income_per_capita": 49365
+	},
+	{
+		"county_name": "Kings County",
+		"age_median": 35.7,
+		"white_ratio": 0.4978005026,
+		"income_per_capita": 56080
+	},
+	{
+		"county_name": "Lewis County",
+		"age_median": 42.2,
+		"white_ratio": 0.97288561,
+		"income_per_capita": 47471
+	},
+	{
+		"county_name": "Livingston County",
+		"age_median": 40.8,
+		"white_ratio": 0.9350383063,
+		"income_per_capita": 48268
+	},
+	{
+		"county_name": "Madison County",
+		"age_median": 42.2,
+		"white_ratio": 0.9461101479,
+		"income_per_capita": 45794
+	},
+	{
+		"county_name": "Monroe County",
+		"age_median": 39.4,
+		"white_ratio": 0.768343287,
+		"income_per_capita": 55034
+	},
+	{
+		"county_name": "Montgomery County",
+		"age_median": 40.6,
+		"white_ratio": 0.9295016355,
+		"income_per_capita": 43272
+	},
+	{
+		"county_name": "Nassau County",
+		"age_median": 41.8,
+		"white_ratio": 0.7338811901,
+		"income_per_capita": 93241
+	},
+	{
+		"county_name": "New York County",
+		"age_median": 37.8,
+		"white_ratio": 0.6457420799,
+		"income_per_capita": 197847
+	},
+	{
+		"county_name": "Niagara County",
+		"age_median": 43.3,
+		"white_ratio": 0.875411528,
+		"income_per_capita": 47207
+	},
+	{
+		"county_name": "Oneida County",
+		"age_median": 40.9,
+		"white_ratio": 0.8596061591,
+		"income_per_capita": 46867
+	},
+	{
+		"county_name": "Onondaga County",
+		"age_median": 39.4,
+		"white_ratio": 0.7996256471,
+		"income_per_capita": 55564
+	},
+	{
+		"county_name": "Ontario County",
+		"age_median": 43.7,
+		"white_ratio": 0.9349681627,
+		"income_per_capita": 55541
+	},
+	{
+		"county_name": "Orange County",
+		"age_median": 36.8,
+		"white_ratio": 0.7982490778,
+		"income_per_capita": 53656
+	},
+	{
+		"county_name": "Orleans County",
+		"age_median": 43.1,
+		"white_ratio": 0.9014918715,
+		"income_per_capita": 41050
+	},
+	{
+		"county_name": "Oswego County",
+		"age_median": 40.4,
+		"white_ratio": 0.959461767,
+		"income_per_capita": 42025
+	},
+	{
+		"county_name": "Otsego County",
+		"age_median": 42.7,
+		"white_ratio": 0.9401946447,
+		"income_per_capita": 45774
+	},
+	{
+		"county_name": "Putnam County",
+		"age_median": 44.5,
+		"white_ratio": 0.913049227,
+		"income_per_capita": 69365
+	},
+	{
+		"county_name": "Queens County",
+		"age_median": 39.6,
+		"white_ratio": 0.4783597724,
+		"income_per_capita": 53008
+	},
+	{
+		"county_name": "Rensselaer County",
+		"age_median": 40.1,
+		"white_ratio": 0.8620033519,
+		"income_per_capita": 51356
+	},
+	{
+		"county_name": "Richmond County",
+		"age_median": 40.2,
+		"white_ratio": 0.744654442,
+		"income_per_capita": 58890
+	},
+	{
+		"county_name": "Rockland County",
+		"age_median": 35.8,
+		"white_ratio": 0.7786021014,
+		"income_per_capita": 63167
+	},
+	{
+		"county_name": "St. Lawrence County",
+		"age_median": 39.4,
+		"white_ratio": 0.9374141452,
+		"income_per_capita": 39697
+	},
+	{
+		"county_name": "Saratoga County",
+		"age_median": 43.1,
+		"white_ratio": 0.9293709731,
+		"income_per_capita": 72757
+	},
+	{
+		"county_name": "Schenectady County",
+		"age_median": 39.7,
+		"white_ratio": 0.7748794261,
+		"income_per_capita": 51697
+	},
+	{
+		"county_name": "Schoharie County",
+		"age_median": 46.3,
+		"white_ratio": 0.9566437627,
+		"income_per_capita": 43113
+	},
+	{
+		"county_name": "Schuyler County",
+		"age_median": 46.9,
+		"white_ratio": 0.963497501,
+		"income_per_capita": 43262
+	},
+	{
+		"county_name": "Seneca County",
+		"age_median": 41.8,
+		"white_ratio": 0.9141874412,
+		"income_per_capita": 40534
+	},
+	{
+		"county_name": "Steuben County",
+		"age_median": 43.1,
+		"white_ratio": 0.9475251366,
+		"income_per_capita": 47212
+	},
+	{
+		"county_name": "Suffolk County",
+		"age_median": 42.0,
+		"white_ratio": 0.8422309073,
+		"income_per_capita": 71911
+	},
+	{
+		"county_name": "Sullivan County",
+		"age_median": 42.8,
+		"white_ratio": 0.8425336727,
+		"income_per_capita": 48753
+	},
+	{
+		"county_name": "Tioga County",
+		"age_median": 44.8,
+		"white_ratio": 0.9641723544,
+		"income_per_capita": 46969
+	},
+	{
+		"county_name": "Tompkins County",
+		"age_median": 31.8,
+		"white_ratio": 0.8115873948,
+		"income_per_capita": 46496
+	},
+	{
+		"county_name": "Ulster County",
+		"age_median": 44.4,
+		"white_ratio": 0.8732577588,
+		"income_per_capita": 53006
+	},
+	{
+		"county_name": "Warren County",
+		"age_median": 47.0,
+		"white_ratio": 0.9546634555,
+		"income_per_capita": 55181
+	},
+	{
+		"county_name": "Washington County",
+		"age_median": 44.4,
+		"white_ratio": 0.9413763806,
+		"income_per_capita": 42181
+	},
+	{
+		"county_name": "Wayne County",
+		"age_median": 43.9,
+		"white_ratio": 0.9340510243,
+		"income_per_capita": 47886
+	},
+	{
+		"county_name": "Westchester County",
+		"age_median": 41.3,
+		"white_ratio": 0.7318052808,
+		"income_per_capita": 113477
+	},
+	{
+		"county_name": "Wyoming County",
+		"age_median": 43.0,
+		"white_ratio": 0.922276023,
+		"income_per_capita": 43176
+	},
+	{
+		"county_name": "Yates County",
+		"age_median": 41.3,
+		"white_ratio": 0.9677678321,
+		"income_per_capita": 40877
+	}
+]
