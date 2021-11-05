@@ -31,6 +31,7 @@ export default function App() {
 		"age_median": 60,
 		"income_per_capita": 120,
 	})
+	let isHovering = false
 
 	let labelMapping = {
 		"white_ratio": 'white ratio',
@@ -134,7 +135,9 @@ export default function App() {
 				updateTriggers: { getFillColor: [getCountyColor], getLineColor: hoverCounty },
 				onHover: d => {
 					d.picked ? setHoverCounty(d.layer.id) : setHoverCounty(-1)
-				}
+					isHovering = d.picked ? true : false
+				},
+				getCursor: 'pointer',
 			})
 
 			return layer
@@ -225,6 +228,7 @@ export default function App() {
 					}}
 					controller={true}
 					layers={[countyLayer]}
+					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
 					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
