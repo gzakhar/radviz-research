@@ -13,7 +13,14 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		colorInCircumfrence(svg, defs)
+		if (props.showHSV) {
+			colorInCircumfrence(svg, defs)
+			drawBorder(svg)
+		} else {
+			colorInWhite(svg)
+			drawBorder(svg, 'gray')
+		}
+
 
 		svg.select('#dataWheel').remove()
 		const dialRV = svg.append('g')
@@ -64,6 +71,7 @@ function Radviz(props) {
 			drawDots(dialRV, props.points);
 		}
 	})
+
 
 
 	let dotY = (radius, theta) => radius * Math.sin(theta);
@@ -117,7 +125,7 @@ function Radviz(props) {
 			.style('font-weight', '600')
 			.style('fill-opacity', 1)
 			.style('cursor', 'default')
-			.text((d) => d.anchor)
+			.text((d) => d.anchor.toUpperCase())
 			.attr('id', 'anchor-labels')
 
 	}
@@ -164,19 +172,24 @@ function Radviz(props) {
 			.style('stroke-width', 0.1)
 			.on('mouseover', handleHoverOn)
 			.on('mouseout', handleHoverOff)
+		// .on('click', props.handleMouseClick)
 	}
 
 	function handleHoverOn(i, d) {
-
-		// TODO: change to the same name as the APP.js
+		
 		props.hoverOver(d.data['county_name'])
 
+		// select(this)
+		// 	.attr('r', 6)
+		// 	.style('fill', 'white')
 
-		// TODO make the id of dot labels more unique
+			// TODO make the id of dot labels more unique
 		select(this.parentNode).append('text')
 			.attr('id', "dot-labels")
 			.attr('x', this.getAttribute('cx') - 10)
 			.attr('y', this.getAttribute('cy') - 10)
+			// .attr('x', d.coordinates.x - 10)
+			// .attr('y', d.coordinates.y - 10)
 			.text(d.textFloater)
 
 	}
@@ -185,12 +198,23 @@ function Radviz(props) {
 
 		props.hoverOver(-1)
 
+		// select(this)
+		// 	.style('fill', i.fill)
+		// 	.attr('r', 2.5)
 
 		// TODO make the id of dot labels more unique
 		select(this.parentNode).select("#dot-labels")
 			.remove()
 	}
 
+
+	function colorInWhite(svg) {
+		svg.append('circle')
+			.attr('cx', CHART_R + MARGIN)
+			.attr('cy', CHART_R + MARGIN)
+			.attr('r', CHART_R)
+			.style('fill', 'white')
+	}
 
 	// Setting saturation and hsl
 	function colorInCircumfrence(svg, defs) {
@@ -232,15 +256,6 @@ function Radviz(props) {
 			.attr('stop-color', '#fff')
 			.attr('stop-opacity', 0)
 
-		svg.append('circle')
-			.style('fill', 'none')
-			.style('stroke', BORDER_COLOR)
-			.style('stroke-width', 3)
-			.style('stroke-opacity', 1)
-			.attr('cx', CHART_R + MARGIN)
-			.attr('cy', CHART_R + MARGIN)
-			.attr('r', CHART_R)
-
 		function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 			var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
 			startAngle *= Math.PI / 180;
@@ -254,6 +269,19 @@ function Radviz(props) {
 		}
 	}
 
+	function drawBorder(svg, borderColor = BORDER_COLOR) {
+
+		svg.append('circle')
+			.style('fill', 'none')
+			.style('stroke', borderColor)
+			.style('stroke-width', 3)
+			.style('stroke-opacity', 1)
+			.attr('cx', CHART_R + MARGIN)
+			.attr('cy', CHART_R + MARGIN)
+			.attr('r', CHART_R)
+	}
+
+
 	function drawStd(dial, std) {
 
 		dial.append('circle')
@@ -265,8 +293,6 @@ function Radviz(props) {
 			.style('stroke-width', 3)
 			.style('stroke-dasharray', '2, 5')
 			.style('stroke-opacity', 1)
-		// .style('cursor', 'pointer')
-
 
 		dial.append('circle')
 			.attr('cx', 0)
@@ -278,8 +304,6 @@ function Radviz(props) {
 			.style('stroke-dasharray', '5, 2')
 			.style('stroke-dashoffset', 5)
 			.style('stroke-opacity', 1)
-		// .style('cursor', 'pointer')
-		// .on('mouseover', () => console.log('hover'))
 	}
 
 	function drawShadeStd(dial, innerRadius, outerRadius) {
@@ -312,7 +336,5 @@ function Radviz(props) {
 		<svg viewBox='0 0 500 500' />
 	)
 }
-
-
 
 export default Radviz;

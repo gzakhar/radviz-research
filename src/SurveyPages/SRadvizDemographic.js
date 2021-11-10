@@ -16,7 +16,7 @@ export default function SRadvizDemographic() {
 
 	const { showControls } = useParams();
 	const [rawData, setRawData] = useState([])
-	const [geoJsonData, setGeoJsonData] = useState({})
+	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
 	const [countyOpacityMap, setCountyOpacistyMap] = useState({});
@@ -25,11 +25,13 @@ export default function SRadvizDemographic() {
 	const [one2two, setOne2two] = useState(true);
 	const [two2three, setTwo2three] = useState(true);
 	const [three2inf, setThree2inf] = useState(true);
+	const [hoverCounty, setHoverCounty] = useState(-1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 60,
 		"income_per_capita": 120,
 	})
+	let isHovering = false
 	let labelMappingMueller = {
 		"white_ratio": { high: 'WHITE', low: 'NON-WHITE' },
 		"age_median": { high: 'OLD', low: 'YOUNG' },
@@ -93,29 +95,63 @@ export default function SRadvizDemographic() {
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
+		if (countyName == hoverCounty) {
+			opacity = 1
+			rgb = [0, 0, 0]
+		}
 		let rgba = [...rgb, opacity ? 200 : 0]
 		return rgba
 	}
 
-	const countyLayer = new GeoJsonLayer({
-		id: 'geojson-layer',
-		data: geoJsonData,
-		pickable: true,
-		stroked: true,
-		filled: true,
-		lineWidthUnits: 'pixels',
-		getFillColor: (d) => getCountyColor(d),
-		getLineColor: [250, 250, 250, 255],
-		getLineWidth: 1,
-		updateTriggers: { getFillColor: [getCountyColor] }
-	})
+	let countyLayer = {}
+
+	if (data.points && geoJsonData) {
+		countyLayer = data.points.map((point) => {
+
+			console.log(point)
+			let geoData = geoJsonData.find(obj => obj.properties['NAMELSAD20'] == point.data['county_name']);
+
+			let layer = new GeoJsonLayer({
+				id: point.data.county_name,
+				data: geoData,
+				pickable: true,
+				stroked: true,
+				filled: true,
+				lineWidthUnits: 'pixels',
+				getFillColor: d => getCountyColor(d),
+				getLineColor: [255, 255, 255],
+				getLineWidth: 1,
+				updateTriggers: { getFillColor: [getCountyColor], getLineColor: hoverCounty },
+				onHover: d => {
+					d.picked ? setHoverCounty(d.layer.id) : setHoverCounty(-1)
+					isHovering = d.picked ? true : false
+				},
+				getCursor: 'pointer',
+			})
+
+			return layer
+		}).reduce((prev, curr) => {
+			prev.push(curr)
+			return prev
+		}, [])
+	}
 
 
 	return (
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} std={data.std} std2={data.std2} std3={data.std3} shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }} />, [data])}
+					{useMemo(() =>
+						<Radviz
+							points={data.points}
+							labels={data.labels}
+							std={data.std}
+							std2={data.std2}
+							std3={data.std3}
+							shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
+							hoverOver={setHoverCounty}
+							hoverId={hoverCounty} />, [data, hoverCounty])
+					}
 					{(showControls == 'show') &&
 						<div>
 							<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
@@ -145,6 +181,7 @@ export default function SRadvizDemographic() {
 									<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
 								</div>
 							</div>
+
 							{Object.keys(labelAngles).map(d =>
 								<div className="d-flex justify-content-center my-4 control-container">
 									<div style={{ width: '85%' }}>
@@ -184,6 +221,7 @@ export default function SRadvizDemographic() {
 					}}
 					controller={true}
 					layers={[countyLayer]}
+					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
 					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
