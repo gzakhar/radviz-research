@@ -1,70 +1,77 @@
-GeoFips,GeoName,LineCode,Description,2019
-34000,New Jersey,1,Real GDP (thousands of chained 2012 dollars),556730956
-34000,New Jersey,2,Chain-type quantity indexes for real GDP,107.152
-34000,New Jersey,3,Current-dollar GDP (thousands of current dollars),634783618
-34001,"Atlantic, NJ",1,Real GDP (thousands of chained 2012 dollars),12593490
-34001,"Atlantic, NJ",2,Chain-type quantity indexes for real GDP,92.205
-34001,"Atlantic, NJ",3,Current-dollar GDP (thousands of current dollars),14718904
-34003,"Bergen, NJ",1,Real GDP (thousands of chained 2012 dollars),70158193
-34003,"Bergen, NJ",2,Chain-type quantity indexes for real GDP,108.907
-34003,"Bergen, NJ",3,Current-dollar GDP (thousands of current dollars),79640801
-34005,"Burlington, NJ",1,Real GDP (thousands of chained 2012 dollars),25725252
-34005,"Burlington, NJ",2,Chain-type quantity indexes for real GDP,107.230
-34005,"Burlington, NJ",3,Current-dollar GDP (thousands of current dollars),29321002
-34007,"Camden, NJ",1,Real GDP (thousands of chained 2012 dollars),23558717
-34007,"Camden, NJ",2,Chain-type quantity indexes for real GDP,105.735
-34007,"Camden, NJ",3,Current-dollar GDP (thousands of current dollars),27042584
-34009,"Cape May, NJ",1,Real GDP (thousands of chained 2012 dollars),5070716
-34009,"Cape May, NJ",2,Chain-type quantity indexes for real GDP,104.938
-34009,"Cape May, NJ",3,Current-dollar GDP (thousands of current dollars),5959758
-34011,"Cumberland, NJ",1,Real GDP (thousands of chained 2012 dollars),6007622
-34011,"Cumberland, NJ",2,Chain-type quantity indexes for real GDP,102.169
-34011,"Cumberland, NJ",3,Current-dollar GDP (thousands of current dollars),6927309
-34013,"Essex, NJ",1,Real GDP (thousands of chained 2012 dollars),52070494
-34013,"Essex, NJ",2,Chain-type quantity indexes for real GDP,103.789
-34013,"Essex, NJ",3,Current-dollar GDP (thousands of current dollars),59967892
-34015,"Gloucester, NJ",1,Real GDP (thousands of chained 2012 dollars),14017096
-34015,"Gloucester, NJ",2,Chain-type quantity indexes for real GDP,117.883
-34015,"Gloucester, NJ",3,Current-dollar GDP (thousands of current dollars),15134409
-34017,"Hudson, NJ",1,Real GDP (thousands of chained 2012 dollars),43847173
-34017,"Hudson, NJ",2,Chain-type quantity indexes for real GDP,111.283
-34017,"Hudson, NJ",3,Current-dollar GDP (thousands of current dollars),51652420
-34019,"Hunterdon, NJ",1,Real GDP (thousands of chained 2012 dollars),6820939
-34019,"Hunterdon, NJ",2,Chain-type quantity indexes for real GDP,102.189
-34019,"Hunterdon, NJ",3,Current-dollar GDP (thousands of current dollars),7731670
-34021,"Mercer, NJ",1,Real GDP (thousands of chained 2012 dollars),31467636
-34021,"Mercer, NJ",2,Chain-type quantity indexes for real GDP,110.984
-34021,"Mercer, NJ",3,Current-dollar GDP (thousands of current dollars),36074135
-34023,"Middlesex, NJ",1,Real GDP (thousands of chained 2012 dollars),57745463
-34023,"Middlesex, NJ",2,Chain-type quantity indexes for real GDP,108.391
-34023,"Middlesex, NJ",3,Current-dollar GDP (thousands of current dollars),65175093
-34025,"Monmouth, NJ",1,Real GDP (thousands of chained 2012 dollars),32123913
-34025,"Monmouth, NJ",2,Chain-type quantity indexes for real GDP,108.985
-34025,"Monmouth, NJ",3,Current-dollar GDP (thousands of current dollars),36692148
-34027,"Morris, NJ",1,Real GDP (thousands of chained 2012 dollars),49285606
-34027,"Morris, NJ",2,Chain-type quantity indexes for real GDP,100.794
-34027,"Morris, NJ",3,Current-dollar GDP (thousands of current dollars),55698768
-34029,"Ocean, NJ",1,Real GDP (thousands of chained 2012 dollars),18511055
-34029,"Ocean, NJ",2,Chain-type quantity indexes for real GDP,106.200
-34029,"Ocean, NJ",3,Current-dollar GDP (thousands of current dollars),21607555
-34031,"Passaic, NJ",1,Real GDP (thousands of chained 2012 dollars),20744966
-34031,"Passaic, NJ",2,Chain-type quantity indexes for real GDP,96.274
-34031,"Passaic, NJ",3,Current-dollar GDP (thousands of current dollars),23610753
-34033,"Salem, NJ",1,Real GDP (thousands of chained 2012 dollars),4729720
-34033,"Salem, NJ",2,Chain-type quantity indexes for real GDP,83.534
-34033,"Salem, NJ",3,Current-dollar GDP (thousands of current dollars),5522456
-34035,"Somerset, NJ",1,Real GDP (thousands of chained 2012 dollars),38123619
-34035,"Somerset, NJ",2,Chain-type quantity indexes for real GDP,134.701
-34035,"Somerset, NJ",3,Current-dollar GDP (thousands of current dollars),42157868
-34037,"Sussex, NJ",1,Real GDP (thousands of chained 2012 dollars),4438507
-34037,"Sussex, NJ",2,Chain-type quantity indexes for real GDP,103.419
-34037,"Sussex, NJ",3,Current-dollar GDP (thousands of current dollars),5110096
-34039,"Union, NJ",1,Real GDP (thousands of chained 2012 dollars),35935725
-34039,"Union, NJ",2,Chain-type quantity indexes for real GDP,103.413
-34039,"Union, NJ",3,Current-dollar GDP (thousands of current dollars),40602111
-34041,"Warren, NJ",1,Real GDP (thousands of chained 2012 dollars),3911548
-34041,"Warren, NJ",2,Chain-type quantity indexes for real GDP,89.193
-34041,"Warren, NJ",3,Current-dollar GDP (thousands of current dollars),4435888
-Legend / Footnotes:,,,,
-"Metropolitan Areas are defined (geographically delineated) by the Office of Management and Budget (OMB) bulletin no. 20-01 issued March 6, 2020.",,,,
-"Last updated: December 9, 2020 -- new statistics for 2019, revised statistics for 2001-2018.",,,,
+"CAINC1 Personal Income Summary: Personal Income, Population, Per Capita Personal Income"
+"" 
+"Bureau of Economic Analysis" 
+"County"
+"GeoFips","GeoName","LineCode","Description","2019"
+"34000","New Jersey","1","Personal income (thousands of dollars)",625937908
+"34000","New Jersey","2","Population (persons) 1/",8882190
+"34000","New Jersey","3","Per capita personal income (dollars) 2/",70471
+"34001","Atlantic, NJ","1","Personal income (thousands of dollars)",13349834
+"34001","Atlantic, NJ","2","Population (persons) 1/",263670
+"34001","Atlantic, NJ","3","Per capita personal income (dollars) 2/",50631
+"34003","Bergen, NJ","1","Personal income (thousands of dollars)",83391284
+"34003","Bergen, NJ","2","Population (persons) 1/",932202
+"34003","Bergen, NJ","3","Per capita personal income (dollars) 2/",89456
+"34005","Burlington, NJ","1","Personal income (thousands of dollars)",28326597
+"34005","Burlington, NJ","2","Population (persons) 1/",445349
+"34005","Burlington, NJ","3","Per capita personal income (dollars) 2/",63605
+"34007","Camden, NJ","1","Personal income (thousands of dollars)",28251117
+"34007","Camden, NJ","2","Population (persons) 1/",506471
+"34007","Camden, NJ","3","Per capita personal income (dollars) 2/",55780
+"34009","Cape May, NJ","1","Personal income (thousands of dollars)",5773945
+"34009","Cape May, NJ","2","Population (persons) 1/",92039
+"34009","Cape May, NJ","3","Per capita personal income (dollars) 2/",62734
+"34011","Cumberland, NJ","1","Personal income (thousands of dollars)",6166042
+"34011","Cumberland, NJ","2","Population (persons) 1/",149527
+"34011","Cumberland, NJ","3","Per capita personal income (dollars) 2/",41237
+"34013","Essex, NJ","1","Personal income (thousands of dollars)",54056329
+"34013","Essex, NJ","2","Population (persons) 1/",798975
+"34013","Essex, NJ","3","Per capita personal income (dollars) 2/",67657
+"34015","Gloucester, NJ","1","Personal income (thousands of dollars)",16477279
+"34015","Gloucester, NJ","2","Population (persons) 1/",291636
+"34015","Gloucester, NJ","3","Per capita personal income (dollars) 2/",56499
+"34017","Hudson, NJ","1","Personal income (thousands of dollars)",46668167
+"34017","Hudson, NJ","2","Population (persons) 1/",672391
+"34017","Hudson, NJ","3","Per capita personal income (dollars) 2/",69406
+"34019","Hunterdon, NJ","1","Personal income (thousands of dollars)",11478383
+"34019","Hunterdon, NJ","2","Population (persons) 1/",124371
+"34019","Hunterdon, NJ","3","Per capita personal income (dollars) 2/",92291
+"34021","Mercer, NJ","1","Personal income (thousands of dollars)",26377963
+"34021","Mercer, NJ","2","Population (persons) 1/",367430
+"34021","Mercer, NJ","3","Per capita personal income (dollars) 2/",71790
+"34023","Middlesex, NJ","1","Personal income (thousands of dollars)",52356267
+"34023","Middlesex, NJ","2","Population (persons) 1/",825062
+"34023","Middlesex, NJ","3","Per capita personal income (dollars) 2/",63457
+"34025","Monmouth, NJ","1","Personal income (thousands of dollars)",51082169
+"34025","Monmouth, NJ","2","Population (persons) 1/",618795
+"34025","Monmouth, NJ","3","Per capita personal income (dollars) 2/",82551
+"34027","Morris, NJ","1","Personal income (thousands of dollars)",49994272
+"34027","Morris, NJ","2","Population (persons) 1/",491845
+"34027","Morris, NJ","3","Per capita personal income (dollars) 2/",101646
+"34029","Ocean, NJ","1","Personal income (thousands of dollars)",32265162
+"34029","Ocean, NJ","2","Population (persons) 1/",607186
+"34029","Ocean, NJ","3","Per capita personal income (dollars) 2/",53139
+"34031","Passaic, NJ","1","Personal income (thousands of dollars)",26159931
+"34031","Passaic, NJ","2","Population (persons) 1/",501826
+"34031","Passaic, NJ","3","Per capita personal income (dollars) 2/",52129
+"34033","Salem, NJ","1","Personal income (thousands of dollars)",3131895
+"34033","Salem, NJ","2","Population (persons) 1/",62385
+"34033","Salem, NJ","3","Per capita personal income (dollars) 2/",50203
+"34035","Somerset, NJ","1","Personal income (thousands of dollars)",36155245
+"34035","Somerset, NJ","2","Population (persons) 1/",328934
+"34035","Somerset, NJ","3","Per capita personal income (dollars) 2/",109916
+"34037","Sussex, NJ","1","Personal income (thousands of dollars)",8960828
+"34037","Sussex, NJ","2","Population (persons) 1/",140488
+"34037","Sussex, NJ","3","Per capita personal income (dollars) 2/",63784
+"34039","Union, NJ","1","Personal income (thousands of dollars)",39425033
+"34039","Union, NJ","2","Population (persons) 1/",556341
+"34039","Union, NJ","3","Per capita personal income (dollars) 2/",70865
+"34041","Warren, NJ","1","Personal income (thousands of dollars)",6090166
+"34041","Warren, NJ","2","Population (persons) 1/",105267
+"34041","Warren, NJ","3","Per capita personal income (dollars) 2/",57854
+"Legend / Footnotes:"
+"1/ Census Bureau midyear population estimates. Estimates for 2010-2019 reflect county population estimates available as of March 2020."
+"2/ Per capita personal income was computed using Census Bureau midyear population estimates. Estimates for 2010-2019 reflect county population estimates available as of March 2020."
+"Metropolitan Areas are defined (geographically delineated) by the Office of Management and Budget (OMB) bulletin no. 20-01 issued March 6, 2020."
+"Note. All dollar estimates are in thousands of current dollars (not adjusted for inflation). Statistics presented in thousands of dollars do not indicate more precision than statistics presented in millions of dollars."
+"Last updated: November 17, 2020-- new statistics for 2019; revised statistics for 2010-2018."

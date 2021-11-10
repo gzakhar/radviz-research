@@ -1,0 +1,188 @@
+"CAINC1 Personal Income Summary: Personal Income, Population, Per Capita Personal Income"
+"" 
+"Bureau of Economic Analysis" 
+"County"
+"GeoFips","GeoName","LineCode","Description","2019"
+"06000","California","1","Personal income (thousands of dollars)",2632279775
+"06000","California","2","Population (persons) 1/",39512223
+"06000","California","3","Per capita personal income (dollars) 2/",66619
+"06001","Alameda, CA","1","Personal income (thousands of dollars)",135663560
+"06001","Alameda, CA","2","Population (persons) 1/",1671329
+"06001","Alameda, CA","3","Per capita personal income (dollars) 2/",81171
+"06003","Alpine, CA","1","Personal income (thousands of dollars)",81463
+"06003","Alpine, CA","2","Population (persons) 1/",1129
+"06003","Alpine, CA","3","Per capita personal income (dollars) 2/",72155
+"06005","Amador, CA","1","Personal income (thousands of dollars)",1825410
+"06005","Amador, CA","2","Population (persons) 1/",39752
+"06005","Amador, CA","3","Per capita personal income (dollars) 2/",45920
+"06007","Butte, CA","1","Personal income (thousands of dollars)",10490209
+"06007","Butte, CA","2","Population (persons) 1/",219186
+"06007","Butte, CA","3","Per capita personal income (dollars) 2/",47860
+"06009","Calaveras, CA","1","Personal income (thousands of dollars)",2347168
+"06009","Calaveras, CA","2","Population (persons) 1/",45905
+"06009","Calaveras, CA","3","Per capita personal income (dollars) 2/",51131
+"06011","Colusa, CA","1","Personal income (thousands of dollars)",1106274
+"06011","Colusa, CA","2","Population (persons) 1/",21547
+"06011","Colusa, CA","3","Per capita personal income (dollars) 2/",51342
+"06013","Contra Costa, CA","1","Personal income (thousands of dollars)",98423318
+"06013","Contra Costa, CA","2","Population (persons) 1/",1153526
+"06013","Contra Costa, CA","3","Per capita personal income (dollars) 2/",85324
+"06015","Del Norte, CA","1","Personal income (thousands of dollars)",1069227
+"06015","Del Norte, CA","2","Population (persons) 1/",27812
+"06015","Del Norte, CA","3","Per capita personal income (dollars) 2/",38445
+"06017","El Dorado, CA","1","Personal income (thousands of dollars)",13478795
+"06017","El Dorado, CA","2","Population (persons) 1/",192843
+"06017","El Dorado, CA","3","Per capita personal income (dollars) 2/",69895
+"06019","Fresno, CA","1","Personal income (thousands of dollars)",45445944
+"06019","Fresno, CA","2","Population (persons) 1/",999101
+"06019","Fresno, CA","3","Per capita personal income (dollars) 2/",45487
+"06021","Glenn, CA","1","Personal income (thousands of dollars)",1396761
+"06021","Glenn, CA","2","Population (persons) 1/",28393
+"06021","Glenn, CA","3","Per capita personal income (dollars) 2/",49194
+"06023","Humboldt, CA","1","Personal income (thousands of dollars)",6730966
+"06023","Humboldt, CA","2","Population (persons) 1/",135558
+"06023","Humboldt, CA","3","Per capita personal income (dollars) 2/",49654
+"06025","Imperial, CA","1","Personal income (thousands of dollars)",7329602
+"06025","Imperial, CA","2","Population (persons) 1/",181215
+"06025","Imperial, CA","3","Per capita personal income (dollars) 2/",40447
+"06027","Inyo, CA","1","Personal income (thousands of dollars)",1091592
+"06027","Inyo, CA","2","Population (persons) 1/",18039
+"06027","Inyo, CA","3","Per capita personal income (dollars) 2/",60513
+"06029","Kern, CA","1","Personal income (thousands of dollars)",37666752
+"06029","Kern, CA","2","Population (persons) 1/",900202
+"06029","Kern, CA","3","Per capita personal income (dollars) 2/",41843
+"06031","Kings, CA","1","Personal income (thousands of dollars)",6030809
+"06031","Kings, CA","2","Population (persons) 1/",152940
+"06031","Kings, CA","3","Per capita personal income (dollars) 2/",39433
+"06033","Lake, CA","1","Personal income (thousands of dollars)",2849642
+"06033","Lake, CA","2","Population (persons) 1/",64386
+"06033","Lake, CA","3","Per capita personal income (dollars) 2/",44259
+"06035","Lassen, CA","1","Personal income (thousands of dollars)",1165736
+"06035","Lassen, CA","2","Population (persons) 1/",30573
+"06035","Lassen, CA","3","Per capita personal income (dollars) 2/",38130
+"06037","Los Angeles, CA","1","Personal income (thousands of dollars)",653482910
+"06037","Los Angeles, CA","2","Population (persons) 1/",10039107
+"06037","Los Angeles, CA","3","Per capita personal income (dollars) 2/",65094
+"06039","Madera, CA","1","Personal income (thousands of dollars)",6492474
+"06039","Madera, CA","2","Population (persons) 1/",157327
+"06039","Madera, CA","3","Per capita personal income (dollars) 2/",41267
+"06041","Marin, CA","1","Personal income (thousands of dollars)",36684680
+"06041","Marin, CA","2","Population (persons) 1/",258826
+"06041","Marin, CA","3","Per capita personal income (dollars) 2/",141735
+"06043","Mariposa, CA","1","Personal income (thousands of dollars)",969454
+"06043","Mariposa, CA","2","Population (persons) 1/",17203
+"06043","Mariposa, CA","3","Per capita personal income (dollars) 2/",56354
+"06045","Mendocino, CA","1","Personal income (thousands of dollars)",4595625
+"06045","Mendocino, CA","2","Population (persons) 1/",86749
+"06045","Mendocino, CA","3","Per capita personal income (dollars) 2/",52976
+"06047","Merced, CA","1","Personal income (thousands of dollars)",11406396
+"06047","Merced, CA","2","Population (persons) 1/",277680
+"06047","Merced, CA","3","Per capita personal income (dollars) 2/",41077
+"06049","Modoc, CA","1","Personal income (thousands of dollars)",451666
+"06049","Modoc, CA","2","Population (persons) 1/",8841
+"06049","Modoc, CA","3","Per capita personal income (dollars) 2/",51088
+"06051","Mono, CA","1","Personal income (thousands of dollars)",772750
+"06051","Mono, CA","2","Population (persons) 1/",14444
+"06051","Mono, CA","3","Per capita personal income (dollars) 2/",53500
+"06053","Monterey, CA","1","Personal income (thousands of dollars)",25973189
+"06053","Monterey, CA","2","Population (persons) 1/",434061
+"06053","Monterey, CA","3","Per capita personal income (dollars) 2/",59838
+"06055","Napa, CA","1","Personal income (thousands of dollars)",10429596
+"06055","Napa, CA","2","Population (persons) 1/",137744
+"06055","Napa, CA","3","Per capita personal income (dollars) 2/",75717
+"06057","Nevada, CA","1","Personal income (thousands of dollars)",6338625
+"06057","Nevada, CA","2","Population (persons) 1/",99755
+"06057","Nevada, CA","3","Per capita personal income (dollars) 2/",63542
+"06059","Orange, CA","1","Personal income (thousands of dollars)",227732561
+"06059","Orange, CA","2","Population (persons) 1/",3175692
+"06059","Orange, CA","3","Per capita personal income (dollars) 2/",71711
+"06061","Placer, CA","1","Personal income (thousands of dollars)",27459330
+"06061","Placer, CA","2","Population (persons) 1/",398329
+"06061","Placer, CA","3","Per capita personal income (dollars) 2/",68936
+"06063","Plumas, CA","1","Personal income (thousands of dollars)",1051498
+"06063","Plumas, CA","2","Population (persons) 1/",18807
+"06063","Plumas, CA","3","Per capita personal income (dollars) 2/",55910
+"06065","Riverside, CA","1","Personal income (thousands of dollars)",104794676
+"06065","Riverside, CA","2","Population (persons) 1/",2470546
+"06065","Riverside, CA","3","Per capita personal income (dollars) 2/",42418
+"06067","Sacramento, CA","1","Personal income (thousands of dollars)",85775621
+"06067","Sacramento, CA","2","Population (persons) 1/",1552058
+"06067","Sacramento, CA","3","Per capita personal income (dollars) 2/",55266
+"06069","San Benito, CA","1","Personal income (thousands of dollars)",3470822
+"06069","San Benito, CA","2","Population (persons) 1/",62808
+"06069","San Benito, CA","3","Per capita personal income (dollars) 2/",55261
+"06071","San Bernardino, CA","1","Personal income (thousands of dollars)",91658300
+"06071","San Bernardino, CA","2","Population (persons) 1/",2180085
+"06071","San Bernardino, CA","3","Per capita personal income (dollars) 2/",42043
+"06073","San Diego, CA","1","Personal income (thousands of dollars)",212748650
+"06073","San Diego, CA","2","Population (persons) 1/",3338330
+"06073","San Diego, CA","3","Per capita personal income (dollars) 2/",63729
+"06075","San Francisco, CA","1","Personal income (thousands of dollars)",122892141
+"06075","San Francisco, CA","2","Population (persons) 1/",881549
+"06075","San Francisco, CA","3","Per capita personal income (dollars) 2/",139405
+"06077","San Joaquin, CA","1","Personal income (thousands of dollars)",35926949
+"06077","San Joaquin, CA","2","Population (persons) 1/",762148
+"06077","San Joaquin, CA","3","Per capita personal income (dollars) 2/",47139
+"06079","San Luis Obispo, CA","1","Personal income (thousands of dollars)",17270828
+"06079","San Luis Obispo, CA","2","Population (persons) 1/",283111
+"06079","San Luis Obispo, CA","3","Per capita personal income (dollars) 2/",61004
+"06081","San Mateo, CA","1","Personal income (thousands of dollars)",102803127
+"06081","San Mateo, CA","2","Population (persons) 1/",766573
+"06081","San Mateo, CA","3","Per capita personal income (dollars) 2/",134107
+"06083","Santa Barbara, CA","1","Personal income (thousands of dollars)",29502767
+"06083","Santa Barbara, CA","2","Population (persons) 1/",446499
+"06083","Santa Barbara, CA","3","Per capita personal income (dollars) 2/",66076
+"06085","Santa Clara, CA","1","Personal income (thousands of dollars)",223624580
+"06085","Santa Clara, CA","2","Population (persons) 1/",1927852
+"06085","Santa Clara, CA","3","Per capita personal income (dollars) 2/",115997
+"06087","Santa Cruz, CA","1","Personal income (thousands of dollars)",19559977
+"06087","Santa Cruz, CA","2","Population (persons) 1/",273213
+"06087","Santa Cruz, CA","3","Per capita personal income (dollars) 2/",71592
+"06089","Shasta, CA","1","Personal income (thousands of dollars)",8722632
+"06089","Shasta, CA","2","Population (persons) 1/",180080
+"06089","Shasta, CA","3","Per capita personal income (dollars) 2/",48438
+"06091","Sierra, CA","1","Personal income (thousands of dollars)",141972
+"06091","Sierra, CA","2","Population (persons) 1/",3005
+"06091","Sierra, CA","3","Per capita personal income (dollars) 2/",47245
+"06093","Siskiyou, CA","1","Personal income (thousands of dollars)",2090773
+"06093","Siskiyou, CA","2","Population (persons) 1/",43539
+"06093","Siskiyou, CA","3","Per capita personal income (dollars) 2/",48021
+"06095","Solano, CA","1","Personal income (thousands of dollars)",23951255
+"06095","Solano, CA","2","Population (persons) 1/",447643
+"06095","Solano, CA","3","Per capita personal income (dollars) 2/",53505
+"06097","Sonoma, CA","1","Personal income (thousands of dollars)",32972432
+"06097","Sonoma, CA","2","Population (persons) 1/",494336
+"06097","Sonoma, CA","3","Per capita personal income (dollars) 2/",66700
+"06099","Stanislaus, CA","1","Personal income (thousands of dollars)",25188224
+"06099","Stanislaus, CA","2","Population (persons) 1/",550660
+"06099","Stanislaus, CA","3","Per capita personal income (dollars) 2/",45742
+"06101","Sutter, CA","1","Personal income (thousands of dollars)",4616298
+"06101","Sutter, CA","2","Population (persons) 1/",96971
+"06101","Sutter, CA","3","Per capita personal income (dollars) 2/",47605
+"06103","Tehama, CA","1","Personal income (thousands of dollars)",2816049
+"06103","Tehama, CA","2","Population (persons) 1/",65084
+"06103","Tehama, CA","3","Per capita personal income (dollars) 2/",43268
+"06105","Trinity, CA","1","Personal income (thousands of dollars)",534037
+"06105","Trinity, CA","2","Population (persons) 1/",12285
+"06105","Trinity, CA","3","Per capita personal income (dollars) 2/",43471
+"06107","Tulare, CA","1","Personal income (thousands of dollars)",19973932
+"06107","Tulare, CA","2","Population (persons) 1/",466195
+"06107","Tulare, CA","3","Per capita personal income (dollars) 2/",42845
+"06109","Tuolumne, CA","1","Personal income (thousands of dollars)",2660741
+"06109","Tuolumne, CA","2","Population (persons) 1/",54478
+"06109","Tuolumne, CA","3","Per capita personal income (dollars) 2/",48841
+"06111","Ventura, CA","1","Personal income (thousands of dollars)",54749053
+"06111","Ventura, CA","2","Population (persons) 1/",846006
+"06111","Ventura, CA","3","Per capita personal income (dollars) 2/",64715
+"06113","Yolo, CA","1","Personal income (thousands of dollars)",12375073
+"06113","Yolo, CA","2","Population (persons) 1/",220500
+"06113","Yolo, CA","3","Per capita personal income (dollars) 2/",56123
+"06115","Yuba, CA","1","Personal income (thousands of dollars)",3424884
+"06115","Yuba, CA","2","Population (persons) 1/",78668
+"06115","Yuba, CA","3","Per capita personal income (dollars) 2/",43536
+"Legend / Footnotes:"
+"1/ Census Bureau midyear population estimates. Estimates for 2010-2019 reflect county population estimates available as of March 2020."
+"2/ Per capita personal income was computed using Census Bureau midyear population estimates. Estimates for 2010-2019 reflect county population estimates available as of March 2020."
+"Metropolitan Areas are defined (geographically delineated) by the Office of Management and Budget (OMB) bulletin no. 20-01 issued March 6, 2020."
+"Note. All dollar estimates are in thousands of current dollars (not adjusted for inflation). Statistics presented in thousands of dollars do not indicate more precision than statistics presented in millions of dollars."
+"Last updated: November 17, 2020-- new statistics for 2019; revised statistics for 2010-2018."

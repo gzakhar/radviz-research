@@ -13,9 +13,41 @@ import HSLToRGB from './ColorConversion.js';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
+const radvizData = './radvizData'
+const states = [
+	{
+		name: "New York",
+		demographics: '/nyDem.json',
+		geometry: '/nyGeo.json',
+		mapView: {
+			longitude: -76.0861,
+			latitude: 42.9420,
+			zoom: 6.38
+		}
+	}, {
+		name: "New Jersey",
+		demographics: '/njDem.json',
+		geometry: '/njGeo.json',
+		mapView: {
+			longitude: -74.5578,
+			latitude: 40.3220,
+			zoom: 7.38
+		}
+	}, {
+		name: "California",
+		demographics: '/caDem.json',
+		geometry: '/caGeo.json',
+		mapView: {
+			longitude: -120.5578,
+			latitude: 37.3220,
+			zoom: 5.8
+		}
+	}]
+
 export default function App() {
 
 	const [rawData, setRawData] = useState([])
+	const [selectedState, setSelectedState] = useState(0)
 	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState({});
 	const [countyColorMap, setCountyColorMap] = useState({});
@@ -49,7 +81,7 @@ export default function App() {
 	useEffect(() => {
 		fetchRawData()
 		fetchGeoJsonData()
-	}, [])
+	}, [selectedState])
 
 	useEffect(() => {
 
@@ -87,19 +119,15 @@ export default function App() {
 		})
 		setCountyOpacistyMap(countyOpacistyMap)
 
-	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf])
+	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf, selectedState])
 
 	async function fetchRawData() {
-		const nyData = './nyDem.json'
-		const njData = './njDem.json'
-		let res = await axios(nyData)
+		let res = await axios(radvizData + states[selectedState]['demographics'])
 		setRawData(res.data)
 	}
 
 	async function fetchGeoJsonData() {
-		const nyGeo = './nyGeo.json'
-		const njGeo = './njGeo.json'
-		let res = await axios(nyGeo)
+		let res = await axios(radvizData + states[selectedState]['geometry'])
 		setGeoJsonData(res.data['features'])
 	}
 
@@ -108,7 +136,7 @@ export default function App() {
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
-		if (countyName == hoverCounty){
+		if (countyName == hoverCounty) {
 			opacity = 0
 		}
 		let rgba = [...rgb, opacity ? 200 : 0]
@@ -151,6 +179,9 @@ export default function App() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
+					<select name="cars" id="cars" className="btn btn-secondary dropdown-toggle" defaultValue={0} onChange={(e) => setSelectedState(e.target.value)}>
+						{states.map((state, id) => <option value={id}> {state.name}</option>)}
+					</select>
 					{useMemo(() => <Radviz
 						points={data.points}
 						labels={data.labels}
@@ -160,7 +191,7 @@ export default function App() {
 						std2={data.std2}
 						std3={data.std3}
 						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
-						showHSV={true} />, [data, hoverCounty])}
+						showHSV={true} />, [data, hoverCounty, selectedState])}
 					<div>
 						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 							<div>
@@ -189,7 +220,8 @@ export default function App() {
 								<Range id={'std'} defaultValue={[100, 200, 300]} min={0} max={600} allowCross={false} onChange={(v) => setRangeValue(v)} pushable={5} />
 							</div>
 						</div>
-						{Object.keys(labelAngles).map(d =>
+
+						{/* {Object.keys(labelAngles).map(d =>
 							<div className="d-flex justify-content-center my-4 control-container">
 								<div style={{ width: '85%' }}>
 									<div className='d-flex align-items-center justify-content-between'>
@@ -214,17 +246,13 @@ export default function App() {
 									</div>
 								</div>
 							</div>
-						)}
+						)} */}
 					</div>
 				</div>
 			</div>
 			<div className="map-container" >
 				<DeckGL
-					initialViewState={{
-						longitude: -76.0861,
-						latitude: 42.9420,
-						zoom: 6.38
-					}}
+					initialViewState={states[selectedState]['mapView']}
 					controller={true}
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
@@ -232,7 +260,7 @@ export default function App() {
 					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
 			</div>
-		</div>
+		</div >
 	);
 }
 
