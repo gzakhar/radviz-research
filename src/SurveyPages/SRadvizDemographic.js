@@ -74,7 +74,7 @@ export default function SRadvizDemographic() {
 					isVisible = three2inf
 					break;
 			}
-			countyOpacistyMap[county['data']['county_name']] = isVisible
+			countyOpacistyMap[county['data']['county_name']] = isVisible ? 200 : 0
 		})
 		setCountyOpacistyMap(countyOpacistyMap)
 
@@ -96,10 +96,10 @@ export default function SRadvizDemographic() {
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
 		if (countyName == hoverCounty) {
-			opacity = 1
+			opacity = 200
 			rgb = [0, 0, 0]
 		}
-		let rgba = [...rgb, opacity ? 200 : 0]
+		let rgba = [...rgb, opacity]
 		return rgba
 	}
 
@@ -108,7 +108,6 @@ export default function SRadvizDemographic() {
 	if (data.points && geoJsonData) {
 		countyLayer = data.points.map((point) => {
 
-			console.log(point)
 			let geoData = geoJsonData.find(obj => obj.properties['NAMELSAD20'] == point.data['county_name']);
 
 			let layer = new GeoJsonLayer({

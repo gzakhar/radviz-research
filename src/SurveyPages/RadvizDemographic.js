@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-import { Radviz } from 'react-d3-radviz';
+// import { Radviz } from 'react-d3-radviz';
+import Radviz from '../SurveyPages/RadvizSTD.js'
 import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
 import { useParams } from 'react-router-dom';
@@ -63,11 +64,10 @@ export default function RadvizDemographic() {
 		let countyName = county.properties['NAMELSAD20']
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
-		let opacity = 200
 		if (countyName == hoverCounty) {
 			rgb = [0, 0, 0]
 		}
-		let rgba = [...rgb, opacity]
+		let rgba = [...rgb, 200]
 		return rgba
 	}
 
@@ -111,7 +111,7 @@ export default function RadvizDemographic() {
 						points={data.points}
 						labels={data.labels}
 						hoverId={hoverCounty}
-						hoverOver={setHoverCounty} />, [data])}
+						hoverOver={setHoverCounty} />, [data, hoverCounty])}
 
 
 					{showControls == 'show' ?
@@ -157,6 +157,7 @@ export default function RadvizDemographic() {
 					}}
 					controller={true}
 					layers={[countyLayer]}
+					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
 					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
