@@ -3,9 +3,10 @@ import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import RawPositioning from './RawPositioningMuellerVizSTD.js'
-import Radviz from './RadvizSTD.js'
+// import Radviz from './RadvizSTD.js'
 // import RawPositioning from './RawPositioningDynamicLabels';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
+import Radviz from './Radviz.js'
 import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';

@@ -4,8 +4,8 @@ import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 // import RawPositioning from './RawPositioningMuellerVizSTD.js'
 import Radviz from './Radviz.js'
-// import RawPositioning from './RawPositioningDynamicLabels';
-import RawPositioning from './RawPositioningMuellerViz.js';
+import RawPositioning from './RawPositioningDynamicLabels';
+// import RawPositioning from './RawPositioningMuellerViz.js';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 import { StaticMap } from 'react-map-gl';
 import HSLToRGB from './ColorConversion.js';
@@ -47,8 +47,8 @@ export default function App() {
 	useEffect(() => {
 
 		// Statistical and Regualr require different label Mappings.
-		// let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
-		let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name', true)
+		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'county_name')
+		// let { points, labels, std } = RawPositioning(rawData, labelMappingMueller, labelAngles, stddiv, 'county_name', true)
 		setData({ points, labels, std })
 
 		let countyColorMap = {}
@@ -61,12 +61,12 @@ export default function App() {
 	}, [labelAngles, rawData, stddiv])
 
 	async function fetchRawData() {
-		let res = await axios('./radviz_demographic_data.json')
+		let res = await axios('./radvizData/nyDem.json')
 		setRawData(res.data)
 	}
 
 	async function fetchGeoJsonData() {
-		let res = await axios('./NYCounties.json')
+		let res = await axios('./radvizData/nyGeo.json')
 		setGeoJsonData(res.data['features'])
 	}
 
