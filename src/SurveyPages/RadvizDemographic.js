@@ -6,6 +6,7 @@ import { Radviz } from 'react-d3-radviz';
 import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
 import { useParams } from 'react-router-dom';
+import HSLToRGB from '../UI/ColorConversion.js';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -13,16 +14,16 @@ export default function RadvizDemographic() {
 
 	const { showControls } = useParams();
 	const [rawData, setRawData] = useState([])
-	const [geoJsonData, setGeoJsonData] = useState({})
+	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState([]);
 	const [countyColorMap, setCountyColorMap] = useState({});
-	const offset = 360 * Math.random()
+	const [hoverCounty, setHoverCounty] = useState(-1)
 	const [labelAngles, setLabelAngles] = useState({
 		"white_ratio": 0,
 		"age_median": 120,
-		"income_per_capita":240,
+		"income_per_capita": 240,
 	})
-
+	let isHovering = false
 	let labelMapping = {
 		"white_ratio": 'WHITE RATIO',
 		"age_median": 'AGE MEDIAN',
@@ -62,62 +63,56 @@ export default function RadvizDemographic() {
 		let countyName = county.properties['NAMELSAD20']
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
-		let rgba = [...rgb, 200]
+		let opacity = 200
+		if (countyName == hoverCounty) {
+			rgb = [0, 0, 0]
+		}
+		let rgba = [...rgb, opacity]
 		return rgba
 	}
 
-	const countyLayer = new GeoJsonLayer({
-		id: 'geojson-layer',
-		data: geoJsonData,
-		pickable: true,
-		stroked: true,
-		filled: true,
-		lineWidthUnits: 'pixels',
-		getFillColor: (d) => getCountyColor(d),
-		getLineColor: [250, 250, 250, 255],
-		getLineWidth: 1,
-		updateTriggers: { getFillColor: [getCountyColor] }
-	})
+	let countyLayer = {}
 
-	function HSLToRGB(hsl) {
-		let sep = hsl.indexOf(",") > -1 ? "," : " ";
-		hsl = hsl.substr(4).split(")")[0].split(sep);
+	if (data.points && geoJsonData) {
+		countyLayer = data.points.map((point) => {
 
-		let h = hsl[0],
-			s = hsl[1].substr(0, hsl[1].length - 1) / 100,
-			l = hsl[2].substr(0, hsl[2].length - 1) / 100;
+			let geoData = geoJsonData.find(obj => obj.properties['NAMELSAD20'] == point.data['county_name']);
 
-		let c = (1 - Math.abs(2 * l - 1)) * s,
-			x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-			m = l - c / 2,
-			r = 0,
-			g = 0,
-			b = 0;
+			let layer = new GeoJsonLayer({
+				id: point.data.county_name,
+				data: geoData,
+				pickable: true,
+				stroked: true,
+				filled: true,
+				lineWidthUnits: 'pixels',
+				getFillColor: d => getCountyColor(d),
+				getLineColor: [255, 255, 255],
+				getLineWidth: 1,
+				updateTriggers: { getFillColor: [getCountyColor], getLineColor: hoverCounty },
+				onHover: d => {
+					d.picked ? setHoverCounty(d.layer.id) : setHoverCounty(-1)
+					isHovering = d.picked ? true : false
+				},
+				getCursor: 'pointer',
+			})
 
-		if (0 <= h && h < 60) {
-			r = c; g = x; b = 0;
-		} else if (60 <= h && h < 120) {
-			r = x; g = c; b = 0;
-		} else if (120 <= h && h < 180) {
-			r = 0; g = c; b = x;
-		} else if (180 <= h && h < 240) {
-			r = 0; g = x; b = c;
-		} else if (240 <= h && h < 300) {
-			r = x; g = 0; b = c;
-		} else if (300 <= h && h < 360) {
-			r = c; g = 0; b = x;
-		}
-		r = Math.round((r + m) * 255);
-		g = Math.round((g + m) * 255);
-		b = Math.round((b + m) * 255);
-		return [r, g, b]
+			return layer
+		}).reduce((prev, curr) => {
+			prev.push(curr)
+			return prev
+		}, [])
 	}
 
 	return (
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
-					{useMemo(() => <Radviz points={data.points} labels={data.labels} />, [data])}
+					{useMemo(() => <Radviz
+						points={data.points}
+						labels={data.labels}
+						hoverId={hoverCounty}
+						hoverOver={setHoverCounty} />, [data])}
+
 
 					{showControls == 'show' ?
 						<div>
