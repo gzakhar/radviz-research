@@ -1,0 +1,350 @@
+[
+    {
+        "county_name": "Alameda County",
+        "age_median": 37.9,
+        "white_ratio": 0.4927773048,
+        "income_per_capita": 81171.0
+    },
+    {
+        "county_name": "Alpine County",
+        "age_median": 49.9,
+        "white_ratio": 0.6793622675,
+        "income_per_capita": 72155.0
+    },
+    {
+        "county_name": "Amador County",
+        "age_median": 50.3,
+        "white_ratio": 0.8964580398,
+        "income_per_capita": 45920.0
+    },
+    {
+        "county_name": "Butte County",
+        "age_median": 36.8,
+        "white_ratio": 0.8565419324,
+        "income_per_capita": 47860.0
+    },
+    {
+        "county_name": "Calaveras County",
+        "age_median": 51.9,
+        "white_ratio": 0.9095305522,
+        "income_per_capita": 51131.0
+    },
+    {
+        "county_name": "Colusa County",
+        "age_median": 35.3,
+        "white_ratio": 0.9110316981,
+        "income_per_capita": 51342.0
+    },
+    {
+        "county_name": "Contra Costa County",
+        "age_median": 40.0,
+        "white_ratio": 0.6512926453,
+        "income_per_capita": 85324.0
+    },
+    {
+        "county_name": "Del Norte County",
+        "age_median": 40.1,
+        "white_ratio": 0.7809578599,
+        "income_per_capita": 38445.0
+    },
+    {
+        "county_name": "El Dorado County",
+        "age_median": 46.5,
+        "white_ratio": 0.8863998175,
+        "income_per_capita": 69895.0
+    },
+    {
+        "county_name": "Fresno County",
+        "age_median": 32.7,
+        "white_ratio": 0.7658905356,
+        "income_per_capita": 45487.0
+    },
+    {
+        "county_name": "Glenn County",
+        "age_median": 36.0,
+        "white_ratio": 0.8907829395,
+        "income_per_capita": 49194.0
+    },
+    {
+        "county_name": "Humboldt County",
+        "age_median": 38.9,
+        "white_ratio": 0.8323374497,
+        "income_per_capita": 49654.0
+    },
+    {
+        "county_name": "Imperial County",
+        "age_median": 32.7,
+        "white_ratio": 0.9019341666,
+        "income_per_capita": 40447.0
+    },
+    {
+        "county_name": "Inyo County",
+        "age_median": 45.1,
+        "white_ratio": 0.7984921559,
+        "income_per_capita": 60513.0
+    },
+    {
+        "county_name": "Kern County",
+        "age_median": 32.0,
+        "white_ratio": 0.8231030369,
+        "income_per_capita": 41843.0
+    },
+    {
+        "county_name": "Kings County",
+        "age_median": 32.0,
+        "white_ratio": 0.8084673728,
+        "income_per_capita": 39433.0
+    },
+    {
+        "county_name": "Lake County",
+        "age_median": 45.2,
+        "white_ratio": 0.8704997981,
+        "income_per_capita": 44259.0
+    },
+    {
+        "county_name": "Lassen County",
+        "age_median": 37.9,
+        "white_ratio": 0.8092107415,
+        "income_per_capita": 38130.0
+    },
+    {
+        "county_name": "Los Angeles County",
+        "age_median": 37.1,
+        "white_ratio": 0.7070657779,
+        "income_per_capita": 65094.0
+    },
+    {
+        "county_name": "Madera County",
+        "age_median": 34.5,
+        "white_ratio": 0.8592485714,
+        "income_per_capita": 41267.0
+    },
+    {
+        "county_name": "Marin County",
+        "age_median": 47.5,
+        "white_ratio": 0.8531639016,
+        "income_per_capita": 141735.0
+    },
+    {
+        "county_name": "Mariposa County",
+        "age_median": 52.2,
+        "white_ratio": 0.8931000407,
+        "income_per_capita": 56354.0
+    },
+    {
+        "county_name": "Mendocino County",
+        "age_median": 43.8,
+        "white_ratio": 0.8605978167,
+        "income_per_capita": 52976.0
+    },
+    {
+        "county_name": "Merced County",
+        "age_median": 31.3,
+        "white_ratio": 0.8216112071,
+        "income_per_capita": 41077.0
+    },
+    {
+        "county_name": "Modoc County",
+        "age_median": 49.0,
+        "white_ratio": 0.88202692,
+        "income_per_capita": 51088.0
+    },
+    {
+        "county_name": "Mono County",
+        "age_median": 40.7,
+        "white_ratio": 0.9013431182,
+        "income_per_capita": 53500.0
+    },
+    {
+        "county_name": "Monterey County",
+        "age_median": 34.9,
+        "white_ratio": 0.8283513147,
+        "income_per_capita": 59838.0
+    },
+    {
+        "county_name": "Napa County",
+        "age_median": 42.2,
+        "white_ratio": 0.8363268092,
+        "income_per_capita": 75717.0
+    },
+    {
+        "county_name": "Nevada County",
+        "age_median": 50.8,
+        "white_ratio": 0.9327953486,
+        "income_per_capita": 63542.0
+    },
+    {
+        "county_name": "Orange County",
+        "age_median": 38.6,
+        "white_ratio": 0.7112481311,
+        "income_per_capita": 71711.0
+    },
+    {
+        "county_name": "Placer County",
+        "age_median": 42.3,
+        "white_ratio": 0.8392258661,
+        "income_per_capita": 68936.0
+    },
+    {
+        "county_name": "Plumas County",
+        "age_median": 52.3,
+        "white_ratio": 0.9052480459,
+        "income_per_capita": 55910.0
+    },
+    {
+        "county_name": "Riverside County",
+        "age_median": 36.2,
+        "white_ratio": 0.7958754866,
+        "income_per_capita": 42418.0
+    },
+    {
+        "county_name": "Sacramento County",
+        "age_median": 36.6,
+        "white_ratio": 0.6275306722,
+        "income_per_capita": 55266.0
+    },
+    {
+        "county_name": "San Benito County",
+        "age_median": 36.1,
+        "white_ratio": 0.8735989046,
+        "income_per_capita": 55261.0
+    },
+    {
+        "county_name": "San Bernardino County",
+        "age_median": 33.8,
+        "white_ratio": 0.7655554715,
+        "income_per_capita": 42043.0
+    },
+    {
+        "county_name": "San Diego County",
+        "age_median": 36.4,
+        "white_ratio": 0.754086025,
+        "income_per_capita": 63729.0
+    },
+    {
+        "county_name": "San Francisco County",
+        "age_median": 38.3,
+        "white_ratio": 0.5278050341,
+        "income_per_capita": 139405.0
+    },
+    {
+        "county_name": "San Joaquin County",
+        "age_median": 34.6,
+        "white_ratio": 0.660698447,
+        "income_per_capita": 47139.0
+    },
+    {
+        "county_name": "San Luis Obispo County",
+        "age_median": 40.1,
+        "white_ratio": 0.8880686374,
+        "income_per_capita": 61004.0
+    },
+    {
+        "county_name": "San Mateo County",
+        "age_median": 39.9,
+        "white_ratio": 0.5949205099,
+        "income_per_capita": 134107.0
+    },
+    {
+        "county_name": "Santa Barbara County",
+        "age_median": 34.1,
+        "white_ratio": 0.8537040397,
+        "income_per_capita": 66076.0
+    },
+    {
+        "county_name": "Santa Clara County",
+        "age_median": 37.3,
+        "white_ratio": 0.5235241087,
+        "income_per_capita": 115997.0
+    },
+    {
+        "county_name": "Santa Cruz County",
+        "age_median": 38.4,
+        "white_ratio": 0.869940303,
+        "income_per_capita": 71592.0
+    },
+    {
+        "county_name": "Shasta County",
+        "age_median": 41.6,
+        "white_ratio": 0.8760995113,
+        "income_per_capita": 48438.0
+    },
+    {
+        "county_name": "Sierra County",
+        "age_median": 55.2,
+        "white_ratio": 0.9261231281,
+        "income_per_capita": 47245.0
+    },
+    {
+        "county_name": "Siskiyou County",
+        "age_median": 47.7,
+        "white_ratio": 0.8585406188,
+        "income_per_capita": 48021.0
+    },
+    {
+        "county_name": "Solano County",
+        "age_median": 38.5,
+        "white_ratio": 0.5959883211,
+        "income_per_capita": 53505.0
+    },
+    {
+        "county_name": "Sonoma County",
+        "age_median": 42.8,
+        "white_ratio": 0.8675111665,
+        "income_per_capita": 66700.0
+    },
+    {
+        "county_name": "Stanislaus County",
+        "age_median": 34.4,
+        "white_ratio": 0.832633567,
+        "income_per_capita": 45742.0
+    },
+    {
+        "county_name": "Sutter County",
+        "age_median": 36.2,
+        "white_ratio": 0.7269699188,
+        "income_per_capita": 47605.0
+    },
+    {
+        "county_name": "Tehama County",
+        "age_median": 40.5,
+        "white_ratio": 0.9024798722,
+        "income_per_capita": 43268.0
+    },
+    {
+        "county_name": "Trinity County",
+        "age_median": 52.3,
+        "white_ratio": 0.8699226699,
+        "income_per_capita": 43471.0
+    },
+    {
+        "county_name": "Tulare County",
+        "age_median": 31.5,
+        "white_ratio": 0.8816696876,
+        "income_per_capita": 42845.0
+    },
+    {
+        "county_name": "Tuolumne County",
+        "age_median": 48.5,
+        "white_ratio": 0.9032637028,
+        "income_per_capita": 48841.0
+    },
+    {
+        "county_name": "Ventura County",
+        "age_median": 38.7,
+        "white_ratio": 0.8405224076,
+        "income_per_capita": 64715.0
+    },
+    {
+        "county_name": "Yolo County",
+        "age_median": 31.3,
+        "white_ratio": 0.7398684807,
+        "income_per_capita": 56123.0
+    },
+    {
+        "county_name": "Yuba County",
+        "age_median": 33.4,
+        "white_ratio": 0.7838511212,
+        "income_per_capita": 43536.0
+    }
+]

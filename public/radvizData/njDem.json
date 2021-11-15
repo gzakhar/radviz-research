@@ -1,0 +1,128 @@
+[
+	{
+		"county_name": "Atlantic County",
+		"age_median": 42.2,
+		"white_ratio": 0.7129480032,
+		"income_per_capita": 50631.0
+	},
+	{
+		"county_name": "Bergen County",
+		"age_median": 42.1,
+		"white_ratio": 0.7287068683,
+		"income_per_capita": 89456.0
+	},
+	{
+		"county_name": "Burlington County",
+		"age_median": 41.7,
+		"white_ratio": 0.7286105953,
+		"income_per_capita": 63605.0
+	},
+	{
+		"county_name": "Camden County",
+		"age_median": 39.0,
+		"white_ratio": 0.6901421799,
+		"income_per_capita": 55780.0
+	},
+	{
+		"county_name": "Cape May County",
+		"age_median": 50.4,
+		"white_ratio": 0.9175132281,
+		"income_per_capita": 62734.0
+	},
+	{
+		"county_name": "Cumberland County",
+		"age_median": 38.0,
+		"white_ratio": 0.7173955205,
+		"income_per_capita": 41237.0
+	},
+	{
+		"county_name": "Essex County",
+		"age_median": 37.8,
+		"white_ratio": 0.4887724898,
+		"income_per_capita": 67657.0
+	},
+	{
+		"county_name": "Gloucester County",
+		"age_median": 40.7,
+		"white_ratio": 0.8302541524,
+		"income_per_capita": 56499.0
+	},
+	{
+		"county_name": "Hudson County",
+		"age_median": 35.4,
+		"white_ratio": 0.6472350165,
+		"income_per_capita": 69406.0
+	},
+	{
+		"county_name": "Hunterdon County",
+		"age_median": 47.0,
+		"white_ratio": 0.9098021243,
+		"income_per_capita": 92291.0
+	},
+	{
+		"county_name": "Mercer County",
+		"age_median": 39.1,
+		"white_ratio": 0.6325749122,
+		"income_per_capita": 71790.0
+	},
+	{
+		"county_name": "Middlesex County",
+		"age_median": 39.2,
+		"white_ratio": 0.6009948343,
+		"income_per_capita": 63457.0
+	},
+	{
+		"county_name": "Monmouth County",
+		"age_median": 43.7,
+		"white_ratio": 0.8475359368,
+		"income_per_capita": 82551.0
+	},
+	{
+		"county_name": "Morris County",
+		"age_median": 42.9,
+		"white_ratio": 0.8306275351,
+		"income_per_capita": 101646.0
+	},
+	{
+		"county_name": "Ocean County",
+		"age_median": 42.4,
+		"white_ratio": 0.9274390384,
+		"income_per_capita": 53139.0
+	},
+	{
+		"county_name": "Passaic County",
+		"age_median": 37.5,
+		"white_ratio": 0.749012606,
+		"income_per_capita": 52129.0
+	},
+	{
+		"county_name": "Salem County",
+		"age_median": 42.4,
+		"white_ratio": 0.8106435842,
+		"income_per_capita": 50203.0
+	},
+	{
+		"county_name": "Somerset County",
+		"age_median": 42.2,
+		"white_ratio": 0.6812400056,
+		"income_per_capita": 109916.0
+	},
+	{
+		"county_name": "Sussex County",
+		"age_median": 45.0,
+		"white_ratio": 0.9326134616,
+		"income_per_capita": 63784.0
+	},
+	{
+		"county_name": "Union County",
+		"age_median": 39.0,
+		"white_ratio": 0.6739535645,
+		"income_per_capita": 70865.0
+	},
+	{
+		"county_name": "Warren County",
+		"age_median": 44.8,
+		"white_ratio": 0.8918274483,
+		"income_per_capita": 57854.0
+	}
+]

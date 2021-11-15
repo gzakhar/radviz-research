@@ -2,19 +2,57 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-import Radviz from './RadvizSTD.js';
+import Radviz from './Radviz.js';
 import RawPositioning from './RawPositioning.js'
 import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from '../UI/ColorConversion.js';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
+function useQuery() {
+	const { search } = useLocation();
+
+	return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
+const states = [
+    {
+        name: "New York",
+        demographics: '/nyDem.json',
+        geometry: '/nyGeo.json',
+        mapView: {
+            longitude: -76.0861,
+            latitude: 42.9420,
+            zoom: 6.38
+        }
+    }, {
+        name: "New Jersey",
+        demographics: '/njDem.json',
+        geometry: '/njGeo.json',
+        mapView: {
+            longitude: -74.5578,
+            latitude: 40.3220,
+            zoom: 7.38
+        }
+    }, {
+        name: "California",
+        demographics: '/caDem.json',
+        geometry: '/caGeo.json',
+        mapView: {
+            longitude: -120.5578,
+            latitude: 37.3220,
+            zoom: 5.8
+        }
+    }]
+
 export default function SRadvizDemographic() {
 
-	const { showControls } = useParams();
+	let query = useQuery();
+	const selectedState = (query.get("stateId") || 0) < states.length ? query.get("stateId") : 0
+	const showControls = query.get("showControls") ? (query.get("showControls") == "True" ? true : false) : false
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState([]);
@@ -81,17 +119,17 @@ export default function SRadvizDemographic() {
 	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf])
 
 	async function fetchRawData() {
-		let res = await axios('./radviz_demographic_data.json')
+		let res = await axios('./radvizData' + states[selectedState]['demographics'])
 		setRawData(res.data)
 	}
 
 	async function fetchGeoJsonData() {
-		let res = await axios('./NYCounties.json')
+		let res = await axios('./radvizData' + states[selectedState]['geometry'])
 		setGeoJsonData(res.data['features'])
 	}
 
 	function getCountyColor(county) {
-		let countyName = county.properties['NAMELSAD20']
+		let countyName = county.properties['county_name']
 		let hsl = countyColorMap[countyName]
 		let rgb = HSLToRGB(hsl)
 		let opacity = countyOpacityMap[countyName]
@@ -108,7 +146,7 @@ export default function SRadvizDemographic() {
 	if (data.points && geoJsonData) {
 		countyLayer = data.points.map((point) => {
 
-			let geoData = geoJsonData.find(obj => obj.properties['NAMELSAD20'] == point.data['county_name']);
+			let geoData = geoJsonData.find(obj => obj.properties['county_name'] == point.data['county_name']);
 
 			let layer = new GeoJsonLayer({
 				id: point.data.county_name,
@@ -151,7 +189,7 @@ export default function SRadvizDemographic() {
 							hoverOver={setHoverCounty}
 							hoverId={hoverCounty} />, [data, hoverCounty])
 					}
-					{(showControls == 'show') &&
+					{showControls &&
 						<div>
 							<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 								<div>
@@ -213,11 +251,7 @@ export default function SRadvizDemographic() {
 			</div>
 			<div className="map-container" >
 				<DeckGL
-					initialViewState={{
-						longitude: -76.0861,
-						latitude: 42.9420,
-						zoom: 6.38
-					}}
+					initialViewState={states[selectedState]['mapView']}
 					controller={true}
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
