@@ -5,19 +5,19 @@ const configuration = [
     {
         imgSrc: './images/radviz.png',
         text: 'Radviz',
-        linkTo: '/radviz',
+        linkTo: '/radviz?showAnchorControls=False&showSTDControls=False&stateId=2',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLSdhcmQ7fwtcSZoP0nq21dfkgHFAQUb7nLqvLTsl4lbC-lgTPQ/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/sradviz.png',
         text: 'S-Radviz',
-        linkTo: '/sradviz',
+        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=False&stateId=0',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScFvSh9ce5AZUQj5YJBzQlmeQa7nHMfVgcTTCKS258NDGA2Pg/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/controls.png',
         text: 'Controls',
-        linkTo: '/sradviz/show',
+        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=True&stateId=0',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScQ1kmRsEQ8ll8nbI6mOUUZsdk3etAuULHcVtLf6dvMeQEEVw/viewform?usp=sf_link'
     }
 ]
@@ -29,7 +29,7 @@ export default function SurveyPage() {
     useEffect(() => {
 
         if (!localStorage.getItem('survey')) {
-            let chooseWithoutReplacement = new ChooseWithoutReplavement(configuration)
+            let chooseWithoutReplacement = new ChooseWithoutReplacement([0, 1, 2])
             let sessionOrder = chooseWithoutReplacement.randomizeFirstN(2)
             setOrder(sessionOrder)
             localStorage.setItem('survey', JSON.stringify(sessionOrder))
@@ -67,22 +67,22 @@ export default function SurveyPage() {
                             >
                                 <img
                                     style={{ height: '100%', width: '100%' }}
-                                    src={value['imgSrc']} />
+                                    src={configuration[value]['imgSrc']} />
                             </div>
                             <div
                                 style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
                             >
                                 <Link
                                     className='take-survey'
-                                    to={value['linkTo']}
-                                >Start {value['text']}</Link>
+                                    to={configuration[value]['linkTo']}
+                                >Start {configuration[value]['text']}</Link>
                             </div>
                             <div
                                 style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
                             >
                                 <a
                                     className='take-survey'
-                                    href={value['googleForm']}
+                                    href={configuration[value]['googleForm']}
                                     target="_blank"
                                 >Google Form</a>
                             </div>
@@ -95,7 +95,7 @@ export default function SurveyPage() {
 }
 
 
-class ChooseWithoutReplavement {
+class ChooseWithoutReplacement {
     constructor(list) {
         this.list = list;
         this.lenth = list.lenth;

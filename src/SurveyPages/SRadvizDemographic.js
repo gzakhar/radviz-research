@@ -19,40 +19,41 @@ function useQuery() {
 }
 
 const states = [
-    {
-        name: "New York",
-        demographics: '/nyDem.json',
-        geometry: '/nyGeo.json',
-        mapView: {
-            longitude: -76.0861,
-            latitude: 42.9420,
-            zoom: 6.38
-        }
-    }, {
-        name: "New Jersey",
-        demographics: '/njDem.json',
-        geometry: '/njGeo.json',
-        mapView: {
-            longitude: -74.5578,
-            latitude: 40.3220,
-            zoom: 7.38
-        }
-    }, {
-        name: "California",
-        demographics: '/caDem.json',
-        geometry: '/caGeo.json',
-        mapView: {
-            longitude: -120.5578,
-            latitude: 37.3220,
-            zoom: 5.8
-        }
-    }]
+	{
+		name: "New York",
+		demographics: '/nyDem.json',
+		geometry: '/nyGeo.json',
+		mapView: {
+			longitude: -76.0861,
+			latitude: 42.9420,
+			zoom: 6.38
+		}
+	}, {
+		name: "New Jersey",
+		demographics: '/njDem.json',
+		geometry: '/njGeo.json',
+		mapView: {
+			longitude: -74.5578,
+			latitude: 40.3220,
+			zoom: 7.38
+		}
+	}, {
+		name: "California",
+		demographics: '/caDem.json',
+		geometry: '/caGeo.json',
+		mapView: {
+			longitude: -120.5578,
+			latitude: 37.3220,
+			zoom: 5.8
+		}
+	}]
 
 export default function SRadvizDemographic() {
 
 	let query = useQuery();
 	const selectedState = (query.get("stateId") || 0) < states.length ? query.get("stateId") : 0
-	const showControls = query.get("showControls") ? (query.get("showControls") == "True" ? true : false) : false
+	const showAnchorControls = query.get("showAnchorControls") ? (query.get("showAnchorControls") == "True" ? true : false) : false
+	const showSTDControls = query.get("showSTDControls") ? (query.get("showSTDControls") == "True" ? true : false) : false
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState([]);
@@ -189,7 +190,8 @@ export default function SRadvizDemographic() {
 							hoverOver={setHoverCounty}
 							hoverId={hoverCounty} />, [data, hoverCounty])
 					}
-					{showControls &&
+
+					{showSTDControls &&
 						<div>
 							<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 								<div>
@@ -219,12 +221,16 @@ export default function SRadvizDemographic() {
 								</div>
 							</div>
 
+						</div>
+					}
+					{showAnchorControls &&
+						<div>
 							{Object.keys(labelAngles).map(d =>
 								<div className="d-flex justify-content-center my-4 control-container">
 									<div style={{ width: '85%' }}>
 										<div className='d-flex align-items-center justify-content-between'>
 											<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-											<span for={d}
+											<span htmlFor={d}
 												className='control-value'
 												style={{ width: '10px' }}>{labelAngles[d]}º</span>
 										</div>
@@ -236,11 +242,11 @@ export default function SRadvizDemographic() {
 												setLabelAngles(updatedState)
 											}} />
 										<div className="ticks">
-											<span class="tick">0º</span>
-											<span class="tick">90º</span>
-											<span class="tick">180º</span>
-											<span class="tick">270º</span>
-											<span class="tick">360º</span>
+											<span className="tick">0º</span>
+											<span className="tick">90º</span>
+											<span className="tick">180º</span>
+											<span className="tick">270º</span>
+											<span className="tick">360º</span>
 										</div>
 									</div>
 								</div>
@@ -256,7 +262,7 @@ export default function SRadvizDemographic() {
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
-					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
+					{/* <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} /> */}
 				</DeckGL>
 			</div>
 		</div>
