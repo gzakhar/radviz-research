@@ -3,10 +3,10 @@ import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import RawPositioning from './RawPositioningMuellerVizSTD.js'
-// import Radviz from './RadvizSTD.js'
+import Radviz from './RadvizSTD.js'
 // import RawPositioning from './RawPositioningDynamicLabels';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
-import Radviz from './Radviz.js'
+// import Radviz from './Radviz.js'
 import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -227,7 +227,7 @@ export default function App() {
 								<div style={{ width: '85%' }}>
 									<div className='d-flex align-items-center justify-content-between'>
 										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
-										<span for={d}
+										<span htmlFor={d}
 											className='control-value'
 											style={{ width: '10px' }}>{labelAngles[d]}º</span>
 									</div>
@@ -239,11 +239,11 @@ export default function App() {
 											setLabelAngles(updatedState)
 										}} />
 									<div className="ticks">
-										<span class="tick">0º</span>
-										<span class="tick">90º</span>
-										<span class="tick">180º</span>
-										<span class="tick">270º</span>
-										<span class="tick">360º</span>
+										<span className="tick">0º</span>
+										<span className="tick">90º</span>
+										<span className="tick">180º</span>
+										<span className="tick">270º</span>
+										<span className="tick">360º</span>
 									</div>
 								</div>
 							</div>
@@ -258,7 +258,7 @@ export default function App() {
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
-					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
+					{/* <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} /> */}
 				</DeckGL>
 			</div>
 		</div >
