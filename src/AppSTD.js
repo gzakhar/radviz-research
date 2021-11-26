@@ -258,7 +258,7 @@ export default function App() {
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
-					{/* <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} /> */}
+					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
 			</div>
 		</div >
