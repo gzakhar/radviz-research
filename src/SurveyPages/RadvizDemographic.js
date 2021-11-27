@@ -8,6 +8,7 @@ import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
 import { useLocation } from 'react-router-dom';
 import HSLToRGB from '../UI/ColorConversion.js';
+import { states } from '../StatePositions.js'
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -17,41 +18,12 @@ function useQuery() {
 	return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-const states = [
-	{
-		name: "New York",
-		demographics: '/nyDem.json',
-		geometry: '/nyGeo.json',
-		mapView: {
-			longitude: -76.0861,
-			latitude: 42.9420,
-			zoom: 6.38
-		}
-	}, {
-		name: "New Jersey",
-		demographics: '/njDem.json',
-		geometry: '/njGeo.json',
-		mapView: {
-			longitude: -74.5578,
-			latitude: 40.3220,
-			zoom: 7.38
-		}
-	}, {
-		name: "California",
-		demographics: '/caDem.json',
-		geometry: '/caGeo.json',
-		mapView: {
-			longitude: -120.5578,
-			latitude: 37.3220,
-			zoom: 5.8
-		}
-	}]
-
 export default function RadvizDemographic() {
 
 	let query = useQuery();
 	const selectedState = (query.get("stateId") || 0) < states.length ? query.get("stateId") : 0
 	const showAnchorControls = query.get("showAnchorControls") ? (query.get("showAnchorControls") == "True" ? true : false) : false
+	const googleForm = query.get("form") ? query.get("form") : 'None'
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState([])
 	const [data, setData] = useState([]);
@@ -144,14 +116,13 @@ export default function RadvizDemographic() {
 	return (
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
+
 				<div id='sidebar'>
 					{useMemo(() => <Radviz
 						points={data.points}
 						labels={data.labels}
 						hoverId={hoverCounty}
 						hoverOver={setHoverCounty} />, [data, hoverCounty])}
-
-
 					{showAnchorControls ?
 						<div>
 							{Object.keys(labelAngles).map(d =>
@@ -193,8 +164,12 @@ export default function RadvizDemographic() {
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
 				>
-					{/* <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} /> */}
+					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
 				</DeckGL>
+			</div>
+			<div className='quiz-container'>
+				<iframe style={{ height: '100%', width: '100%' }}
+					src={googleForm} />
 			</div>
 		</div>
 	);

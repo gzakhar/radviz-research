@@ -24,15 +24,14 @@ const configuration = [
 
 export default function SurveyPage() {
 
-    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('survey')) || [])
+    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('surveyOrder')) || [])
 
     useEffect(() => {
-
-        if (!localStorage.getItem('survey')) {
+        if (!localStorage.getItem('surveyOrder')) {
             let chooseWithoutReplacement = new ChooseWithoutReplacement([0, 1, 2])
             let sessionOrder = chooseWithoutReplacement.randomizeFirstN(2)
             setOrder(sessionOrder)
-            localStorage.setItem('survey', JSON.stringify(sessionOrder))
+            localStorage.setItem('surveyOrder', JSON.stringify(sessionOrder))
         }
 
     }, [])
@@ -60,31 +59,35 @@ export default function SurveyPage() {
 
                         <div
                             className='d-flex flex-column justify-content-lg-between'
-                            style={{ border: 'solid', borderColor: 'green', height: '485.4px', width: '300px', padding: '5px' }}
+                            style={{
+                                // border: 'solid',
+                                // borderColor: 'green',
+                                height: '485.4px', width: '300px', padding: '5px'
+                            }}
                         >
                             <div
-                                style={{ border: 'solid', borderColor: 'blue', height: '72.5%' }}
+                                style={{
+                                    // border: 'solid', 
+                                    // borderColor: 'blue', 
+                                    height: '72.5%'
+                                }}
                             >
                                 <img
+                                    className='generic-image'
                                     style={{ height: '100%', width: '100%' }}
                                     src={configuration[value]['imgSrc']} />
                             </div>
                             <div
-                                style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
+                                style={{
+                                    // border: 'solid', 
+                                    // borderColor: 'blue', 
+                                    height: '22.5%'
+                                }}
                             >
                                 <Link
-                                    className='take-survey'
-                                    to={configuration[value]['linkTo']}
+                                    className='generic-button'
+                                    to={configuration[value]['linkTo'] + '&form=' + configuration[value]['googleForm']}
                                 >Start {configuration[value]['text']}</Link>
-                            </div>
-                            <div
-                                style={{ border: 'solid', borderColor: 'blue', height: '10%' }}
-                            >
-                                <a
-                                    className='take-survey'
-                                    href={configuration[value]['googleForm']}
-                                    target="_blank"
-                                >Google Form</a>
                             </div>
                         </div>
                     </div>
