@@ -14,11 +14,13 @@ export default function Login() {
     }
 
     return (
-        <div style={{  textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <div style={{ textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <h1>SBU sign in</h1>
-                <input type='password' placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button>Sign in</button>
+                <br />
+                <input className='form-control' type='password' placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <br />
+                <button className='btn btn-dark'>Sign-in</button>
             </form>
         </div>
     )

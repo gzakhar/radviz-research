@@ -8,7 +8,7 @@ import { StaticMap } from 'react-map-gl';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from '../UI/ColorConversion.js';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { states } from '../StatePositions.js'
 
 let rad2deg = rad => rad * 180 / Math.PI;
@@ -49,7 +49,11 @@ export default function SRadvizDemographic() {
 		"age_median": { high: 'OLD', low: 'YOUNG' },
 		"income_per_capita": { high: 'RICH', low: 'POOR' },
 	}
+	const [isCopied, setIsCopied] = useState(false)
 
+	if (isCopied) {
+		setTimeout(() => setIsCopied(false), 500)
+	}
 
 	useEffect(() => {
 		fetchRawData()
@@ -152,6 +156,15 @@ export default function SRadvizDemographic() {
 		<div>
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
+					<div className='d-flex justify-content-between' style={{ height: '38px' }}>
+						<Link className="btn btn-secondary" to='/survey'>Back</Link>
+						<p style={{ color: '#DDDDDD', fontSize: '20px', fontWeight: '700' }}>
+							<span style={{ color: 'green', fontWeight: '500', fontSize: '15px' }}>
+								{isCopied ? 'Copied! ' : ''}
+							</span>
+							{hoverCounty == -1 ? '' : hoverCounty}
+						</p>
+					</div>
 					{useMemo(() =>
 						<Radviz
 							points={data.points}
@@ -161,6 +174,10 @@ export default function SRadvizDemographic() {
 							std3={data.std3}
 							shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
 							hoverOver={setHoverCounty}
+							onClick={() => {
+								setIsCopied(true)
+								navigator.clipboard.writeText(hoverCounty)
+							}}
 							hoverId={hoverCounty} />, [data, hoverCounty])
 					}
 

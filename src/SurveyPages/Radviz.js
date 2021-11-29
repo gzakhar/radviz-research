@@ -158,12 +158,23 @@ function Radviz(props) {
 				return 2.5
 			})
 			.attr('id', (_, i) => `dot${i}`)
-			.style('fill', '#000000')
+			.style('fill', 'black')
 			.style('fill-opacity', 0.8)
-			.style('stroke', '#FFFFFF')
-			.style('stroke-width', 0.1)
+			.style('stroke', 'white')
+			.style('stroke-width', 0.2)
+			.style('cursor', 'pointer')
 			.on('mouseover', handleHoverOn)
 			.on('mouseout', handleHoverOff)
+			.on('click', handleClick)
+	}
+
+	function handleClick(i, d) {
+
+		if (props.onClick) {
+			props.onClick()
+			select(this)
+				.style('fill', 'green')
+		}
 	}
 
 	function handleHoverOn(i, d) {
@@ -173,11 +184,11 @@ function Radviz(props) {
 
 
 		// TODO make the id of dot labels more unique
-		select(this.parentNode).append('text')
-			.attr('id', "dot-labels")
-			.attr('x', this.getAttribute('cx') - 10)
-			.attr('y', this.getAttribute('cy') - 10)
-			.text(d.textFloater)
+		// select(this.parentNode).append('text')
+		// 	.attr('id', "dot-labels")
+		// 	.attr('x', this.getAttribute('cx') - 10)
+		// 	.attr('y', this.getAttribute('cy') - 10)
+		// 	.text(d.textFloater)
 
 	}
 

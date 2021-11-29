@@ -37,62 +37,68 @@ export default function SurveyPage() {
     }, [])
 
     return (
-        <div
-            className='d-flex justify-content-around align-items-center'
-            style={{ height: '100%' }}
-        >
-            {
-                order.map((value, index) => (
-                    <div
-                        key={index}
-                        className='d-flex flex-column align-items-center justify-content-between'
-                        style={{ height: '550px' }}
-                    >
-
+        <div style={{ height: '100%' }}>
+            <div style={{padding: '10px'}}>
+                <Link className="btn btn-secondary" to='/'>Home</Link>
+            </div>
+            <div
+                className='d-flex justify-content-around align-items-center'
+                style={{ height: '100%' }}
+            >
+                {
+                    order.map((value, index) => (
                         <div
-                            style={{ display: 'inline-block' }}>
-                            <span className='dot'>
-                                {index + 1}
-                            </span>
-                            {(index < order.length - 1) && <span className='line' />}
-                        </div>
-
-                        <div
-                            className='d-flex flex-column justify-content-lg-between'
-                            style={{
-                                // border: 'solid',
-                                // borderColor: 'green',
-                                height: '485.4px', width: '300px', padding: '5px'
-                            }}
+                            key={index}
+                            className='d-flex flex-column align-items-center justify-content-between'
+                            style={{ height: '550px' }}
                         >
+
                             <div
-                                style={{
-                                    // border: 'solid', 
-                                    // borderColor: 'blue', 
-                                    height: '72.5%'
-                                }}
-                            >
-                                <img
-                                    className='generic-image'
-                                    style={{ height: '100%', width: '100%' }}
-                                    src={configuration[value]['imgSrc']} />
+                                style={{ display: 'inline-block' }}>
+                                <span className='dot'>
+                                    {index + 1}
+                                </span>
+                                {(index < order.length - 1) && <span className='line' />}
                             </div>
+
                             <div
+                                className='d-flex flex-column justify-content-lg-between'
                                 style={{
-                                    // border: 'solid', 
-                                    // borderColor: 'blue', 
-                                    height: '22.5%'
+                                    // border: 'solid',
+                                    // borderColor: 'green',
+                                    height: '485.4px', width: '300px', padding: '5px'
                                 }}
                             >
-                                <Link
-                                    className='generic-button'
-                                    to={configuration[value]['linkTo'] + '&form=' + configuration[value]['googleForm']}
-                                >Start {configuration[value]['text']}</Link>
+                                <div
+                                    style={{
+                                        // border: 'solid', 
+                                        // borderColor: 'blue', 
+                                        height: '72.5%'
+                                    }}
+                                >
+                                    <img
+                                        className='generic-image'
+                                        style={{ height: '100%', width: '100%' }}
+                                        src={configuration[value]['imgSrc']} />
+                                </div>
+                                <div
+                                    style={{
+                                        // border: 'solid', 
+                                        // borderColor: 'blue', 
+                                        height: '22.5%'
+                                    }}
+                                >
+                                    <Link
+                                        className='generic-button'
+                                        to={configuration[value]['linkTo'] + '&form=' + configuration[value]['googleForm']}
+                                    >Start {configuration[value]['text']}</Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))
-            }
+                    ))
+                }
+
+            </div>
         </div>
     )
 }

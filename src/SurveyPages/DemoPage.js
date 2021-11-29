@@ -4,6 +4,7 @@ import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import Radviz from './Radviz.js'
 import RawPositioning from './RawPositioningDynamicLabels';
+import { Link } from 'react-router-dom'
 import { StaticMap } from 'react-map-gl';
 import HSLToRGB from '../UI/ColorConversion.js';
 
@@ -135,9 +136,13 @@ export default function DemoPage() {
         <div>
             <div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
                 <div id='sidebar'>
-                    <select className="btn btn-secondary dropdown-toggle" defaultValue={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
-                        {states.map((state, id) => <option value={id}> {state.name}</option>)}
-                    </select>
+                    <div className='d-flex justify-content-between' style={{ height: '38px' }}>
+                        <Link className="btn btn-secondary" to='/'>Back</Link>
+                        <p style={{ color: '#DDDDDD', fontSize: '20px', fontWeight: '700' }}>{hoverCounty == -1 ? ' ' : hoverCounty.toUpperCase()}</p>
+                        <select className="btn btn-secondary dropdown-toggle" defaultValue={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+                            {states.map((state, id) => <option value={id}> {state.name}</option>)}
+                        </select>
+                    </div>
                     {useMemo(() => <Radviz
                         points={data.points}
                         labels={data.labels}
@@ -174,14 +179,14 @@ export default function DemoPage() {
                     </div>
                 </div>
             </div>
-            <div className="map-container" >
+            <div className="map-container" style={{ width: '70%' }} >
                 <DeckGL
                     initialViewState={states[selectedState]['mapView']}
                     controller={true}
                     layers={[countyLayer]}
                     getCursor={() => (isHovering ? "pointer" : "grab")}
                 >
-                    {/* <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} /> */}
+                    <StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
                 </DeckGL>
             </div>
         </div>

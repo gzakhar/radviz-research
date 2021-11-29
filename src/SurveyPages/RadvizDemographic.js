@@ -2,11 +2,10 @@ import React, { useEffect, useState, useMemo } from 'react';
 import DeckGL from '@deck.gl/react';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-// import { Radviz } from 'react-d3-radviz';
 import Radviz from './Radviz.js'
 import RawPositioning from './RawPositioningDynamicLabels';
 import { StaticMap } from 'react-map-gl';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import HSLToRGB from '../UI/ColorConversion.js';
 import { states } from '../StatePositions.js'
 
@@ -39,6 +38,11 @@ export default function RadvizDemographic() {
 		"white_ratio": 'WHITE RATIO',
 		"age_median": 'AGE MEDIAN',
 		"income_per_capita": 'INCOME/CAPITA',
+	}
+	const [isCopied, setIsCopied] = useState(false)
+
+	if (isCopied) {
+		setTimeout(() => setIsCopied(false), 500)
 	}
 
 	useEffect(() => {
@@ -118,10 +122,23 @@ export default function RadvizDemographic() {
 			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 
 				<div id='sidebar'>
+					<div className='d-flex justify-content-between' style={{ height: '38px' }}>
+						<Link className="btn btn-secondary" to='/survey'>Back</Link>
+						<p style={{ color: '#DDDDDD', fontSize: '20px', fontWeight: '700' }}>
+							<span style={{ color: 'green', fontWeight: '500', fontSize: '15px' }}>
+								{isCopied ? 'Copied! ' : ''}
+							</span>
+							{hoverCounty == -1 ? ' ' : hoverCounty}
+						</p>
+					</div>
 					{useMemo(() => <Radviz
 						points={data.points}
 						labels={data.labels}
 						hoverId={hoverCounty}
+						onClick={() => {
+							setIsCopied(true)
+							navigator.clipboard.writeText(hoverCounty)
+						}}
 						hoverOver={setHoverCounty} />, [data, hoverCounty])}
 					{showAnchorControls ?
 						<div>
