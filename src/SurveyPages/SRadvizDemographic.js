@@ -264,6 +264,7 @@ export default function SRadvizDemographic() {
 									GRAPH DESCRIPTION
 								</Accordion.Header>
 								<Accordion.Body>
+									<p><Link to='./definitions' target="_blank">RADVIZ</Link> | Read first if unfamiliar with RadViz. (1-min read) </p>
 									{GRAPH_DESCRIPTION[descriptionId]}
 								</Accordion.Body>
 							</Accordion.Item>

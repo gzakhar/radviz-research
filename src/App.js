@@ -7,7 +7,7 @@ import Login from './LogIn/Login.js';
 import HomePage from './SurveyInfra/HomePage.js';
 import SurveyPage from './SurveyInfra/SurveyPage.js';
 import DemoPage from './SurveyPages/DemoPage.js'
-// import WelcomePage from './SurveyInfra/WelcomePage.js';
+import DefinitionPage from './SurveyInfra/DefinitionPage.js';
 
 export default function App() {
 
@@ -20,7 +20,7 @@ export default function App() {
                 <Route path='/radviz/' component={RadvizDemographic} />
                 <Route path='/sradviz/' component={SRadvizDemographic} />
                 <Route path='/login' component={Login} />
-                {/* <Route exact path='/welcome' component={WelcomePage} /> */}
+                <Route path='/definitions' component={DefinitionPage} />
             </Switch>
         </Router>
     )

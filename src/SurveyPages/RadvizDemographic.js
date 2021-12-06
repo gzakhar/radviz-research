@@ -193,6 +193,7 @@ export default function RadvizDemographic() {
 									GRAPH DESCRIPTION
 								</Accordion.Header>
 								<Accordion.Body>
+								<p><Link to='./definitions' target="_blank">RADVIZ</Link> | FULL DESCRIPTON </p>
 									{GRAPH_DESCRIPTION[descriptionId]}
 								</Accordion.Body>
 							</Accordion.Item>

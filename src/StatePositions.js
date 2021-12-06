@@ -32,17 +32,18 @@ export const GRAPH_DESCRIPTION = [
 	(<>
 		<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>RadViz</a>:
 		A multivariate data visualization algorithm that plots each feature dimension 
-		(called "Anchors" and represented with <span style={{color: 'red', fontWeight: '700'}}>red</span> dots on the circumference)
-		uniformly around the circle, then plots points (shown as <span style={{color: 'black', fontWeight: '700'}}>black</span> dots) 
-		on the interior of the circle such that the point normalizes its values on the axes from the center to each arc.
+		(called "Anchor" and shown as a <span style={{color: 'red', fontWeight: '700'}}>red</span> dot)
+		uniformly around the circumference of the circle, then plots points (shown as <span style={{color: 'black', fontWeight: '700'}}>black</span> dots) 
+		on the interior of the circle such that the point normalizes its values on the axes from the center to each arc. 
+		The closer a datapoint is to an Anchor, the bigger tha value of that datapoint is for that dimension.
 	</>),
 	(<>
-		S-RadViz: A modified version of a multivatiate data visualization
-		algorithm (<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>Radviz</a>).
+		S-RadViz: A modified version of a multivatiate data visualization algorithm (RadViz).
 		With the biggest change being that instead of displaying each feature dimention as one Anchor along the circumfrence of the circle,
 		the dimention is displayed as two opposing Anchors.
-		Each of the three circles inscribed into the Graphic represent a standard deviation from the center (mean),
+		Each of the three dotted circles inscribed into the Graphic represent a standard deviation away from the center (mean),
 		most inner circle (1st SD), second from center (2nd SD), third from center (3rd SD).
+		The closer a datapoint is to an Anchor, the bigger tha value of that datapoint is for that dimension.
 	</>)
 ]
 
