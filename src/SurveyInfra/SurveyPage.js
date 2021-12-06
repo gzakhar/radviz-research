@@ -5,19 +5,19 @@ const configuration = [
     {
         imgSrc: './images/radviz.png',
         text: 'Radviz',
-        linkTo: '/radviz?showAnchorControls=False&showSTDControls=False&stateId=2',
+        linkTo: '/radviz?showAnchorControls=False&showSTDControls=False&stateId=2&description=0&directions=0',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLSdhcmQ7fwtcSZoP0nq21dfkgHFAQUb7nLqvLTsl4lbC-lgTPQ/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/sradviz.png',
         text: 'S-Radviz',
-        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=False&stateId=0',
+        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=False&stateId=0&description=1&directions=1',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScFvSh9ce5AZUQj5YJBzQlmeQa7nHMfVgcTTCKS258NDGA2Pg/viewform?usp=sf_link'
     },
     {
         imgSrc: './images/controls.png',
         text: 'Controls',
-        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=True&stateId=0',
+        linkTo: '/sradviz?showAnchorControls=False&showSTDControls=True&stateId=0&description=1&directions=2',
         googleForm: 'https://docs.google.com/forms/d/e/1FAIpQLScQ1kmRsEQ8ll8nbI6mOUUZsdk3etAuULHcVtLf6dvMeQEEVw/viewform?usp=sf_link'
     }
 ]

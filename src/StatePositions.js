@@ -1,4 +1,4 @@
-export const states = [
+export const STATES = [
 	{
 		name: "New York",
 		demographics: '/nyDem.json',
@@ -27,3 +27,46 @@ export const states = [
 			zoom: 5.4
 		}
 	}]
+
+export const GRAPH_DESCRIPTION = [
+	(<>
+		<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>RadViz</a>:
+		A multivariate data visualization algorithm that plots each feature dimension 
+		(called "Anchors" and represented with <span style={{color: 'red', fontWeight: '700'}}>red</span> dots on the circumference)
+		uniformly around the circle, then plots points (shown as <span style={{color: 'black', fontWeight: '700'}}>black</span> dots) 
+		on the interior of the circle such that the point normalizes its values on the axes from the center to each arc.
+	</>),
+	(<>
+		S-RadViz: A modified version of a multivatiate data visualization
+		algorithm (<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>Radviz</a>).
+		With the biggest change being that instead of displaying each feature dimention as one Anchor along the circumfrence of the circle,
+		the dimention is displayed as two opposing Anchors.
+		Each of the three circles inscribed into the Graphic represent a standard deviation from the center (mean),
+		most inner circle (1st SD), second from center (2nd SD), third from center (3rd SD).
+	</>)
+]
+
+export const QUIZ_DIRECTIONS = [
+	<ol>
+		<li>Each County on the map is represented with a black dot on the Graphic.</li>
+		<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+		<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
+		<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+	</ol>,
+	<ol>
+		<li>Each County on the map is represented with a black dot on the Graphic.</li>
+		<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+		<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
+		<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+		<li>Each of the three inscribed circles represent a standard deviations away from the mean.</li>
+	</ol>,
+	<ol>
+		<li>Each County on the map is represented with a black dot on the Graphic.</li>
+		<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+		<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
+		<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+		<li>Each of the three inscribed circles represent a standard deviations away from the mean.</li>
+		<li>Moving the sliders with the three knobs will linearly stretch the positions of the dots from the center (mean). This will give you a more percice view of datapoints between the standard deviations.</li>
+		<li>Turning ON/OFF "inter-standard deviation selectors" will remove those counties from the Map and shade out that area on the Graphic.</li>
+	</ol>,
+]

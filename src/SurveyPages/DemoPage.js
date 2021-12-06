@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import DeckGL from '@deck.gl/react';
+import { FlyToInterpolator } from '@deck.gl/core';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import Radviz from './Radviz.js'
@@ -59,6 +60,15 @@ export default function DemoPage() {
         "age_median": 'AGE MEDIAN',
         "income_per_capita": 'INCOME/CAPITA',
     }
+    const [initialViewState, setInitialViewState] = useState({
+        latitude: states[selectedState]['mapView']['latitude'],
+        longitude: states[selectedState]['mapView']['longitude'],
+        zoom: states[selectedState]['mapView']['zoom'],
+        bearing: 0,
+        pitch: 0,
+        transitionDuration: 2000,
+        transitionInterpolator: new FlyToInterpolator()
+    });
 
     useEffect(() => {
         fetchRawData()
@@ -132,6 +142,15 @@ export default function DemoPage() {
         }, [])
     }
 
+    const moveStates = useCallback((stateInfo) => {
+        setInitialViewState({
+            ...initialViewState,
+            longitude: stateInfo['longitude'],
+            latitude: stateInfo['latitude'],
+            zoom: stateInfo['zoom']
+        })
+    }, []);
+
     return (
         <div>
             <div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
@@ -139,8 +158,11 @@ export default function DemoPage() {
                     <div className='d-flex justify-content-between' style={{ height: '38px' }}>
                         <Link className="btn btn-secondary" to='/'>Back</Link>
                         <p style={{ color: '#DDDDDD', fontSize: '20px', fontWeight: '700' }}>{hoverCounty == -1 ? ' ' : hoverCounty.toUpperCase()}</p>
-                        <select className="btn btn-secondary dropdown-toggle" defaultValue={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
-                            {states.map((state, id) => <option value={id}> {state.name}</option>)}
+                        <select className="btn btn-secondary dropdown-toggle" defaultValue={selectedState} onChange={(e) => {
+                            moveStates(states[e.target.value]['mapView'])
+                            setSelectedState(e.target.value)
+                        }}>
+                            {states.map((state, id) => <option key={id} value={id}> {state.name}</option>)}
                         </select>
                     </div>
                     {useMemo(() => <Radviz
@@ -151,7 +173,7 @@ export default function DemoPage() {
 
                     <div>
                         {Object.keys(labelAngles).map(d =>
-                            <div className="d-flex justify-content-center my-4 control-container">
+                            <div kay={labelAngles} className="d-flex justify-content-center my-4 control-container">
                                 <div style={{ width: '85%' }}>
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
@@ -181,7 +203,8 @@ export default function DemoPage() {
             </div>
             <div className="map-container" style={{ width: '70%' }} >
                 <DeckGL
-                    initialViewState={states[selectedState]['mapView']}
+                    // initialViewState={states[selectedState]['mapView']}
+                    initialViewState={initialViewState}
                     controller={true}
                     layers={[countyLayer]}
                     getCursor={() => (isHovering ? "pointer" : "grab")}

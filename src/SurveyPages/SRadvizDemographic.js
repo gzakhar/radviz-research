@@ -9,7 +9,9 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from '../UI/ColorConversion.js';
 import { useLocation, Link } from 'react-router-dom';
-import { states } from '../StatePositions.js'
+import { STATES, QUIZ_DIRECTIONS, GRAPH_DESCRIPTION } from '../StatePositions.js'
+import Accordion from 'react-bootstrap/Accordion'
+
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -23,9 +25,11 @@ function useQuery() {
 export default function SRadvizDemographic() {
 
 	let query = useQuery();
-	const selectedState = (query.get("stateId") || 0) < states.length ? query.get("stateId") : 0
+	const selectedState = (query.get("stateId") || 0) < STATES.length ? query.get("stateId") : 0
 	const showAnchorControls = query.get("showAnchorControls") ? (query.get("showAnchorControls") == "True" ? true : false) : false
 	const showSTDControls = query.get("showSTDControls") ? (query.get("showSTDControls") == "True" ? true : false) : false
+	const directionsId = query.get("directions") ? (parseInt(query.get("directions"))) : -1
+	const descriptionId = query.get("description") ? (parseInt(query.get("description"))) : -1
 	const googleForm = query.get("form") ? query.get("form") : 'None'
 	const [rawData, setRawData] = useState([])
 	const [geoJsonData, setGeoJsonData] = useState([])
@@ -97,12 +101,12 @@ export default function SRadvizDemographic() {
 	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf])
 
 	async function fetchRawData() {
-		let res = await axios('./radvizData' + states[selectedState]['demographics'])
+		let res = await axios('./radvizData' + STATES[selectedState]['demographics'])
 		setRawData(res.data)
 	}
 
 	async function fetchGeoJsonData() {
-		let res = await axios('./radvizData' + states[selectedState]['geometry'])
+		let res = await axios('./radvizData' + STATES[selectedState]['geometry'])
 		setGeoJsonData(res.data['features'])
 	}
 
@@ -243,11 +247,33 @@ export default function SRadvizDemographic() {
 							)}
 						</div>
 					}
+					<Accordion>
+						{directionsId != -1 &&
+							<Accordion.Item eventKey="0">
+								<Accordion.Header>
+									QUIZ DIRECTIONS
+								</Accordion.Header>
+								<Accordion.Body>
+									{QUIZ_DIRECTIONS[directionsId]}
+								</Accordion.Body>
+							</Accordion.Item>
+						}
+						{descriptionId != -1 &&
+							<Accordion.Item eventKey="1">
+								<Accordion.Header>
+									GRAPH DESCRIPTION
+								</Accordion.Header>
+								<Accordion.Body>
+									{GRAPH_DESCRIPTION[descriptionId]}
+								</Accordion.Body>
+							</Accordion.Item>
+						}
+					</Accordion>
 				</div>
 			</div>
 			<div className="map-container" >
 				<DeckGL
-					initialViewState={states[selectedState]['mapView']}
+					initialViewState={STATES[selectedState]['mapView']}
 					controller={true}
 					layers={[countyLayer]}
 					getCursor={() => (isHovering ? "pointer" : "grab")}
