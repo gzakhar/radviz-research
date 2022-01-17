@@ -2,6 +2,7 @@ import { select } from 'd3-selection';
 import React, { useEffect } from 'react';
 
 const BORDER_COLOR = '#DDDDDD';
+const BORDER_OFFSET = 10;
 const CHART_R = 200;
 const MARGIN = 50;
 
@@ -27,16 +28,16 @@ function Radviz(props) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dialRV, 0, props.std);
+							drawShadeStd(dialRV, 0, props.std * CHART_R);
 							break;
 						case 'one2two':
-							drawShadeStd(dialRV, props.std, props.std2);
+							drawShadeStd(dialRV, props.std * CHART_R, props.std2 * CHART_R);
 							break;
 						case 'two2three':
-							drawShadeStd(dialRV, props.std2, props.std3);
+							drawShadeStd(dialRV, props.std2 * CHART_R, props.std3 * CHART_R);
 							break;
 						case 'three2inf':
-							drawShadeStd(dialRV, props.std3, 1);
+							drawShadeStd(dialRV, props.std3 * CHART_R, 1 * CHART_R + BORDER_OFFSET);
 							break;
 					}
 				}
@@ -85,11 +86,11 @@ function Radviz(props) {
 			if (top) {
 				startAngle = label.angle - Math.PI / 4
 				endAngle = label.angle + Math.PI / 4
-				radius = CHART_R + 10
+				radius = CHART_R + BORDER_OFFSET + 10 
 			} else {
 				startAngle = label.angle + Math.PI / 4
 				endAngle = label.angle - Math.PI / 4
-				radius = CHART_R + 25
+				radius = CHART_R + BORDER_OFFSET + 25 
 			}
 
 			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
@@ -132,8 +133,8 @@ function Radviz(props) {
 			.data(labels)
 			.enter()
 			.append('circle')
-			.attr('cx', d => dotX(CHART_R, d.angle))
-			.attr('cy', d => dotY(CHART_R, d.angle))
+			.attr('cx', d => dotX(CHART_R + BORDER_OFFSET, d.angle))
+			.attr('cy', d => dotY(CHART_R + BORDER_OFFSET, d.angle))
 			.attr('r', 5)
 			.style('fill', 'red')
 			.style('stroke', '#000')
@@ -143,14 +144,12 @@ function Radviz(props) {
 	// Plot data points
 	function drawDots(dial, dotData) {
 
-		let BORDER_MARGIN = 10
-
 		dial.selectAll()
 			.data(dotData)
 			.enter()
 			.append('circle')
-			.attr('cx', d => (CHART_R - BORDER_MARGIN) * d.coordinates.x)
-			.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
+			.attr('cx', d => CHART_R * d.coordinates.x)
+			.attr('cy', d => CHART_R * d.coordinates.y)
 			.attr('r', d => {
 				if (d.data['county_name'] == props.hoverId) {
 					return 10
@@ -219,7 +218,7 @@ function Radviz(props) {
 		HUE_STEPS.forEach(angle => (
 			g.append('path')
 				.attr('key', angle)
-				.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, CHART_R / 2, angle, angle + 1.5))
+				.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, (CHART_R / 2) + BORDER_OFFSET, angle, angle + 1.5))
 				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
 		))
 
@@ -229,7 +228,7 @@ function Radviz(props) {
 		svg.append('circle')
 			.attr('cx', CHART_R + MARGIN)
 			.attr('cy', CHART_R + MARGIN)
-			.attr('r', CHART_R)
+			.attr('r', CHART_R + BORDER_OFFSET)
 			.style('fill', 'url(#saturation)')
 
 		let saturation = defs.append('radialGradient')
@@ -250,7 +249,7 @@ function Radviz(props) {
 			.style('stroke-opacity', 1)
 			.attr('cx', CHART_R + MARGIN)
 			.attr('cy', CHART_R + MARGIN)
-			.attr('r', CHART_R)
+			.attr('r', CHART_R + BORDER_OFFSET)
 
 		function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
 			var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
@@ -273,7 +272,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#313131')
-			.style('stroke-width', 3)
+			.style('stroke-width', 1.5)
 			.style('stroke-dasharray', '2, 5')
 			.style('stroke-opacity', 1)
 		// .style('cursor', 'pointer')
@@ -285,7 +284,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#DDDDDD')
-			.style('stroke-width', 3)
+			.style('stroke-width', 1.5)
 			.style('stroke-dasharray', '5, 2')
 			.style('stroke-dashoffset', 5)
 			.style('stroke-opacity', 1)
@@ -293,18 +292,15 @@ function Radviz(props) {
 		// .on('mouseover', () => console.log('hover'))
 	}
 
-	function drawShadeStd(dial, innerRadius, outerRadius) {
-
-		let smallArcRadius = innerRadius * CHART_R
-		let largeArcRadius = outerRadius * CHART_R
+	function drawShadeStd(dial, smallArcRadius, largeArcRadius) {
 
 		// two arc paths that work togeather to create a donut.
 		dial.append('path')
 			.attr('d', `M 0 0 
-					m ${-largeArcRadius} 0 
-					a 1 1 0 0 1 ${2 * largeArcRadius} 0
+					m ${-largeArcRadius } 0 
+					a 1 1 0 0 1 ${2 * largeArcRadius } 0
 					l ${-(largeArcRadius - smallArcRadius)} 0 
-					a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
+					a 1 1 0 0 0 ${-(2 * (smallArcRadius))} 0 
 					l ${-(largeArcRadius - smallArcRadius)} 0 
 					M 0 0
 					m ${-largeArcRadius} 0 

@@ -28,6 +28,10 @@ export const STATES = [
 		}
 	}]
 
+
+
+
+
 export const GRAPH_DESCRIPTION = [
 	(<>
 		<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>RadViz</a>:
@@ -67,7 +71,56 @@ export const QUIZ_DIRECTIONS = [
 		<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
 		<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
 		<li>Each of the three inscribed circles represent a standard deviations away from the mean.</li>
-		<li>Moving the sliders with the three knobs will linearly stretch the positions of the dots from the center (mean). This will give you a more percice view of datapoints between the standard deviations.</li>
+		<li>Moving the sliders with the three knobs will linearly stretch the positions of the dots from the center (mean). This will give you a more precise view of datapoints between the standard deviations.</li>
 		<li>Turning ON/OFF "inter-standard deviation selectors" will remove those counties from the Map and shade out that area on the Graphic.</li>
 	</ol>,
 ]
+
+// axios("https://gist.githubusercontent.com/gzakhar/2b20ade4788d685163bcf6af09f0a9d9/raw/1bedbda2d5e673e4356da79e92eff102949c3f73/surveyText").then((res) => console.log(res.data)})
+
+
+// export const surveyText = {
+// 	"GRAPH_DESCRIPTION": {
+// 		"RADVIZ": 
+// 			`<a target="_blank" href='https://www.scikit-yb.org/en/latest/api/features/radviz.html'>RadViz</a>:
+// 			A multivariate data visualization algorithm that plots each feature dimension 
+// 			(called "Anchor" and shown as a <span style={{color: 'red', fontWeight: '700'}}>red</span> dot)
+// 			uniformly around the circumference of the circle, then plots points (shown as <span style={{color: 'black', fontWeight: '700'}}>black</span> dots) 
+// 			on the interior of the circle such that the point normalizes its values on the axes from the center to each arc. 
+// 			The closer a datapoint is to an Anchor, the bigger tha value of that datapoint is for that dimension.`,
+// 		"S_RADVIZ": 
+// 			`S-RadViz: A modified version of a multivatiate data visualization algorithm (RadViz).
+// 			With the biggest change being that instead of displaying each feature dimention as one Anchor along the circumfrence of the circle,
+// 			the dimention is displayed as two opposing Anchors.
+// 			Each of the three dotted circles inscribed into the Graphic represent a standard deviation away from the center (mean),
+// 			most inner circle (1st SD), second from center (2nd SD), third from center (3rd SD).
+// 			The closer a datapoint is to an Anchor, the bigger tha value of that datapoint is for that dimension.`,
+// 	},
+// 	"QUIZ_DIRECTIONS": {
+// 		"QUIZ_1": 
+// 			`<ol>
+// 				<li>Each County on the map is represented with a black dot on the Graphic.</li>
+// 				<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+// 				<li>Clicking on the black dot will turn it <span style={{color: \'green\', fontWeight: \'700\'}}>green</span> and copy name of the County to Clipboard.</li>
+// 				<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+// 			</ol>`,
+// 		"QUIZ_2": 
+// 			`<ol>
+// 				<li>Each County on the map is represented with a black dot on the Graphic.</li>
+// 				<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+// 				<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
+// 				<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+// 				<li>Each of the three inscribed circles represent a standard deviations away from the mean.</li>
+// 			</ol>`,
+// 		"QUIZ_3": 
+// 			`<ol>
+// 				<li>Each County on the map is represented with a black dot on the Graphic.</li>
+// 				<li>Hovering over the black dot will display the name of that County and highlight that County on the Map.</li>
+// 				<li>Clicking on the black dot will turn it <span style={{color: 'green', fontWeight: '700'}}>green</span> and copy name of the County to Clipboard.</li>
+// 				<li>For each question in the GoogleForm, find the county (<span style={{color: 'black', fontWeight: '700'}}>black</span> dot) that best answers the question and paste its name into the response.</li>
+// 				<li>Each of the three inscribed circles represent a standard deviations away from the mean.</li>
+// 				<li>Moving the sliders with the three knobs will linearly stretch the positions of the dots from the center (mean). This will give you a more precise view of datapoints between the standard deviations.</li>
+// 				<li>Turning ON/OFF "inter-standard deviation selectors" will remove those counties from the Map and shade out that area on the Graphic.</li>
+// 			</ol>`,
+// 	}
+// }
