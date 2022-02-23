@@ -1,4 +1,6 @@
 import { select } from 'd3-selection';
+import { zoom } from 'd3-zoom';
+import { call } from 'd3-dispatch';
 import React, { useEffect, useRef } from 'react';
 
 const BORDER_COLOR = '#DDDDDD';
@@ -13,20 +15,36 @@ function Radviz(props) {
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
+
+		svg.call(zoom()
+			.scaleExtent([1, 5])
+			.on("zoom", zoomed));
+
+		let hueWheel;
 		if (props.showHSV) {
-			colorInCircumfrence(svg, defs)
+			hueWheel = colorInCircumfrence(svg, defs)
 			drawBorder(svg)
 		} else {
-			colorInWhite(svg)
+			hueWheel = colorInWhite(svg)
 			drawBorder(svg, 'gray')
 		}
 
 
-		svg.select('#dataWheel').remove()
-		const dialRV = svg.append('g')
+		svg.select('#zoomLayer').remove()
+		const zoomLayer = svg.append('g')
+			.attr('id', 'zoomLayer')
+
+
+		zoomLayer.select('#dataWheel').remove()
+		const dataWheel = zoomLayer.append('g')
 			.attr('id', 'dataWheel')
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
+
+		function zoomed({ transform }) {
+			zoomLayer.attr("transform", transform);
+			hueWheel.attr("transform", transform);
+		}
 
 
 		if (props.shade) {
@@ -34,42 +52,53 @@ function Radviz(props) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dialRV, 0, props.std);
+							drawShadeStd(dataWheel, 0, props.std);
 							break;
 						case 'one2two':
-							drawShadeStd(dialRV, props.std, props.std2);
+							drawShadeStd(dataWheel, props.std, props.std2);
 							break;
 						case 'two2three':
-							drawShadeStd(dialRV, props.std2, props.std3);
+							drawShadeStd(dataWheel, props.std2, props.std3);
 							break;
 						case 'three2inf':
-							drawShadeStd(dialRV, props.std3, 1);
+							drawShadeStd(dataWheel, props.std3, 1);
 							break;
 					}
 				}
 			}
 		}
 
+		// Draw outline.
+		let outline = svg.append('g').attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
+		drawCutOut(outline, 1, 2)
+
+		zoomLayer.select('#staticWheel').remove()
+		const staticWheel = svg.append('g')
+			.attr('id', 'staticWheel')
+			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
+
+
 		if (props.labels) {
-			drawAnchors(dialRV, props.labels);
-			printLabels(dialRV, props.labels, defs);
+			drawAnchors(staticWheel, props.labels);
+			printLabels(staticWheel, props.labels, defs);
 		}
 
 		if (props.std) {
-			drawStd(dialRV, props.std);
+			drawStd(dataWheel, props.std);
 		}
 
 		if (props.std2) {
-			drawStd(dialRV, props.std2);
+			drawStd(dataWheel, props.std2);
 		}
 
 		if (props.std3) {
-			drawStd(dialRV, props.std3);
+			drawStd(dataWheel, props.std3);
 		}
 
 		if (props.points) {
-			drawDots(dialRV, props.points);
+			drawDots(dataWheel, props.points);
 		}
+		
 	})
 
 
@@ -170,20 +199,16 @@ function Radviz(props) {
 			.style('fill-opacity', 0.8)
 			.style('stroke', '#FFFFFF')
 			.style('stroke-width', 0.1)
-			.on('mouseover', handleHoverOn)
-			.on('mouseout', handleHoverOff)
+			// .on('mouseover', handleHoverOn)
+			// .on('mouseout', handleHoverOff)
 		// .on('click', props.handleMouseClick)
 	}
 
 	function handleHoverOn(i, d) {
-		
+
 		props.hoverOver(d.data['county_name'])
 
-		// select(this)
-		// 	.attr('r', 6)
-		// 	.style('fill', 'white')
-
-			// TODO make the id of dot labels more unique
+		// TODO make the id of dot labels more unique
 		select(this.parentNode).append('text')
 			.attr('id', "dot-labels")
 			.attr('x', this.getAttribute('cx') - 10)
@@ -209,7 +234,7 @@ function Radviz(props) {
 
 
 	function colorInWhite(svg) {
-		svg.append('circle')
+		return svg.append('circle')
 			.attr('cx', CHART_R + MARGIN)
 			.attr('cy', CHART_R + MARGIN)
 			.attr('r', CHART_R)
@@ -219,11 +244,13 @@ function Radviz(props) {
 	// Setting saturation and hsl
 	function colorInCircumfrence(svg, defs) {
 
+
 		const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
 		// remove if refreshed
 		svg.select('#hueWheel').remove()
 
+		// element that should hold all the coloring.
 		const g = svg.append('g')
 			.attr('id', "hueWheel")
 			.attr('stroke-width', CHART_R)
@@ -237,9 +264,9 @@ function Radviz(props) {
 		))
 
 
-		svg.selectAll("circle").remove()
+		g.selectAll("circle").remove()
 
-		svg.append('circle')
+		g.append('circle')
 			.attr('cx', CHART_R + MARGIN)
 			.attr('cy', CHART_R + MARGIN)
 			.attr('r', CHART_R)
@@ -267,6 +294,8 @@ function Radviz(props) {
 
 			return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y2}`;
 		}
+
+		return g
 	}
 
 	function drawBorder(svg, borderColor = BORDER_COLOR) {
@@ -331,6 +360,35 @@ function Radviz(props) {
 			.style('opacity', '0.5')
 
 	}
+
+
+
+	function drawCutOut(svg, innerRadius, outerRadius) {
+
+		let smallArcRadius = innerRadius * CHART_R
+		let largeArcRadius = outerRadius * CHART_R
+
+		// two arc paths that work togeather to create a donut.
+		svg.append('path')
+			.attr('d', `M 0 0 
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 1 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					M 0 0
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 0 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 1 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					Z`)
+			.style('stroke', 'none')
+			.style('fill', '#313131')
+			.style('opacity', '1')
+
+	}
+
 
 	return (
 		<svg viewBox='0 0 500 500' />
