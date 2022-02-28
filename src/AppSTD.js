@@ -178,7 +178,7 @@ export default function App() {
 						labels={data.labels}
 						hoverId={hoverCounty}
 						// hoverOver={setHoverCounty}
-						std={data.std}
+						std1={data.std}
 						std2={data.std2}
 						std3={data.std3}
 						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
