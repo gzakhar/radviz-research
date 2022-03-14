@@ -1,4 +1,3 @@
-import { getByText } from '@testing-library/react';
 import { scaleLinear } from 'd3-scale';
 import { filter, max } from 'lodash';
 import { std, mean } from 'mathjs';
@@ -138,7 +137,7 @@ function findMaxOutliar(data, labels) {
 }
 
 
-function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDeviation, standardDeviation2, standardDeviation3, textAccessor = null, zoom = true) {
+function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDeviation, textAccessor = null, zoom = true) {
 
 	// TODO: order of labels is determined by the angles at which they are displayed.
 	// let labels = Object.keys(labelTextMapping);
@@ -189,68 +188,68 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 
 
 	// initialized a dictionary of border functions.
-	// let borderFunctionDict = (() => {
-	// 	let func = {}
-	// 	labels.forEach((label, i, labelsArray) => {
+	let borderFunctionDict = (() => {
+		let func = {}
+		labels.forEach((label, i, labelsArray) => {
 
-	// 		let angle = label2Theta(label);
-	// 		let nextAngle = label2Theta((labelsArray[(i + 1) % numberOfAnchors]));
+			let angle = label2Theta(label);
+			let nextAngle = label2Theta((labelsArray[(i + 1) % numberOfAnchors]));
 
-	// 		// y = ax + b
-	// 		let a = slope(dotX(1, angle), dotX(1, nextAngle), dotY(1, angle), dotY(1, nextAngle));
-	// 		let b = xIntersect(dotX(1, angle), dotY(1, angle), a);
-	// 		let xIntersept = dotX(1, angle)
+			// y = ax + b
+			let a = slope(dotX(1, angle), dotX(1, nextAngle), dotY(1, angle), dotY(1, nextAngle));
+			let b = xIntersect(dotX(1, angle), dotY(1, angle), a);
+			let xIntersept = dotX(1, angle)
 
-	// 		// if slope of border function is (effective) zero. 
-	// 		if (Math.abs(round(a, 10000000)) === 0) {
-	// 			func[i] = (theta) => {
+			// if slope of border function is (effective) zero. 
+			if (Math.abs(round(a, 10000000)) === 0) {
+				func[i] = (theta) => {
 
-	// 				let thetaRonded = round(theta, ROUND_TO)
-	// 				// if tan(theta) undefined
-	// 				if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
-	// 					// find intersection with x = 0 and y=ax+b
-	// 					return round(Math.abs(b), ROUND_TO)
-	// 				}
+					let thetaRonded = round(theta, ROUND_TO)
+					// if tan(theta) undefined
+					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
+						// find intersection with x = 0 and y=ax+b
+						return round(Math.abs(b), ROUND_TO)
+					}
 
-	// 				// if not y = b
-	// 				let a2 = Math.tan(theta)
-	// 				let y = b
-	// 				let x = round(y / a2, ROUND_TO)
-	// 				return hypotneous(x, y)
-	// 			}
-	// 		}
-	// 		// if slope of border function is (effective) undefined.
-	// 		else if (a > 10000000) {
-	// 			func[i] = (theta) => {
+					// if not y = b
+					let a2 = Math.tan(theta)
+					let y = b
+					let x = round(y / a2, ROUND_TO)
+					return hypotneous(x, y)
+				}
+			}
+			// if slope of border function is (effective) undefined.
+			else if (a > 10000000) {
+				func[i] = (theta) => {
 
-	// 				let a2 = Math.tan(theta)
-	// 				let x = xIntersept
-	// 				let y = a2 * x
+					let a2 = Math.tan(theta)
+					let x = xIntersept
+					let y = a2 * x
 
-	// 				return hypotneous(x, y)
-	// 			}
-	// 		}
-	// 		// else border function is regular
-	// 		else {
-	// 			func[i] = (theta) => {
+					return hypotneous(x, y)
+				}
+			}
+			// else border function is regular
+			else {
+				func[i] = (theta) => {
 
-	// 				let thetaRonded = round(theta, ROUND_TO)
-	// 				// if tan(theta) undefined
-	// 				if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
-	// 					// find intersection with x = 0 and y=ax+b
-	// 					return round(Math.abs(b), ROUND_TO)
-	// 				}
+					let thetaRonded = round(theta, ROUND_TO)
+					// if tan(theta) undefined
+					if (thetaRonded == round(Math.PI / 2, ROUND_TO) || thetaRonded == round(3 * Math.PI / 2, ROUND_TO)) {
+						// find intersection with x = 0 and y=ax+b
+						return round(Math.abs(b), ROUND_TO)
+					}
 
-	// 				let a2 = Math.tan(theta)
-	// 				let x = round(-b / (a - a2), ROUND_TO);
-	// 				let y = round(a2 * x, ROUND_TO);
+					let a2 = Math.tan(theta)
+					let x = round(-b / (a - a2), ROUND_TO);
+					let y = round(a2 * x, ROUND_TO);
 
-	// 				return hypotneous(x, y)
-	// 			}
-	// 		}
-	// 	})
-	// 	return func
-	// })();
+					return hypotneous(x, y)
+				}
+			}
+		})
+		return func
+	})();
 
 
 	// Not being used in Muller Viz
@@ -264,73 +263,13 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 	// 	return { ...point, coordinates: coordinates }
 	// })
 
+
 	let result = {}
 
 	if (zoom) {
-
 		// get min and max of radius
-		let minRadius = Number.MAX_SAFE_INTEGER
-		let maxRadius = Number.MIN_SAFE_INTEGER
-		points.forEach((point) => {
-			const x = point.coordinates.x
-			const y = point.coordinates.y
-			const radius = hypotneous(x, y)
-			if (minRadius > radius)
-				minRadius = radius
-			if (maxRadius < radius)
-				maxRadius = radius
-		})
-
-		let scaledStandardDeviation = normalizationFunction(standardDeviation / 100)
-		let scaledStandardDeviation2 = normalizationFunction(standardDeviation2 / 100)
-		let scaledStandardDeviation3 = normalizationFunction(standardDeviation3 / 100)
-		let underScale = (scaledStandardDeviation - 0) / (normalizationFunction(1) - 0)
-		let lowerMidScaling = (scaledStandardDeviation2 - scaledStandardDeviation) / (normalizationFunction(2) - normalizationFunction(1))
-		let overMidScaling = (scaledStandardDeviation3 - scaledStandardDeviation2) / (normalizationFunction(3) - normalizationFunction(2))
-		let overScale = (maxRadius - scaledStandardDeviation3) / (maxRadius - normalizationFunction(3))
-		points = points
-			.map(point => {
-				let x = point.coordinates.x
-				let y = point.coordinates.y
-				const radius = hypotneous(x, y)
-				if (radius <= normalizationFunction(1)) {
-					x = underScale * x
-					y = underScale * y
-				} else if (radius <= normalizationFunction(2)) {
-					let h = hypotneous(x, y)
-					let a = getTheta(x, y)
-					h -= normalizationFunction(1)
-					x = lowerMidScaling * dotX(h, a)
-					y = lowerMidScaling * dotY(h, a)
-					h = hypotneous(x, y) + scaledStandardDeviation
-					a = getTheta(x, y)
-					x = dotX(h, a)
-					y = dotY(h, a)
-				} else if (radius <= normalizationFunction(3)) {
-					let h = hypotneous(x, y)
-					let a = getTheta(x, y)
-					h -= normalizationFunction(2)
-					x = overMidScaling * dotX(h, a)
-					y = overMidScaling * dotY(h, a)
-					h = hypotneous(x, y) + scaledStandardDeviation2
-					a = getTheta(x, y)
-					x = dotX(h, a)
-					y = dotY(h, a)
-				} else {
-					let h = hypotneous(x, y)
-					let a = getTheta(x, y)
-					h -= normalizationFunction(3)
-					x = overScale * dotX(h, a)
-					y = overScale * dotY(h, a)
-					h = hypotneous(x, y) + scaledStandardDeviation3
-					a = getTheta(x, y)
-					x = dotX(h, a)
-					y = dotY(h, a)
-				}
-				const coordinates = { ...point.coordinates, x: x, y: y }
-				return { ...point, coordinates: coordinates }
-			})
-
+		let minRadius = 1
+		let maxRadius = 0
 		points.forEach((point) => {
 			const x = point.coordinates.x
 			const y = point.coordinates.y
@@ -350,11 +289,9 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 			return { ...point, coordinates: coordinates }
 		})
 
-		result['std'] = scaledStandardDeviation * scaling
-		result['std2'] = scaledStandardDeviation2 * scaling
-		result['std3'] = scaledStandardDeviation3 * scaling
+		let scaledStandardDeviation = scaling * normalizationFunction(standardDeviation)
+		result['std'] = scaledStandardDeviation
 	}
-
 
 	if (textAccessor) {
 		points = points.map(row => ({ ...row, 'textFloater': row.data[textAccessor] }))
@@ -397,4 +334,4 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 	return result;
 }
 
-export default RawPositioning;
+export default RawPositioning ;

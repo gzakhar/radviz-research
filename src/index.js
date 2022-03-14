@@ -2,11 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import RadvizGraph from './RadvizGraph';
+import RadvixBorderTestGraph from './RadvixBorderTestGraph';
+import TestingUpdate from './TestingUpdate';
+import App from './App';
 import AppSTD from './AppSTD.js';
+import TestingDataWithStatisticalDynamicRadviz from './TestingDataWithStatisticalDynamicRadviz';
+import TestingDataWithDynamicRadviz from './TestingDataWithDynamicRadviz';
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* <RadvizGraph /> */}
+    {/* <RadvixBorderTestGraph /> */}
+    {/* <TestingUpdate/> */}
+    {/* <App /> */}
     <AppSTD />
+    {/* <TestingDataWithStatisticalDynamicRadviz /> */}
+    {/* <TestingDataWithDynamicRadviz /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
