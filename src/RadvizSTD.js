@@ -1,81 +1,99 @@
 import { select } from 'd3-selection';
-import React, { useEffect, useRef } from 'react';
+import { zoom, ZoomTransform } from 'd3-zoom';
+import React, { useEffect, useState } from 'react';
+import { segmentIntersectCircle, round, dotX, dotY, adjustedAnchorAngle, rad2deg, getTheta } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
 const CHART_R = 200;
-const MARGIN = 50;
 
 function Radviz(props) {
 
-	useEffect(() => {
+	const [transform, setTransform] = useState(new ZoomTransform(1, 0, 0))
 
-		let svg = select('svg')
+	useEffect(() => {
+		// #1 svg.
+		let svg = select('svg').attr('id', 'svg')
+
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
-		if (props.showHSV) {
-			colorInCircumfrence(svg, defs)
-			drawBorder(svg)
-		} else {
-			colorInWhite(svg)
-			drawBorder(svg, 'gray')
-		}
+		svg.call(zoom()
+			.scaleExtent([1, 10])
+			.on("zoom", (e) => setTransform(e.transform)));
+
+		// #2 hueWheel, datawheel, border, reactive, data, curtain, anchors, labels
+		svg.select('#zoomLayer').remove()
+
+		// let scale = transform.translate(MARGIN + CHART_R, MARGIN + CHART_R)
+		let scale = transform
+		let zoomLayer = svg.append('g')
+			.attr('id', 'zoomLayer')
+			.attr("transform", scale)
 
 
-		svg.select('#dataWheel').remove()
-		const dialRV = svg.append('g')
+		// hueWheel.
+		zoomLayer.select("#hueWheel").remove()
+		let hueWheel = zoomLayer.append('g')
+			.attr('id', 'hueWheel')
+		colorInCircumfrence(hueWheel, defs)
+
+		// dataWheel.
+		zoomLayer.select('#dataWheel').remove()
+		let dataWheel = zoomLayer.append('g')
 			.attr('id', 'dataWheel')
-			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
 
+		// border.
+		drawBorder(svg)
 
+
+		// reactive
 		if (props.shade) {
 			for (const [key, value] of Object.entries(props.shade)) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dialRV, 0, props.std);
+							drawShadeStd(dataWheel, 0, props.std1);
 							break;
-						case 'one2two':
-							drawShadeStd(dialRV, props.std, props.std2);
+							case 'one2two':
+							drawShadeStd(dataWheel, props.std1, props.std2);
 							break;
 						case 'two2three':
-							drawShadeStd(dialRV, props.std2, props.std3);
+							drawShadeStd(dataWheel, props.std2, props.std3);
 							break;
 						case 'three2inf':
-							drawShadeStd(dialRV, props.std3, 1);
+							drawShadeStd(dataWheel, props.std3, 1);
 							break;
 					}
 				}
 			}
 		}
+		if (props.std1) drawStd(dataWheel, props.std1, transform.k || 1);
+		if (props.std2) drawStd(dataWheel, props.std2, transform.k || 1);
+		if (props.std3) drawStd(dataWheel, props.std3, transform.k || 1);
+
+		// data
+		if (props.points) drawDots(dataWheel, props.points, transform.k || 1);
+
+
+		// curtain
+		svg.select('#curtain').remove()
+		let outline = svg.append('g')
+			.attr('id', 'curtain')
+		drawCurtain(outline, 1, 2)
+
+		// anchor, labels
+		svg.select('#staticWheel').remove()
+		const staticWheel = svg.append('g')
+			.attr('id', 'staticWheel')
 
 		if (props.labels) {
-			drawAnchors(dialRV, props.labels);
-			printLabels(dialRV, props.labels, defs);
+			let newLabels = anchorIntercept(props.labels, scale)
+			drawAnchors(staticWheel, newLabels);
+			printLabels(staticWheel, newLabels, defs);
 		}
 
-		if (props.std) {
-			drawStd(dialRV, props.std);
-		}
-
-		if (props.std2) {
-			drawStd(dialRV, props.std2);
-		}
-
-		if (props.std3) {
-			drawStd(dialRV, props.std3);
-		}
-
-		if (props.points) {
-			drawDots(dialRV, props.points);
-		}
-	})
-
-
-
-	let dotY = (radius, theta) => radius * Math.sin(theta);
-	let dotX = (radius, theta) => radius * Math.cos(theta);
+	}, [transform, props])
 
 
 	// Print Labels
@@ -97,7 +115,7 @@ function Radviz(props) {
 			} else {
 				startAngle = label.angle + Math.PI / 4
 				endAngle = label.angle - Math.PI / 4
-				radius = CHART_R + 25
+				radius = CHART_R + 27.5
 			}
 
 			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
@@ -149,7 +167,7 @@ function Radviz(props) {
 	}
 
 	// Plot data points
-	function drawDots(dial, dotData) {
+	function drawDots(dial, dotData, scale) {
 
 		let BORDER_MARGIN = 10
 
@@ -161,87 +179,35 @@ function Radviz(props) {
 			.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
 			.attr('r', d => {
 				if (d.data['county_name'] == props.hoverId) {
-					return 10
+					return 10 / scale
 				}
-				return 2.5
+				return 3.0 / scale
 			})
 			.attr('id', (_, i) => `dot${i}`)
 			.style('fill', '#000000')
 			.style('fill-opacity', 0.8)
 			.style('stroke', '#FFFFFF')
 			.style('stroke-width', 0.1)
-			.on('mouseover', handleHoverOn)
-			.on('mouseout', handleHoverOff)
-		// .on('click', props.handleMouseClick)
-	}
-
-	function handleHoverOn(i, d) {
-		
-		props.hoverOver(d.data['county_name'])
-
-		// select(this)
-		// 	.attr('r', 6)
-		// 	.style('fill', 'white')
-
-			// TODO make the id of dot labels more unique
-		select(this.parentNode).append('text')
-			.attr('id', "dot-labels")
-			.attr('x', this.getAttribute('cx') - 10)
-			.attr('y', this.getAttribute('cy') - 10)
-			// .attr('x', d.coordinates.x - 10)
-			// .attr('y', d.coordinates.y - 10)
-			.text(d.textFloater)
-
-	}
-
-	function handleHoverOff(i, d) {
-
-		props.hoverOver(-1)
-
-		// select(this)
-		// 	.style('fill', i.fill)
-		// 	.attr('r', 2.5)
-
-		// TODO make the id of dot labels more unique
-		select(this.parentNode).select("#dot-labels")
-			.remove()
-	}
-
-
-	function colorInWhite(svg) {
-		svg.append('circle')
-			.attr('cx', CHART_R + MARGIN)
-			.attr('cy', CHART_R + MARGIN)
-			.attr('r', CHART_R)
-			.style('fill', 'white')
 	}
 
 	// Setting saturation and hsl
-	function colorInCircumfrence(svg, defs) {
+	function colorInCircumfrence(parent, defs) {
 
 		const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
 
-		// remove if refreshed
-		svg.select('#hueWheel').remove()
-
-		const g = svg.append('g')
-			.attr('id', "hueWheel")
-			.attr('stroke-width', CHART_R)
-
+		// element that should hold all the coloring.
+		const g = parent.attr('stroke-width', CHART_R)
 
 		HUE_STEPS.forEach(angle => (
 			g.append('path')
 				.attr('key', angle)
-				.attr('d', getSvgArcPath(CHART_R + MARGIN, CHART_R + MARGIN, CHART_R / 2, angle, angle + 1.5))
+				.attr('d', getSvgArcPath(0, 0, CHART_R / 2, angle, angle + 1.5))
 				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
 		))
 
+		g.selectAll("circle").remove()
 
-		svg.selectAll("circle").remove()
-
-		svg.append('circle')
-			.attr('cx', CHART_R + MARGIN)
-			.attr('cy', CHART_R + MARGIN)
+		g.append('circle')
 			.attr('r', CHART_R)
 			.style('fill', 'url(#saturation)')
 
@@ -251,6 +217,7 @@ function Radviz(props) {
 		saturation.append('stop')
 			.attr('offset', '0%')
 			.attr('stop-color', '#fff')
+			.attr('stop-opacity', 1)
 		saturation.append('stop')
 			.attr('offset', '100%')
 			.attr('stop-color', '#fff')
@@ -267,22 +234,27 @@ function Radviz(props) {
 
 			return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y2}`;
 		}
+
+		return g
 	}
 
-	function drawBorder(svg, borderColor = BORDER_COLOR) {
+	function drawBorder(parent, borderColor = BORDER_COLOR) {
 
-		svg.append('circle')
+		const id = 'border'
+
+		parent.select('#' + id).remove()
+
+		parent.append('circle')
 			.style('fill', 'none')
 			.style('stroke', borderColor)
 			.style('stroke-width', 3)
 			.style('stroke-opacity', 1)
-			.attr('cx', CHART_R + MARGIN)
-			.attr('cy', CHART_R + MARGIN)
 			.attr('r', CHART_R)
+			.attr('id', id)
 	}
 
 
-	function drawStd(dial, std) {
+	function drawStd(dial, std, scale) {
 
 		dial.append('circle')
 			.attr('cx', 0)
@@ -290,7 +262,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#313131')
-			.style('stroke-width', 3)
+			.style('stroke-width', 3 / scale)
 			.style('stroke-dasharray', '2, 5')
 			.style('stroke-opacity', 1)
 
@@ -300,7 +272,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#DDDDDD')
-			.style('stroke-width', 3)
+			.style('stroke-width', 3 / scale)
 			.style('stroke-dasharray', '5, 2')
 			.style('stroke-dashoffset', 5)
 			.style('stroke-opacity', 1)
@@ -332,8 +304,88 @@ function Radviz(props) {
 
 	}
 
+
+
+	function drawCurtain(parent, innerRadius, outerRadius) {
+
+		let smallArcRadius = innerRadius * CHART_R
+		let largeArcRadius = outerRadius * CHART_R
+
+		// two arc paths that work togeather to create a donut.
+		parent.append('path')
+			.attr('d', `M 0 0 
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 1 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					M 0 0
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 0 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 1 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					Z`)
+			.attr('id', 'cutout')
+			.style('stroke', 'none')
+			.style('fill', '#313131')
+			.style('opacity', '1')
+
+	}
+
+
+	/**
+	 * Arguemnts:
+	 * 		anchorPositions: props.labels
+	 * 		transform: scale
+	 * 
+	 * Explenation: 
+	 * 		This function adjusts the locations of the labels based 
+	 * 		on the position of the observable graphic raltive to the real graphic.
+	 * 		It does so by keeping track of where the "Real" graphic is realtive 
+	 * 		to the "Observable" graphic. 
+	 */
+	function anchorIntercept(labels, transform) {
+		let newLabels = []
+		for (let label of labels) {
+			// console.log(label)
+			let r = transform.k
+
+			// Finding the position of the Real graphic's center. Scaling 
+			// transformation by the Chart Radius. to get it to base 1.
+			let centerOfRealGraphicX = transform.x / CHART_R
+			let centerOfRealGraphicY = transform.y / CHART_R
+			// console.log('centerOfRealGraphicX: ', centerOfRealGraphicX)
+
+			// Finding the position of the Observable graphic's center. Scaling
+			// by the scale of transformation, and moving in opposite direction of movement.
+			let centerObervableGraphicX = -centerOfRealGraphicX / r
+			let centerObervableGraphicY = -centerOfRealGraphicY / r
+			// console.log('centerObervableGraphicX: ', centerObervableGraphicX)
+
+			// Getting positions of the label relative to the Real graphic.
+			let pointXofRealGraphic = dotX(1, label.angle)
+			let pointYofRealGraphic = dotY(1, label.angle)
+			// console.log('pointXofMainGraphic: ', pointXofMainGraphic)
+
+			// Calculating dx, dy of the Real graphic's label's coordinates relative to 
+			// Observable graphic.
+			let dX = pointXofRealGraphic - centerObervableGraphicX
+			let dY = pointYofRealGraphic - centerObervableGraphicY
+			// console.log('dX: ', dX)
+
+			// Calculating new angle of lables relative to the Observable graphic.
+			let angle = getTheta(dX, dY)
+			// console.log('angle: ', rad2deg(angle))
+
+			newLabels.push({ ...label, 'angle': angle })
+		}
+		return newLabels
+	}
+
+
 	return (
-		<svg viewBox='0 0 500 500' />
+		<svg viewBox='-250 -250 500 500' />
 	)
 }
 
