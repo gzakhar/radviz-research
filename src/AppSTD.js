@@ -212,7 +212,7 @@ export default function App() {
 							</div>
 						</div>
 
-						{/* {Object.keys(labelAngles).map(d =>
+						{Object.keys(labelAngles).map(d =>
 							<div className="d-flex justify-content-center my-4 control-container">
 								<div style={{ width: '85%' }}>
 									<div className='d-flex align-items-center justify-content-between'>
@@ -237,7 +237,7 @@ export default function App() {
 									</div>
 								</div>
 							</div>
-						)} */}
+						)}
 					</div>
 				</div>
 			</div>

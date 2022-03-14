@@ -1,19 +1,14 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
-import { segmentIntersectCircle, round,  dotX, dotY, adjustedAnchorAngle, rad2deg, getTheta } from './RawPositioningMuellerVizSTD'
+import { segmentIntersectCircle, round, dotX, dotY, adjustedAnchorAngle, rad2deg, getTheta } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
 const CHART_R = 200;
-const MARGIN = 50;
 
 function Radviz(props) {
 
-	const [transform, setTransform] = useState(new ZoomTransform(1, MARGIN + CHART_R, MARGIN + CHART_R))
-
-	// Necessery to get the inital zoom for svg
-	let t = document.getElementById('svg')
-	if (t) t.__zoom = transform
+	const [transform, setTransform] = useState(new ZoomTransform(1, 0, 0))
 
 	useEffect(() => {
 		// #1 svg.
@@ -58,10 +53,10 @@ function Radviz(props) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dataWheel, 0, props.std);
+							drawShadeStd(dataWheel, 0, props.std1);
 							break;
-						case 'one2two':
-							drawShadeStd(dataWheel, props.std, props.std2);
+							case 'one2two':
+							drawShadeStd(dataWheel, props.std1, props.std2);
 							break;
 						case 'two2three':
 							drawShadeStd(dataWheel, props.std2, props.std3);
@@ -85,22 +80,20 @@ function Radviz(props) {
 		svg.select('#curtain').remove()
 		let outline = svg.append('g')
 			.attr('id', 'curtain')
-			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 		drawCurtain(outline, 1, 2)
 
 		// anchor, labels
 		svg.select('#staticWheel').remove()
 		const staticWheel = svg.append('g')
 			.attr('id', 'staticWheel')
-			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
 		if (props.labels) {
-			anchorIntercept(props.labels, scale)
-			drawAnchors(staticWheel, props.labels);
-			printLabels(staticWheel, props.labels, defs);
+			let newLabels = anchorIntercept(props.labels, scale)
+			drawAnchors(staticWheel, newLabels);
+			printLabels(staticWheel, newLabels, defs);
 		}
 
-	}, [transform])
+	}, [transform, props])
 
 
 	// Print Labels
@@ -122,7 +115,7 @@ function Radviz(props) {
 			} else {
 				startAngle = label.angle + Math.PI / 4
 				endAngle = label.angle - Math.PI / 4
-				radius = CHART_R + 25
+				radius = CHART_R + 27.5
 			}
 
 			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
@@ -256,8 +249,6 @@ function Radviz(props) {
 			.style('stroke', borderColor)
 			.style('stroke-width', 3)
 			.style('stroke-opacity', 1)
-			.attr('cx', CHART_R + MARGIN)
-			.attr('cy', CHART_R + MARGIN)
 			.attr('r', CHART_R)
 			.attr('id', id)
 	}
@@ -347,41 +338,54 @@ function Radviz(props) {
 	 * Arguemnts:
 	 * 		anchorPositions: props.labels
 	 * 		transform: scale
+	 * 
+	 * Explenation: 
+	 * 		This function adjusts the locations of the labels based 
+	 * 		on the position of the observable graphic raltive to the real graphic.
+	 * 		It does so by keeping track of where the "Real" graphic is realtive 
+	 * 		to the "Observable" graphic. 
 	 */
 	function anchorIntercept(labels, transform) {
-
+		let newLabels = []
 		for (let label of labels) {
-
-			// Label
 			// console.log(label)
-			// x2, y2
-			// console.log(dotX(1, label.angle), dotY(1, label.angle))
-			// x1, y1
-			// console.log(transform.x/CHART_R, transform.y/CHART_R)
-			// radius
-			// console.log(1/transform.k)
-			// let x1 = transform.x/CHART_R
-			// let y1 = transform.y/CHART_R
-			// let x2 = dotX(1, label.angle)
-			// let y2 = dotY(1, label.angle)
-			// let r = 1/transform.k
-			// segmentIntersectCircle(x1, y1, x2, y2, x1, y1, r)
+			let r = transform.k
+
+			// Finding the position of the Real graphic's center. Scaling 
+			// transformation by the Chart Radius. to get it to base 1.
+			let centerOfRealGraphicX = transform.x / CHART_R
+			let centerOfRealGraphicY = transform.y / CHART_R
+			// console.log('centerOfRealGraphicX: ', centerOfRealGraphicX)
+
+			// Finding the position of the Observable graphic's center. Scaling
+			// by the scale of transformation, and moving in opposite direction of movement.
+			let centerObervableGraphicX = -centerOfRealGraphicX / r
+			let centerObervableGraphicY = -centerOfRealGraphicY / r
+			// console.log('centerObervableGraphicX: ', centerObervableGraphicX)
+
+			// Getting positions of the label relative to the Real graphic.
+			let pointXofRealGraphic = dotX(1, label.angle)
+			let pointYofRealGraphic = dotY(1, label.angle)
+			// console.log('pointXofMainGraphic: ', pointXofMainGraphic)
+
+			// Calculating dx, dy of the Real graphic's label's coordinates relative to 
+			// Observable graphic.
+			let dX = pointXofRealGraphic - centerObervableGraphicX
+			let dY = pointYofRealGraphic - centerObervableGraphicY
+			// console.log('dX: ', dX)
+
+			// Calculating new angle of lables relative to the Observable graphic.
+			let angle = getTheta(dX, dY)
+			// console.log('angle: ', rad2deg(angle))
+
+			newLabels.push({ ...label, 'angle': angle })
 		}
-		let label = labels[0]
-		// console.log(label)
-		let x1 = (transform.x / CHART_R) - 1.25
-		let y1 = (transform.y / CHART_R) - 1.25
-		let x2 = dotX(1, label.angle)
-		let y2 = dotY(1, label.angle)
-		let r = 1 / transform.k
-		// console.log(round(x1, 4), round(y1, 4))
-		console.log(rad2deg(getTheta(-10, 0)))
-		// segmentIntersectCircle(x1, y1, x2, y2, x1, y1, r)
+		return newLabels
 	}
 
 
 	return (
-		<svg viewBox='0 0 500 500' />
+		<svg viewBox='-250 -250 500 500' />
 	)
 }
 
