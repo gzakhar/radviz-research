@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import DeckGL from '@deck.gl/react';
+import { StaticMap } from 'react-map-gl';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import RawPositioning from './RawPositioningMuellerVizSTD.js'
@@ -168,7 +170,7 @@ export default function App() {
 
 	return (
 		<div>
-			<div style={{ width: '50%', height: '100%', position: 'fixed', padding: '5px' }}>
+			<div style={{ width: '30%', height: '100%', position: 'fixed', padding: '5px' }}>
 				<div id='sidebar'>
 					<select name="stat" id="cars" className="btn btn-secondary dropdown-toggle" defaultValue={0} onChange={(e) => setSelectedState(e.target.value)}>
 						{states.map((state, id) => <option value={id}> {state.name}</option>)}
@@ -177,7 +179,7 @@ export default function App() {
 						points={data.points}
 						labels={data.labels}
 						hoverId={hoverCounty}
-						// hoverOver={setHoverCounty}
+						hoverOver={setHoverCounty}
 						std1={data.std}
 						std2={data.std2}
 						std3={data.std3}
@@ -240,6 +242,16 @@ export default function App() {
 						)}
 					</div>
 				</div>
+			</div>
+			<div className="map-container" >
+				<DeckGL
+					initialViewState={states[selectedState]['mapView']}
+					controller={true}
+					layers={[countyLayer]}
+					getCursor={() => (isHovering ? "pointer" : "grab")}
+				>
+					<StaticMap mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
+				</DeckGL>
 			</div>
 		</div >
 	);

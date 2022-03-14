@@ -1,7 +1,7 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
-import { segmentIntersectCircle, round, dotX, dotY, adjustedAnchorAngle, rad2deg, getTheta } from './RawPositioningMuellerVizSTD'
+import { segmentIntersectCircle, round, dotX, dotY, getTheta } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
 const CHART_R = 200;
@@ -188,6 +188,30 @@ function Radviz(props) {
 			.style('fill-opacity', 0.8)
 			.style('stroke', '#FFFFFF')
 			.style('stroke-width', 0.1)
+			.on('mouseover', handleHoverOn)
+			.on('mouseout', handleHoverOff)
+	}
+
+	function handleHoverOn(i, d) {
+		
+		props.hoverOver(d.data['county_name'])
+
+			// TODO make the id of dot labels more unique
+		select(this.parentNode).append('text')
+			.attr('id', "dot-labels")
+			.attr('x', this.getAttribute('cx') - 10)
+			.attr('y', this.getAttribute('cy') - 10)
+			.text(d.textFloater)
+
+	}
+
+	function handleHoverOff(i, d) {
+
+		props.hoverOver(-1)
+
+		// TODO make the id of dot labels more unique
+		select(this.parentNode).select("#dot-labels")
+			.remove()
 	}
 
 	// Setting saturation and hsl
