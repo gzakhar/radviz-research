@@ -1,9 +1,10 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
-import { segmentIntersectCircle, round, dotX, dotY, getTheta } from './RawPositioningMuellerVizSTD'
+import { dotX, dotY, getTheta } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
+const BORDER_OFFSET = 10;
 const CHART_R = 200;
 
 function Radviz(props) {
@@ -53,16 +54,16 @@ function Radviz(props) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dataWheel, 0, props.std1);
+							drawShadeStd(dataWheel, 0, props.std1 * CHART_R);
 							break;
-							case 'one2two':
-							drawShadeStd(dataWheel, props.std1, props.std2);
+						case 'one2two':
+							drawShadeStd(dataWheel, props.std1 * CHART_R, props.std2 * CHART_R);
 							break;
 						case 'two2three':
-							drawShadeStd(dataWheel, props.std2, props.std3);
+							drawShadeStd(dataWheel, props.std2 * CHART_R, props.std3 * CHART_R);
 							break;
 						case 'three2inf':
-							drawShadeStd(dataWheel, props.std3, 1);
+							drawShadeStd(dataWheel, props.std3 * CHART_R, CHART_R + BORDER_OFFSET);
 							break;
 					}
 				}
@@ -111,11 +112,11 @@ function Radviz(props) {
 			if (top) {
 				startAngle = label.angle - Math.PI / 4
 				endAngle = label.angle + Math.PI / 4
-				radius = CHART_R + 10
+				radius = CHART_R + BORDER_OFFSET + 10
 			} else {
 				startAngle = label.angle + Math.PI / 4
 				endAngle = label.angle - Math.PI / 4
-				radius = CHART_R + 27.5
+				radius = CHART_R + BORDER_OFFSET + 27.5
 			}
 
 			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
@@ -158,8 +159,8 @@ function Radviz(props) {
 			.data(labels)
 			.enter()
 			.append('circle')
-			.attr('cx', d => dotX(CHART_R, d.angle))
-			.attr('cy', d => dotY(CHART_R, d.angle))
+			.attr('cx', d => dotX(CHART_R + BORDER_OFFSET, d.angle))
+			.attr('cy', d => dotY(CHART_R + BORDER_OFFSET, d.angle))
 			.attr('r', 5)
 			.style('fill', 'red')
 			.style('stroke', '#000')
@@ -175,8 +176,8 @@ function Radviz(props) {
 			.data(dotData)
 			.enter()
 			.append('circle')
-			.attr('cx', d => (CHART_R - BORDER_MARGIN) * d.coordinates.x)
-			.attr('cy', d => (CHART_R - BORDER_MARGIN) * d.coordinates.y)
+			.attr('cx', d => CHART_R * d.coordinates.x)
+			.attr('cy', d => CHART_R * d.coordinates.y)
 			.attr('r', d => {
 				if (d.data['county_name'] == props.hoverId) {
 					return 10 / scale
@@ -193,10 +194,10 @@ function Radviz(props) {
 	}
 
 	function handleHoverOn(i, d) {
-		
+
 		props.hoverOver(d.data['county_name'])
 
-			// TODO make the id of dot labels more unique
+		// TODO make the id of dot labels more unique
 		select(this.parentNode).append('text')
 			.attr('id', "dot-labels")
 			.attr('x', this.getAttribute('cx') - 10)
@@ -225,14 +226,14 @@ function Radviz(props) {
 		HUE_STEPS.forEach(angle => (
 			g.append('path')
 				.attr('key', angle)
-				.attr('d', getSvgArcPath(0, 0, CHART_R / 2, angle, angle + 1.5))
+				.attr('d', getSvgArcPath(0, 0, (CHART_R / 2) + BORDER_OFFSET, angle, angle + 1.5))
 				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
 		))
 
 		g.selectAll("circle").remove()
 
 		g.append('circle')
-			.attr('r', CHART_R)
+			.attr('r', CHART_R + BORDER_OFFSET)
 			.style('fill', 'url(#saturation)')
 
 		let saturation = defs.append('radialGradient')
@@ -273,7 +274,7 @@ function Radviz(props) {
 			.style('stroke', borderColor)
 			.style('stroke-width', 3)
 			.style('stroke-opacity', 1)
-			.attr('r', CHART_R)
+			.attr('r', CHART_R + BORDER_OFFSET)
 			.attr('id', id)
 	}
 
@@ -286,7 +287,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#313131')
-			.style('stroke-width', 3 / scale)
+			.style('stroke-width', 1.5 / scale)
 			.style('stroke-dasharray', '2, 5')
 			.style('stroke-opacity', 1)
 
@@ -296,7 +297,7 @@ function Radviz(props) {
 			.attr('r', std * CHART_R)
 			.style('fill', 'none')
 			.style('stroke', '#DDDDDD')
-			.style('stroke-width', 3 / scale)
+			.style('stroke-width', 1.5 / scale)
 			.style('stroke-dasharray', '5, 2')
 			.style('stroke-dashoffset', 5)
 			.style('stroke-opacity', 1)
@@ -332,8 +333,8 @@ function Radviz(props) {
 
 	function drawCurtain(parent, innerRadius, outerRadius) {
 
-		let smallArcRadius = innerRadius * CHART_R
-		let largeArcRadius = outerRadius * CHART_R
+		let smallArcRadius = innerRadius * CHART_R + BORDER_OFFSET
+		let largeArcRadius = outerRadius * CHART_R 
 
 		// two arc paths that work togeather to create a donut.
 		parent.append('path')
