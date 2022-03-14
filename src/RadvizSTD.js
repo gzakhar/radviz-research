@@ -1,99 +1,85 @@
 import { select } from 'd3-selection';
-import { zoom } from 'd3-zoom';
+import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
+import { segmentIntersectCircle, round,  dotX, dotY, adjustedAnchorAngle, rad2deg, getTheta } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
 const CHART_R = 200;
 const MARGIN = 50;
 
-function roundTo(num) {
-	return Math.round(num * 100) / 100
-}
-
-function dotY(radius, theta) {
-	return radius * Math.sin(theta)
-}
-
-function dotX(radius, theta) {
-	return radius * Math.cos(theta)
-}
-
-
 function Radviz(props) {
 
-	const [transform, setTransform] = useState({})
+	const [transform, setTransform] = useState(new ZoomTransform(1, MARGIN + CHART_R, MARGIN + CHART_R))
 
-	// #1 svg.
-	let svg = select('svg')
+	// Necessery to get the inital zoom for svg
+	let t = document.getElementById('svg')
+	if (t) t.__zoom = transform
 
-	svg.select('defs').remove()
-	let defs = svg.append('defs')
-
-	svg.call(zoom()
-		.scaleExtent([1, 5])
-		.on("zoom", (e) => setTransform(e.transform)));
-
-
-	let dataWheel;
-	let zoomLayer;
-	let hueWheel;
 	useEffect(() => {
+		// #1 svg.
+		let svg = select('svg').attr('id', 'svg')
+
+		svg.select('defs').remove()
+		let defs = svg.append('defs')
+
+		svg.call(zoom()
+			.scaleExtent([1, 10])
+			.on("zoom", (e) => setTransform(e.transform)));
 
 		// #2 hueWheel, datawheel, border, reactive, data, curtain, anchors, labels
 		svg.select('#zoomLayer').remove()
 
-		if (Object.keys(transform).length !== 0) {
-
-			let scale = transform.translate(MARGIN + CHART_R, MARGIN + CHART_R)
-			zoomLayer = svg.append('g')
-				.attr('id', 'zoomLayer')
-				.attr("transform", scale)
-
-			// hueWheel.
-			zoomLayer.select("#hueWheel").remove()
-			hueWheel = zoomLayer.append('g')
-				.attr('id', 'hueWheel')
-			colorInCircumfrence(hueWheel, defs)
-
-			// dataWheel.
-			zoomLayer.select('#dataWheel').remove()
-			dataWheel = zoomLayer.append('g')
-				.attr('id', 'dataWheel')
+		// let scale = transform.translate(MARGIN + CHART_R, MARGIN + CHART_R)
+		let scale = transform
+		let zoomLayer = svg.append('g')
+			.attr('id', 'zoomLayer')
+			.attr("transform", scale)
 
 
-			// border.
-			drawBorder(svg)
+		// hueWheel.
+		zoomLayer.select("#hueWheel").remove()
+		let hueWheel = zoomLayer.append('g')
+			.attr('id', 'hueWheel')
+		colorInCircumfrence(hueWheel, defs)
+
+		// dataWheel.
+		zoomLayer.select('#dataWheel').remove()
+		let dataWheel = zoomLayer.append('g')
+			.attr('id', 'dataWheel')
 
 
-			// reactive
-			if (props.shade) {
-				for (const [key, value] of Object.entries(props.shade)) {
-					if (!value) {
-						switch (key) {
-							case 'z2one':
-								drawShadeStd(dataWheel, 0, props.std);
-								break;
-							case 'one2two':
-								drawShadeStd(dataWheel, props.std, props.std2);
-								break;
-							case 'two2three':
-								drawShadeStd(dataWheel, props.std2, props.std3);
-								break;
-							case 'three2inf':
-								drawShadeStd(dataWheel, props.std3, 1);
-								break;
-						}
+		// border.
+		drawBorder(svg)
+
+
+		// reactive
+		if (props.shade) {
+			for (const [key, value] of Object.entries(props.shade)) {
+				if (!value) {
+					switch (key) {
+						case 'z2one':
+							drawShadeStd(dataWheel, 0, props.std);
+							break;
+						case 'one2two':
+							drawShadeStd(dataWheel, props.std, props.std2);
+							break;
+						case 'two2three':
+							drawShadeStd(dataWheel, props.std2, props.std3);
+							break;
+						case 'three2inf':
+							drawShadeStd(dataWheel, props.std3, 1);
+							break;
 					}
 				}
 			}
-			if (props.std1) drawStd(dataWheel, props.std1, transform.k || 1);
-			if (props.std2) drawStd(dataWheel, props.std2, transform.k || 1);
-			if (props.std3) drawStd(dataWheel, props.std3, transform.k || 1);
-
-			// data
-			if (props.points) drawDots(dataWheel, props.points, transform.k || 1);
-
 		}
+		if (props.std1) drawStd(dataWheel, props.std1, transform.k || 1);
+		if (props.std2) drawStd(dataWheel, props.std2, transform.k || 1);
+		if (props.std3) drawStd(dataWheel, props.std3, transform.k || 1);
+
+		// data
+		if (props.points) drawDots(dataWheel, props.points, transform.k || 1);
+
 
 		// curtain
 		svg.select('#curtain').remove()
@@ -109,6 +95,7 @@ function Radviz(props) {
 			.attr('transform', `translate(${[MARGIN + CHART_R, MARGIN + CHART_R]})`)
 
 		if (props.labels) {
+			anchorIntercept(props.labels, scale)
 			drawAnchors(staticWheel, props.labels);
 			printLabels(staticWheel, props.labels, defs);
 		}
@@ -237,6 +224,7 @@ function Radviz(props) {
 		saturation.append('stop')
 			.attr('offset', '0%')
 			.attr('stop-color', '#fff')
+			.attr('stop-opacity', 1)
 		saturation.append('stop')
 			.attr('offset', '100%')
 			.attr('stop-color', '#fff')
@@ -352,6 +340,43 @@ function Radviz(props) {
 			.style('fill', '#313131')
 			.style('opacity', '1')
 
+	}
+
+
+	/**
+	 * Arguemnts:
+	 * 		anchorPositions: props.labels
+	 * 		transform: scale
+	 */
+	function anchorIntercept(labels, transform) {
+
+		for (let label of labels) {
+
+			// Label
+			// console.log(label)
+			// x2, y2
+			// console.log(dotX(1, label.angle), dotY(1, label.angle))
+			// x1, y1
+			// console.log(transform.x/CHART_R, transform.y/CHART_R)
+			// radius
+			// console.log(1/transform.k)
+			// let x1 = transform.x/CHART_R
+			// let y1 = transform.y/CHART_R
+			// let x2 = dotX(1, label.angle)
+			// let y2 = dotY(1, label.angle)
+			// let r = 1/transform.k
+			// segmentIntersectCircle(x1, y1, x2, y2, x1, y1, r)
+		}
+		let label = labels[0]
+		// console.log(label)
+		let x1 = (transform.x / CHART_R) - 1.25
+		let y1 = (transform.y / CHART_R) - 1.25
+		let x2 = dotX(1, label.angle)
+		let y2 = dotY(1, label.angle)
+		let r = 1 / transform.k
+		// console.log(round(x1, 4), round(y1, 4))
+		console.log(rad2deg(getTheta(-10, 0)))
+		// segmentIntersectCircle(x1, y1, x2, y2, x1, y1, r)
 	}
 
 

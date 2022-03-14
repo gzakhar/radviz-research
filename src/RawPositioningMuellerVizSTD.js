@@ -1,6 +1,4 @@
-import { getByText } from '@testing-library/react';
 import { scaleLinear } from 'd3-scale';
-import { filter, max } from 'lodash';
 import { std, mean } from 'mathjs';
 
 const ROUND_TO = 10000
@@ -26,9 +24,70 @@ let slope = (x1, x2, y1, y2) => {
 	return null;
 }
 
-let xIntersect = (x, y, slope) => {
+let yIntersect = (x, y, slope) => {
 	if (slope === undefined) console.warn('slope undefined')
 	return (y - (x * slope))
+}
+
+function adjustedAnchorAngle(xOffset, yOffset, xInit, yInit) {
+
+	return Math.atan((yOffset - yInit) / (xOffset - xInit))
+
+}
+
+
+function segmentIntersectCircle(x1, y1, x2, y2, cx, cy, r) {
+
+	console.log('x1: ', x1, '\ny1: ', y1, '\nx2: ', x2, '\ny2: ', y2, '\ncx: ', cx, '\ncy: ', cy, '\nr: ', r)
+
+	let m = slope(x1, x2, y1, y2)
+	let d = yIntersect(x1, y1, m)
+	// console.log(m, d)
+	let a = 1 + m * m
+	let b = -2 * cx + 2 * m * d - 2 * cy * m
+	let c = cx * cx + d * d - 2 * cy * d + cy * cy - r
+
+	// console.log(a, b, c)
+	let { root1, root2 } = quadratic(a, b, c)
+	// console.log(root1, root2)
+}
+
+function quadratic(a, b, c) {
+
+	// program to solve quadratic equation
+	let root1, root2;
+
+	// calculate discriminant
+	let discriminant = b * b - 4 * a * c;
+
+	// condition for real and different roots
+	if (discriminant > 0) {
+		root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+		root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+
+		// result
+		// console.log(`The roots of quadratic equation are ${root1} and ${root2}`);
+	}
+
+	// condition for real and equal roots
+	else if (discriminant == 0) {
+		root1 = root2 = -b / (2 * a);
+
+		// result
+		// console.log(`The roots of quadratic equation are ${root1} and ${root2}`);
+	}
+
+	// if roots are not real
+	else {
+		let realPart = (-b / (2 * a)).toFixed(2);
+		let imagPart = (Math.sqrt(-discriminant) / (2 * a)).toFixed(2);
+
+		// result
+		console.warn(`The roots of quadratic equation are ${realPart} + ${imagPart}i and ${realPart} - ${imagPart}i`)
+		root1 = realPart + imagPart
+		root2 = realPart - imagPart
+	}
+	return { root1, root2 }
 }
 
 let mapRadvizpoint = (row, anchorInfo, normalization) => {
@@ -398,3 +457,4 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 }
 
 export default RawPositioning;
+export { dotX, dotY, slope, segmentIntersectCircle, round, adjustedAnchorAngle, rad2deg, getTheta }
