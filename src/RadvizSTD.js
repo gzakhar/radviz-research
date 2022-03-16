@@ -54,16 +54,16 @@ function Radviz(props) {
 				if (!value) {
 					switch (key) {
 						case 'z2one':
-							drawShadeStd(dataWheel, 0, props.std1 * CHART_R);
+							drawShadeStd(dataWheel, 0, props.std1);
 							break;
 						case 'one2two':
-							drawShadeStd(dataWheel, props.std1 * CHART_R, props.std2 * CHART_R);
+							drawShadeStd(dataWheel, props.std1, props.std2);
 							break;
 						case 'two2three':
-							drawShadeStd(dataWheel, props.std2 * CHART_R, props.std3 * CHART_R);
+							drawShadeStd(dataWheel, props.std2, props.std3);
 							break;
 						case 'three2inf':
-							drawShadeStd(dataWheel, props.std3 * CHART_R, CHART_R + BORDER_OFFSET);
+							drawShadeStd(dataWheel, props.std3, CHART_R + BORDER_OFFSET);
 							break;
 					}
 				}
