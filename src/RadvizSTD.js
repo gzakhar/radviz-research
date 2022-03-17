@@ -1,7 +1,7 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
-import { dotX, dotY, getTheta } from './RawPositioningMuellerVizSTD'
+import { dotX, dotY, getTheta } from './RawPositioning'
 
 const BORDER_COLOR = '#DDDDDD';
 const BORDER_OFFSET = 10;
@@ -179,7 +179,7 @@ function Radviz(props) {
 			.attr('cx', d => CHART_R * d.coordinates.x)
 			.attr('cy', d => CHART_R * d.coordinates.y)
 			.attr('r', d => {
-				if (d.data['county_name'] == props.hoverId) {
+				if (d.data['key'] == props.hoverId) {
 					return 10 / scale
 				}
 				return 3.0 / scale
@@ -195,7 +195,7 @@ function Radviz(props) {
 
 	function handleHoverOn(i, d) {
 
-		props.hoverOver(d.data['county_name'])
+		props.hoverOver(d.data['key'])
 
 		// TODO make the id of dot labels more unique
 		select(this.parentNode).append('text')
