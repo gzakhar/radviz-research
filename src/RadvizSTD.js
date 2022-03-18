@@ -1,10 +1,10 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState } from 'react';
-import { dotX, dotY, getTheta } from './RawPositioningMuellerVizSTD'
+import { dotX, dotY, getTheta, hypotneous } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
-const BORDER_OFFSET = 10;
+const BORDER_BOUNDRY = 15
 const CHART_R = 200;
 
 function Radviz(props) {
@@ -13,24 +13,26 @@ function Radviz(props) {
 
 	useEffect(() => {
 		// #1 svg.
-		let svg = select('svg').attr('id', 'svg')
+		let svg = select('svg')
 
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
 
 		svg.call(zoom()
 			.scaleExtent([1, 10])
-			.on("zoom", (e) => setTransform(e.transform)));
+			.on("zoom", (e) => {
+				let t = movementBoundry(e.transform)
+				setTransform(t)
+				document.getElementById("svg").__zoom = t
+			}));
 
 		// #2 hueWheel, datawheel, border, reactive, data, curtain, anchors, labels
 		svg.select('#zoomLayer').remove()
 
 		// let scale = transform.translate(MARGIN + CHART_R, MARGIN + CHART_R)
-		let scale = transform
 		let zoomLayer = svg.append('g')
 			.attr('id', 'zoomLayer')
-			.attr("transform", scale)
-
+			.attr("transform", transform)
 
 		// hueWheel.
 		zoomLayer.select("#hueWheel").remove()
@@ -63,7 +65,7 @@ function Radviz(props) {
 							drawShadeStd(dataWheel, props.std2, props.std3);
 							break;
 						case 'three2inf':
-							drawShadeStd(dataWheel, props.std3, CHART_R + BORDER_OFFSET);
+							drawShadeStd(dataWheel, props.std3, CHART_R);
 							break;
 					}
 				}
@@ -89,7 +91,7 @@ function Radviz(props) {
 			.attr('id', 'staticWheel')
 
 		if (props.labels) {
-			let newLabels = anchorIntercept(props.labels, scale)
+			let newLabels = anchorIntercept(props.labels, transform)
 			drawAnchors(staticWheel, newLabels);
 			printLabels(staticWheel, newLabels, defs);
 		}
@@ -112,11 +114,11 @@ function Radviz(props) {
 			if (top) {
 				startAngle = label.angle - Math.PI / 4
 				endAngle = label.angle + Math.PI / 4
-				radius = CHART_R + BORDER_OFFSET + 10
+				radius = CHART_R + 10 + BORDER_BOUNDRY
 			} else {
 				startAngle = label.angle + Math.PI / 4
 				endAngle = label.angle - Math.PI / 4
-				radius = CHART_R + BORDER_OFFSET + 27.5
+				radius = CHART_R + 27.5 + BORDER_BOUNDRY
 			}
 
 			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
@@ -159,8 +161,8 @@ function Radviz(props) {
 			.data(labels)
 			.enter()
 			.append('circle')
-			.attr('cx', d => dotX(CHART_R + BORDER_OFFSET, d.angle))
-			.attr('cy', d => dotY(CHART_R + BORDER_OFFSET, d.angle))
+			.attr('cx', d => dotX(CHART_R + BORDER_BOUNDRY, d.angle))
+			.attr('cy', d => dotY(CHART_R + BORDER_BOUNDRY, d.angle))
 			.attr('r', 5)
 			.style('fill', 'red')
 			.style('stroke', '#000')
@@ -226,14 +228,14 @@ function Radviz(props) {
 		HUE_STEPS.forEach(angle => (
 			g.append('path')
 				.attr('key', angle)
-				.attr('d', getSvgArcPath(0, 0, (CHART_R / 2) + BORDER_OFFSET, angle, angle + 1.5))
+				.attr('d', getSvgArcPath(0, 0, (CHART_R / 2) + BORDER_BOUNDRY, angle, angle + 1.5))
 				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
 		))
 
 		g.selectAll("circle").remove()
 
 		g.append('circle')
-			.attr('r', CHART_R + BORDER_OFFSET)
+			.attr('r', CHART_R + BORDER_BOUNDRY)
 			.style('fill', 'url(#saturation)')
 
 		let saturation = defs.append('radialGradient')
@@ -274,7 +276,7 @@ function Radviz(props) {
 			.style('stroke', borderColor)
 			.style('stroke-width', 3)
 			.style('stroke-opacity', 1)
-			.attr('r', CHART_R + BORDER_OFFSET)
+			.attr('r', CHART_R + BORDER_BOUNDRY)
 			.attr('id', id)
 	}
 
@@ -333,8 +335,8 @@ function Radviz(props) {
 
 	function drawCurtain(parent, innerRadius, outerRadius) {
 
-		let smallArcRadius = innerRadius * CHART_R + BORDER_OFFSET
-		let largeArcRadius = outerRadius * CHART_R 
+		let smallArcRadius = innerRadius * CHART_R + BORDER_BOUNDRY
+		let largeArcRadius = outerRadius * CHART_R
 
 		// two arc paths that work togeather to create a donut.
 		parent.append('path')
@@ -408,9 +410,20 @@ function Radviz(props) {
 		return newLabels
 	}
 
+	function movementBoundry(transform) {
+
+		let r = transform.k
+		let x = transform.x / CHART_R
+		let y = transform.y / CHART_R
+
+		let h = hypotneous(x, y)
+		let angle = getTheta(x, y)
+
+		return h < (r - 1) ? transform : new ZoomTransform(r, dotX((r - 1) * CHART_R, angle), dotY((r - 1) * CHART_R, angle))
+	}
 
 	return (
-		<svg viewBox='-250 -250 500 500' />
+		<svg id="svg" viewBox='-250 -250 500 500' />
 	)
 }
 

@@ -457,4 +457,4 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, standardDevia
 }
 
 export default RawPositioning;
-export { dotX, dotY, slope, segmentIntersectCircle, round, adjustedAnchorAngle, rad2deg, getTheta }
+export { dotX, dotY, slope, segmentIntersectCircle, round, adjustedAnchorAngle, rad2deg, getTheta, hypotneous }
