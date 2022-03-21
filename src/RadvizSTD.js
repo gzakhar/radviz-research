@@ -19,7 +19,7 @@ function Radviz(props) {
 		let defs = svg.append('defs')
 
 		svg.call(zoom()
-			.scaleExtent([1, 10])
+			.scaleExtent([1, 100])
 			.on("zoom", (e) => {
 				let t = movementBoundry(e.transform)
 				setTransform(t)
