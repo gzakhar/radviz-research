@@ -36,7 +36,7 @@ export default function App() {
 
 		// Statistical and Regualr require different label Mappings.
 		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'key')
-		downloadObjectAsJson(points, 'text')
+		// downloadObjectAsJson(points, 'text')
 		setData({ points, labels, std })
 	}, [labelAngles, rawData])
 
