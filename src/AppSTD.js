@@ -36,9 +36,19 @@ export default function App() {
 
 		// Statistical and Regualr require different label Mappings.
 		let { points, labels, std } = RawPositioning(rawData, labelMapping, labelAngles, 'key')
+		downloadObjectAsJson(points, 'text')
 		setData({ points, labels, std })
 	}, [labelAngles, rawData])
 
+
+	function downloadObjectAsJson(list, exportName){
+		var json = JSON.stringify(list);
+		var blob = new Blob([json], {type: 'application/json'});
+		var link = document.createElement('a');
+		link.href = window.URL.createObjectURL(blob);
+		link.download = exportName;
+		link.click();
+	  }
 
 
 	return (
