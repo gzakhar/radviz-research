@@ -2,6 +2,7 @@ import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
 import React, { useEffect, useState, useRef } from 'react';
 import { dotX, dotY, getTheta, hypotneous } from './RawPositioningMuellerVizSTD'
+import { v4 as uuid } from 'uuid';
 
 const BORDER_COLOR = '#DDDDDD';
 const BORDER_BOUNDRY = 15;
@@ -106,7 +107,7 @@ function Radviz(props) {
 	// Print Labels
 	function printLabels(dial, labels, defs) {
 
-		let arcs = []
+		let arcPaths = []
 		for (let label of labels) {
 
 			let top = (label.angle > Math.PI) ? true : false;
@@ -125,32 +126,39 @@ function Radviz(props) {
 				radius = CHART_R + 27.5 + BORDER_BOUNDRY
 			}
 
-			arcs.push(`M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`)
+			arcPaths.push(
+				{
+					"label": label,
+					"path": `M${[dotX(radius, startAngle), dotY(radius, startAngle)]} A${[radius, radius]} 0 0 ${top ? 1 : 0} ${[dotX(radius, endAngle), dotY(radius, endAngle)]}`,
+					"uuid": uuid()
+				}
+			)
 		}
 
 		defs.selectAll('g')
 			.append('g')
-			.data(arcs)
+			.data(arcPaths)
 			.enter()
 			.append('path')
-			.attr('id', (_, i) => `labelPath${i}`)
-			.attr('d', d => d);
+			.attr('id', d => d.uuid)
+			.attr('d', d => d.path);
+
 
 		dial.selectAll()
 			.append('g')
-			.data(labels)
+			.data(arcPaths)
 			.enter()
 			.append('text')
 			.attr('text-anchor', 'middle')
 			.append('textPath')
-			.attr('xlink:href', (_, i) => `#labelPath${i}`)
+			.attr('xlink:href', d => `#${d.uuid}`)
 			.attr('startOffset', '50%')
 			.style('font-family', 'sans-serif')
 			.style('font-size', '24px')
 			.style('font-weight', '600')
 			.style('fill-opacity', 1)
 			.style('cursor', 'pointer')
-			.text((d) => d.anchor.toUpperCase())
+			.text((d) => d.label.anchor.toUpperCase())
 			.attr('id', 'anchor-labels')
 			.style('fill', LABEL_COLOR)
 
@@ -245,11 +253,11 @@ function Radviz(props) {
 
 		saturation.append('stop')
 			.attr('offset', '0%')
-			.attr('stop-color', '#fff')
+			.attr('stop-color', '#CCC')
 			.attr('stop-opacity', 1)
 		saturation.append('stop')
-			.attr('offset', '100%')
-			.attr('stop-color', '#fff')
+			.attr('offset', '90%')
+			.attr('stop-color', '#FFFFFF')
 			.attr('stop-opacity', 0)
 
 		function getSvgArcPath(radius, startAngle, offsetAngle = 90) {
@@ -274,7 +282,7 @@ function Radviz(props) {
 
 		const id = 'border'
 
-		// parent.select('#' + id).remove()
+		parent.select('#' + id).remove()
 
 		parent.append('circle')
 			.style('fill', 'none')
