@@ -185,17 +185,7 @@ export default function App() {
 						std3={data.std3}
 						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
 						showHSV={true} />, [data, hoverCounty, selectedState])}
-					{useMemo(() => <Radviz
-						points={data.points}
-						labels={data.labels}
-						hoverId={hoverCounty}
-						hoverOver={setHoverCounty}
-						std1={data.std}
-						std2={data.std2}
-						std3={data.std3}
-						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
-						showHSV={true} />, [data, hoverCounty, selectedState])}
-					{/* <div>
+					<div>
 						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 							<div>
 								<div style={{ color: 'white' }}>0-1</div>
@@ -250,7 +240,7 @@ export default function App() {
 								</div>
 							</div>
 						)}
-					</div> */}
+					</div>
 				</div>
 			</div>
 			<div className="map-container" >
