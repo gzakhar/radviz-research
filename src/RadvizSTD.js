@@ -1,19 +1,26 @@
 import { select } from 'd3-selection';
 import { zoom, ZoomTransform } from 'd3-zoom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { dotX, dotY, getTheta, hypotneous } from './RawPositioningMuellerVizSTD'
 
 const BORDER_COLOR = '#DDDDDD';
-const BORDER_BOUNDRY = 15
+const BORDER_BOUNDRY = 15;
 const CHART_R = 200;
+const DOT_R = 3;
+const DOT_COLOR = "#000000";
+const DOT_BORDER_COLOR = "#FFFFFF";
+const HUE_ACCURACY = 400
+const CURTAIN_COLOR = "#313131"
+const LABEL_COLOR = "#c4f800"
 
 function Radviz(props) {
 
-	const [transform, setTransform] = useState(new ZoomTransform(1, 0, 0))
+	const [transform, setTransform] = useState(new ZoomTransform(1, 0, 0));
+	const svgRef = useRef(null);
 
 	useEffect(() => {
 		// #1 svg.
-		let svg = select('svg')
+		let svg = select(svgRef.current)
 
 		svg.select('defs').remove()
 		let defs = svg.append('defs')
@@ -23,13 +30,12 @@ function Radviz(props) {
 			.on("zoom", (e) => {
 				let t = movementBoundry(e.transform)
 				setTransform(t)
-				document.getElementById("svg").__zoom = t
+				svgRef.current.__zoom = t
 			}));
 
 		// #2 hueWheel, datawheel, border, reactive, data, curtain, anchors, labels
 		svg.select('#zoomLayer').remove()
 
-		// let scale = transform.translate(MARGIN + CHART_R, MARGIN + CHART_R)
 		let zoomLayer = svg.append('g')
 			.attr('id', 'zoomLayer')
 			.attr("transform", transform)
@@ -45,10 +51,8 @@ function Radviz(props) {
 		let dataWheel = zoomLayer.append('g')
 			.attr('id', 'dataWheel')
 
-
 		// border.
 		drawBorder(svg)
-
 
 		// reactive
 		if (props.shade) {
@@ -145,9 +149,10 @@ function Radviz(props) {
 			.style('font-size', '24px')
 			.style('font-weight', '600')
 			.style('fill-opacity', 1)
-			.style('cursor', 'default')
+			.style('cursor', 'pointer')
 			.text((d) => d.anchor.toUpperCase())
 			.attr('id', 'anchor-labels')
+			.style('fill', LABEL_COLOR)
 
 	}
 
@@ -172,8 +177,6 @@ function Radviz(props) {
 	// Plot data points
 	function drawDots(dial, dotData, scale) {
 
-		let BORDER_MARGIN = 10
-
 		dial.selectAll()
 			.data(dotData)
 			.enter()
@@ -182,15 +185,15 @@ function Radviz(props) {
 			.attr('cy', d => CHART_R * d.coordinates.y)
 			.attr('r', d => {
 				if (d.data['county_name'] == props.hoverId) {
-					return 10 / scale
+					return DOT_R * 2 / scale
 				}
-				return 3.0 / scale
+				return DOT_R / scale
 			})
 			.attr('id', (_, i) => `dot${i}`)
-			.style('fill', '#000000')
+			.style('fill', DOT_COLOR)
 			.style('fill-opacity', 0.8)
-			.style('stroke', '#FFFFFF')
-			.style('stroke-width', 0.1)
+			.style('stroke', DOT_BORDER_COLOR)
+			.style('stroke-width', 0.1 / scale)
 			.on('mouseover', handleHoverOn)
 			.on('mouseout', handleHoverOff)
 	}
@@ -220,21 +223,20 @@ function Radviz(props) {
 	// Setting saturation and hsl
 	function colorInCircumfrence(parent, defs) {
 
-		const HUE_STEPS = Array.apply(null, { length: 360 }).map((_, index) => index);
+		const ratio = 360 / HUE_ACCURACY;
 
-		// element that should hold all the coloring.
-		const g = parent.attr('stroke-width', CHART_R)
+		const HUE_STEPS = Array.apply(null, { length: HUE_ACCURACY }).map((_, index) => index * ratio);
 
 		HUE_STEPS.forEach(angle => (
-			g.append('path')
+			parent.append('path')
 				.attr('key', angle)
-				.attr('d', getSvgArcPath(0, 0, (CHART_R / 2) + BORDER_BOUNDRY, angle, angle + 1.5))
-				.attr('stroke', `hsl(${angle}, 100%, 50%)`)
+				.attr('d', getSvgArcPath(CHART_R + BORDER_BOUNDRY, angle))
+				.attr('fill', `hsl(${angle}, 100%, 50%)`)
 		))
 
-		g.selectAll("circle").remove()
+		parent.selectAll("circle").remove()
 
-		g.append('circle')
+		parent.append('circle')
 			.attr('r', CHART_R + BORDER_BOUNDRY)
 			.style('fill', 'url(#saturation)')
 
@@ -250,26 +252,29 @@ function Radviz(props) {
 			.attr('stop-color', '#fff')
 			.attr('stop-opacity', 0)
 
-		function getSvgArcPath(cx, cy, radius, startAngle, endAngle) {
-			var largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
-			startAngle *= Math.PI / 180;
-			endAngle *= Math.PI / 180;
-			var x1 = cx + radius * Math.cos(endAngle);
-			var y1 = cy + radius * Math.sin(endAngle);
-			var x2 = cx + radius * Math.cos(startAngle);
-			var y2 = cy + radius * Math.sin(startAngle);
+		function getSvgArcPath(radius, startAngle, offsetAngle = 90) {
 
-			return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${x2} ${y2}`;
+			let a1 = (startAngle + offsetAngle) * Math.PI / 180;
+			let a2 = (1.1 + startAngle + offsetAngle) * Math.PI / 180;
+
+			var x1 = radius * Math.sin(a1);
+			var y1 = - radius * Math.cos(a1);
+
+			var x2 = radius * Math.sin(a2);
+			var y2 = - radius * Math.cos(a2);
+
+			return `M ${x1} ${y1}
+					A ${radius} ${radius} 0 0 1 ${x2} ${y2}
+					L 0 0 Z`
 		}
 
-		return g
 	}
 
 	function drawBorder(parent, borderColor = BORDER_COLOR) {
 
 		const id = 'border'
 
-		parent.select('#' + id).remove()
+		// parent.select('#' + id).remove()
 
 		parent.append('circle')
 			.style('fill', 'none')
@@ -336,7 +341,7 @@ function Radviz(props) {
 	function drawCurtain(parent, innerRadius, outerRadius) {
 
 		let smallArcRadius = innerRadius * CHART_R + BORDER_BOUNDRY
-		let largeArcRadius = outerRadius * CHART_R
+		let largeArcRadius = outerRadius * CHART_R + BORDER_BOUNDRY
 
 		// two arc paths that work togeather to create a donut.
 		parent.append('path')
@@ -354,8 +359,8 @@ function Radviz(props) {
 					l ${-(largeArcRadius - smallArcRadius)} 0 
 					Z`)
 			.attr('id', 'cutout')
-			.style('stroke', 'none')
-			.style('fill', '#313131')
+			.style('stroke', 'solid')
+			.style('fill', CURTAIN_COLOR)
 			.style('opacity', '1')
 
 	}
@@ -423,7 +428,7 @@ function Radviz(props) {
 	}
 
 	return (
-		<svg id="svg" viewBox='-250 -250 500 500' />
+		<svg ref={svgRef} viewBox='-250 -250 500 500' style={{ borderRadius: '250px' }} />
 	)
 }
 
