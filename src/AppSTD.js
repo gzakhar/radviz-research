@@ -4,7 +4,7 @@ import { StaticMap } from 'react-map-gl';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
 import RawPositioning from './RawPositioningMuellerVizSTD.js'
-import Radviz from './RadvizSTD.js'
+import { Radviz } from 'react-d3-radviz';
 // import RawPositioning from './RawPositioningDynamicLabels';
 // import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 // import Radviz from './Radviz.js'
@@ -176,6 +176,7 @@ export default function App() {
 						{states.map((state, id) => <option value={id}> {state.name}</option>)}
 					</select>
 					{useMemo(() => <Radviz
+						zoom={true}
 						points={data.points}
 						labels={data.labels}
 						hoverId={hoverCounty}
