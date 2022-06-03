@@ -114,16 +114,6 @@ export default function App() {
 
 	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf, selectedState])
 
-	function downloadPoints() {
-		// fs.writeFile("data.json", JSON.stringify(data.points), (err) => {
-		// 	if (err) {
-		// 		throw err;
-		// 	}
-		// 	console.log("JSON data is saved.");
-		// })
-		console.log(JSON.stringify(data.points))
-	}
-
 	async function fetchRawData() {
 		let res = await axios(radvizData + states[selectedState]['demographics'])
 		setRawData(res.data)
@@ -251,7 +241,6 @@ export default function App() {
 								</div>
 							</div>
 						)}
-						<button onClick={downloadPoints}>Download Points</button>
 					</div>
 				</div>
 			</div>
