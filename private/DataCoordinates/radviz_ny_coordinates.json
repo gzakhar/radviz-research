@@ -1,0 +1,869 @@
+[{
+	"data": {
+		"county_name": "Albany County",
+		"age_median": -0.9425920111756543,
+		"white_ratio": -0.9435640950357702,
+		"income_per_capita": 0.43610707108794133
+	},
+	"coordinates": {
+		"x": -0.22305275809565173,
+		"y": -0.059890543709147294,
+		"angle": 3.403909553307418,
+		"radius": 0.2309532639298579
+	},
+	"textFloater": "Albany County"
+}, {
+	"data": {
+		"county_name": "Allegany County",
+		"age_median": -0.489563292626118,
+		"white_ratio": 0.7539139150756471,
+		"income_per_capita": -0.7580548732106369
+	},
+	"coordinates": {
+		"x": 0.12136177625519307,
+		"y": -0.14770659020349852,
+		"angle": 5.400187008056319,
+		"radius": 0.19116986563096128
+	},
+	"textFloater": "Allegany County"
+}, {
+	"data": {
+		"county_name": "Bronx County",
+		"age_median": -1.7983129239914477,
+		"white_ratio": -3.6095571362843932,
+		"income_per_capita": -0.60043598375181
+	},
+	"coordinates": {
+		"x": -0.5751072884915052,
+		"y": -0.28382146226974253,
+		"angle": 3.600035165691477,
+		"radius": 0.6413291009466093
+	},
+	"textFloater": "Bronx County"
+}, {
+	"data": {
+		"county_name": "Broome County",
+		"age_median": -0.5650680790510401,
+		"white_ratio": -0.08280231463747544,
+		"income_per_capita": -0.3049283392913647
+	},
+	"coordinates": {
+		"x": -0.02915492743612455,
+		"y": -0.10292040649137943,
+		"angle": 4.436344617510715,
+		"radius": 0.10697018213575438
+	},
+	"textFloater": "Broome County"
+}, {
+	"data": {
+		"county_name": "Cattaraugus County",
+		"age_median": 0.11447499877326435,
+		"white_ratio": 0.4354985529654827,
+		"income_per_capita": -0.5087619581094192
+	},
+	"coordinates": {
+		"x": 0.10213006207293028,
+		"y": -0.04671813673499476,
+		"angle": 5.8541634615455,
+		"radius": 0.11230820931263333
+	},
+	"textFloater": "Cattaraugus County"
+}, {
+	"data": {
+		"county_name": "Cayuga County",
+		"age_median": 0.3913258823313151,
+		"white_ratio": 0.45593806550029753,
+		"income_per_capita": -0.38673729770515114
+	},
+	"coordinates": {
+		"x": 0.11539028509357727,
+		"y": 0.0005268962789661032,
+		"angle": 0.004566178310481945,
+		"radius": 0.11539148804684783
+	},
+	"textFloater": "Cayuga County"
+}, {
+	"data": {
+		"county_name": "Chautauqua County",
+		"age_median": 0.26548457162311034,
+		"white_ratio": 0.5808555838925905,
+		"income_per_capita": -0.4829439218039277
+	},
+	"coordinates": {
+		"x": 0.1305824611371,
+		"y": -0.025730101622844864,
+		"angle": 6.088636530529674,
+		"radius": 0.13309326536735117
+	},
+	"textFloater": "Chautauqua County"
+}, {
+	"data": {
+		"county_name": "Chemung County",
+		"age_median": -0.011366311934940377,
+		"white_ratio": 0.12972905393373027,
+		"income_per_capita": -0.30226210490525546
+	},
+	"coordinates": {
+		"x": 0.03758526789958225,
+		"y": -0.03705837162061615,
+		"angle": 5.504845850075079,
+		"radius": 0.052782338620556174
+	},
+	"textFloater": "Chemung County"
+}, {
+	"data": {
+		"county_name": "Chenango County",
+		"age_median": 0.7185132901726466,
+		"white_ratio": 0.8287181764921643,
+		"income_per_capita": -0.40335682537856565
+	},
+	"coordinates": {
+		"x": 0.18985829252078698,
+		"y": 0.037234003713604844,
+		"angle": 0.19365692674354884,
+		"radius": 0.19347491380396958
+	},
+	"textFloater": "Chenango County"
+}, {
+	"data": {
+		"county_name": "Clinton County",
+		"age_median": -0.3888902440595545,
+		"white_ratio": 0.46297457442482914,
+		"income_per_capita": -0.3604304517622062
+	},
+	"coordinates": {
+		"x": 0.06120778440656268,
+		"y": -0.08869420695929457,
+		"angle": 5.316439030867672,
+		"radius": 0.10776388643742595
+	},
+	"textFloater": "Clinton County"
+}, {
+	"data": {
+		"county_name": "Columbia County",
+		"age_median": 1.775580300121567,
+		"white_ratio": 0.2766958581269008,
+		"income_per_capita": 0.21774247486559123
+	},
+	"coordinates": {
+		"x": 0.1442817643902188,
+		"y": 0.23587390088382693,
+		"angle": 1.0218253709449707,
+		"radius": 0.2765026666303745
+	},
+	"textFloater": "Columbia County"
+}, {
+	"data": {
+		"county_name": "Cortland County",
+		"age_median": -1.3452842054419096,
+		"white_ratio": 0.6612118644919234,
+		"income_per_capita": -0.48752095750008195
+	},
+	"coordinates": {
+		"x": 0.031701592784460726,
+		"y": -0.21690563484104713,
+		"angle": 4.8575153025580935,
+		"radius": 0.21921004860833695
+	},
+	"textFloater": "Cortland County"
+}, {
+	"data": {
+		"county_name": "Delaware County",
+		"age_median": 1.7504120379799257,
+		"white_ratio": 0.7006920705751694,
+		"income_per_capita": -0.48894294917267356
+	},
+	"coordinates": {
+		"x": 0.24869504367200213,
+		"y": 0.14928727904039676,
+		"angle": 0.540627184587432,
+		"radius": 0.2900619182697107
+	},
+	"textFloater": "Delaware County"
+}, {
+	"data": {
+		"county_name": "Dutchess County",
+		"age_median": 0.13964326091490564,
+		"white_ratio": -0.49578399056067546,
+		"income_per_capita": 0.2335176949834045
+	},
+	"coordinates": {
+		"x": -0.0741167432412323,
+		"y": 0.04417147138665858,
+		"angle": 2.6041405036602843,
+		"radius": 0.08628099740469596
+	},
+	"textFloater": "Dutchess County"
+}, {
+	"data": {
+		"county_name": "Erie County",
+		"age_median": -0.41405850620119583,
+		"white_ratio": -0.641915344402573,
+		"income_per_capita": 0.012220240936334201
+	},
+	"coordinates": {
+		"x": -0.11688315788398125,
+		"y": -0.04759629719993828,
+		"angle": 3.5283013028959216,
+		"radius": 0.12620253604455237
+	},
+	"textFloater": "Erie County"
+}, {
+	"data": {
+		"county_name": "Essex County",
+		"age_median": 1.6749072515550036,
+		"white_ratio": 0.6605978635684621,
+		"income_per_capita": -0.22405256291271652
+	},
+	"coordinates": {
+		"x": 0.21997919646834938,
+		"y": 0.1716803708964563,
+		"angle": 0.6626992534531617,
+		"radius": 0.27904300139943566
+	},
+	"textFloater": "Essex County"
+}, {
+	"data": {
+		"county_name": "Franklin County",
+		"age_median": -0.3888902440595545,
+		"white_ratio": -0.2329041858140444,
+		"income_per_capita": -0.6031910926174562
+	},
+	"coordinates": {
+		"x": -0.017211945112892812,
+		"y": -0.11741005416294735,
+		"angle": 4.566828938500291,
+		"radius": 0.11866495638188836
+	},
+	"textFloater": "Franklin County"
+}, {
+	"data": {
+		"county_name": "Fulton County",
+		"age_median": 0.4919989308978785,
+		"white_ratio": 0.7140793550642524,
+		"income_per_capita": -0.3450107295625409
+	},
+	"coordinates": {
+		"x": 0.15473187392304655,
+		"y": 0.017387577205881508,
+		"angle": 0.11190286078873611,
+		"radius": 0.1557057502111854
+	},
+	"textFloater": "Fulton County"
+}, {
+	"data": {
+		"county_name": "Genesee County",
+		"age_median": 0.29065283376475165,
+		"white_ratio": 0.5236208810133534,
+		"income_per_capita": -0.31292704244969255
+	},
+	"coordinates": {
+		"x": 0.11275580369874674,
+		"y": -0.002634481394830534,
+		"angle": 6.259825071357712,
+		"radius": 0.11278657615146413
+	},
+	"textFloater": "Genesee County"
+}, {
+	"data": {
+		"county_name": "Greene County",
+		"age_median": 1.272215057288748,
+		"white_ratio": 0.25933548594018596,
+		"income_per_capita": -0.18321473956547607
+	},
+	"coordinates": {
+		"x": 0.13497326346181757,
+		"y": 0.128826140207213,
+		"angle": 0.7621001160501035,
+		"radius": 0.18658498398912415
+	},
+	"textFloater": "Greene County"
+}, {
+	"data": {
+		"county_name": "Hamilton County",
+		"age_median": 3.612863436461355,
+		"white_ratio": 0.8078261247387432,
+		"income_per_capita": 0.10464969965478926
+	},
+	"coordinates": {
+		"x": 0.35012257737297775,
+		"y": 0.4398705768902044,
+		"angle": 0.898519214874756,
+		"radius": 0.5622027602209171
+	},
+	"textFloater": "Hamilton County"
+}, {
+	"data": {
+		"county_name": "Herkimer County",
+		"age_median": 0.5675037173228024,
+		"white_ratio": 0.79282078689617,
+		"income_per_capita": -0.4329964643041472
+	},
+	"coordinates": {
+		"x": 0.1767737015931287,
+		"y": 0.01598252046197189,
+		"angle": 0.09016716607600475,
+		"radius": 0.1774947394579734
+	},
+	"textFloater": "Herkimer County"
+}, {
+	"data": {
+		"county_name": "Jefferson County",
+		"age_median": -2.226173380399343,
+		"white_ratio": 0.06086588312162185,
+		"income_per_capita": -0.17143887102682673
+	},
+	"coordinates": {
+		"x": -0.13207533392750415,
+		"y": -0.2837336462232482,
+		"angle": 4.276728036601221,
+		"radius": 0.31296753159265756
+	},
+	"textFloater": "Jefferson County"
+}, {
+	"data": {
+		"county_name": "Kings County",
+		"age_median": -1.571798564716678,
+		"white_ratio": -3.175644458383069,
+		"income_per_capita": 0.12695719401857025
+	},
+	"coordinates": {
+		"x": -0.5499918991941208,
+		"y": -0.17097784252450116,
+		"angle": 3.4429949366198844,
+		"radius": 0.5759553036594846
+	},
+	"textFloater": "Kings County"
+}, {
+	"data": {
+		"county_name": "Lewis County",
+		"age_median": 0.06413847448998353,
+		"white_ratio": 0.9016215296282595,
+		"income_per_capita": -0.255603003148343
+	},
+	"coordinates": {
+		"x": 0.14507210880866794,
+		"y": -0.022656539995542638,
+		"angle": 6.128262428682035,
+		"radius": 0.14683063562745893
+	},
+	"textFloater": "Lewis County"
+}, {
+	"data": {
+		"county_name": "Livingston County",
+		"age_median": -0.28821719549299113,
+		"white_ratio": 0.5768091503085676,
+		"income_per_capita": -0.22018652305285807
+	},
+	"coordinates": {
+		"x": 0.07420455928772664,
+		"y": -0.060153991848630475,
+		"angle": 5.601983579044772,
+		"radius": 0.0955239203258055
+	},
+	"textFloater": "Livingston County"
+}, {
+	"data": {
+		"county_name": "Madison County",
+		"age_median": 0.06413847448998353,
+		"white_ratio": 0.6718296897386135,
+		"income_per_capita": -0.3301242542400974
+	},
+	"coordinates": {
+		"x": 0.11872729486036261,
+		"y": -0.03152596069147203,
+		"angle": 6.023642041947253,
+		"radius": 0.1228415920703559
+	},
+	"textFloater": "Madison County"
+}, {
+	"data": {
+		"county_name": "Monroe County",
+		"age_median": -0.6405728654759639,
+		"white_ratio": -0.8537975388431074,
+		"income_per_capita": 0.08047584122073179
+	},
+	"coordinates": {
+		"x": -0.1659723278743235,
+		"y": -0.06630111510323491,
+		"angle": 3.521642826354244,
+		"radius": 0.17872507234284268
+	},
+	"textFloater": "Monroe County"
+}, {
+	"data": {
+		"county_name": "Montgomery County",
+		"age_median": -0.3385537197762719,
+		"white_ratio": 0.5292924439584175,
+		"income_per_capita": -0.4421949729362242
+	},
+	"coordinates": {
+		"x": 0.0794735220773877,
+		"y": -0.09238248091205731,
+		"angle": 5.422812968255911,
+		"radius": 0.1218628880785765
+	},
+	"textFloater": "Montgomery County"
+}, {
+	"data": {
+		"county_name": "Nassau County",
+		"age_median": -0.03653457407658168,
+		"white_ratio": -1.1495574634909174,
+		"income_per_capita": 1.778289461055353
+	},
+	"coordinates": {
+		"x": -0.28109916482841774,
+		"y": 0.20610426112224192,
+		"angle": 2.5089250841633333,
+		"radius": 0.34856234294596317
+	},
+	"textFloater": "Nassau County"
+}, {
+	"data": {
+		"county_name": "New York County",
+		"age_median": -1.0432650597422195,
+		"white_ratio": -1.905983187291752,
+		"income_per_capita": 6.42669136427781
+	},
+	"coordinates": {
+		"x": -0.7708492561274135,
+		"y": 0.6370176012700227,
+		"angle": 2.4509695805002014,
+		"radius": 1.0000000000000002
+	},
+	"textFloater": "New York County"
+}, {
+	"data": {
+		"county_name": "Niagara County",
+		"age_median": 0.3409893580480325,
+		"white_ratio": 0.06508139595361853,
+		"income_per_capita": -0.2673344344472239
+	},
+	"coordinates": {
+		"x": 0.0504064106877575,
+		"y": 0.008693788602940759,
+		"angle": 0.1707935511286792,
+		"radius": 0.05115064221195562
+	},
+	"textFloater": "Niagara County"
+}, {
+	"data": {
+		"county_name": "Oneida County",
+		"age_median": -0.2630489333513498,
+		"white_ratio": -0.07056312760683905,
+		"income_per_capita": -0.2824430959685098
+	},
+	"coordinates": {
+		"x": -0.008342524416963351,
+		"y": -0.06454479417334803,
+		"angle": 4.583849909835854,
+		"radius": 0.06508170379244456
+	},
+	"textFloater": "Oneida County"
+}, {
+	"data": {
+		"county_name": "Onondaga County",
+		"age_median": -0.6405728654759639,
+		"white_ratio": -0.5853266883075544,
+		"income_per_capita": 0.10402757829803043
+	},
+	"coordinates": {
+		"x": -0.1308459092765831,
+		"y": -0.06349100161541571,
+		"angle": 3.593358564125195,
+		"radius": 0.14543644405906153
+	},
+	"textFloater": "Onondaga County"
+}, {
+	"data": {
+		"county_name": "Ontario County",
+		"age_median": 0.4416624066145977,
+		"white_ratio": 0.5762071652955635,
+		"income_per_capita": 0.1030055217833552
+	},
+	"coordinates": {
+		"x": 0.10195442997994159,
+		"y": 0.06445697812685366,
+		"angle": 0.5637698202777262,
+		"radius": 0.12062092613547826
+	},
+	"textFloater": "Ontario County"
+}, {
+	"data": {
+		"county_name": "Orange County",
+		"age_median": -1.294947681158629,
+		"white_ratio": -0.5971406540572844,
+		"income_per_capita": 0.019241324819755306
+	},
+	"coordinates": {
+		"x": -0.17132910671047893,
+		"y": -0.15095578392378942,
+		"angle": 3.8638595630895685,
+		"radius": 0.22834472077597168
+	},
+	"textFloater": "Orange County"
+}, {
+	"data": {
+		"county_name": "Orleans County",
+		"age_median": 0.29065283376475165,
+		"white_ratio": 0.288907602778224,
+		"income_per_capita": -0.5409345197018045
+	},
+	"coordinates": {
+		"x": 0.09633420300430309,
+		"y": -0.029594007668596312,
+		"angle": 5.985134834785587,
+		"radius": 0.10077739805315086
+	},
+	"textFloater": "Orleans County"
+}, {
+	"data": {
+		"county_name": "Oswego County",
+		"age_median": -0.3888902440595545,
+		"white_ratio": 0.7864156904222295,
+		"income_per_capita": -0.4976082109275287
+	},
+	"coordinates": {
+		"x": 0.1148633888146111,
+		"y": -0.10494017556074957,
+		"angle": 5.542902334991494,
+		"radius": 0.15558289924248572
+	},
+	"textFloater": "Oswego County"
+}, {
+	"data": {
+		"county_name": "Otsego County",
+		"age_median": 0.18997978519818826,
+		"white_ratio": 0.6210617754772535,
+		"income_per_capita": -0.33101299903546716
+	},
+	"coordinates": {
+		"x": 0.12048361579024963,
+		"y": -0.0166850488339267,
+		"angle": 6.14557656608827,
+		"radius": 0.12163343507639258
+	},
+	"textFloater": "Otsego County"
+}, {
+	"data": {
+		"county_name": "Putnam County",
+		"age_median": 0.6430085037477246,
+		"white_ratio": 0.3880949099733344,
+		"income_per_capita": 0.7173059243429334
+	},
+	"coordinates": {
+		"x": 0.04794756138591567,
+		"y": 0.16096681322414547,
+		"angle": 1.2812926548335084,
+		"radius": 0.1679561954867789
+	},
+	"textFloater": "Putnam County"
+}, {
+	"data": {
+		"county_name": "Queens County",
+		"age_median": -0.5902363411926814,
+		"white_ratio": -3.342488307604862,
+		"income_per_capita": -0.009554006550224921
+	},
+	"coordinates": {
+		"x": -0.49642411083256655,
+		"y": -0.07095536556743545,
+		"angle": 3.283564004238794,
+		"radius": 0.5014694025747859
+	},
+	"textFloater": "Queens County"
+}, {
+	"data": {
+		"county_name": "Rensselaer County",
+		"age_median": -0.46439503048447667,
+		"white_ratio": -0.04998998709389898,
+		"income_per_capita": -0.08296432664776711
+	},
+	"coordinates": {
+		"x": -0.03284320138888729,
+		"y": -0.06480824231283108,
+		"angle": 4.243336018623335,
+		"radius": 0.07265524171833466
+	},
+	"textFloater": "Rensselaer County"
+}, {
+	"data": {
+		"county_name": "Richmond County",
+		"age_median": -0.43922676834283536,
+		"white_ratio": -1.057099474663317,
+		"income_per_capita": 0.25182583776802153
+	},
+	"coordinates": {
+		"x": -0.1917024294971684,
+		"y": -0.022217459763070692,
+		"angle": 3.256973457722594,
+		"radius": 0.19298558752777495
+	},
+	"textFloater": "Richmond County"
+}, {
+	"data": {
+		"county_name": "Rockland County",
+		"age_median": -1.5466303025750383,
+		"white_ratio": -0.7657545453269508,
+		"income_per_capita": 0.44188391225784474
+	},
+	"coordinates": {
+		"x": -0.2405281513480276,
+		"y": -0.1307580932300885,
+		"angle": 3.639531394222491,
+		"radius": 0.27377266214154433
+	},
+	"textFloater": "Rockland County"
+}, {
+	"data": {
+		"county_name": "St. Lawrence County",
+		"age_median": -0.6405728654759639,
+		"white_ratio": 0.5971990278043664,
+		"income_per_capita": -0.6010581051085688
+	},
+	"coordinates": {
+		"x": 0.07894662579842143,
+		"y": -0.14691624578504942,
+		"angle": 5.205474490444701,
+		"radius": 0.16678415092726595
+	},
+	"textFloater": "St. Lawrence County"
+}, {
+	"data": {
+		"county_name": "Saratoga County",
+		"age_median": 0.29065283376475165,
+		"white_ratio": 0.5281710757001128,
+		"income_per_capita": 0.8680370416376447
+	},
+	"coordinates": {
+		"x": 0.03275538534239294,
+		"y": 0.13716866462417635,
+		"angle": 1.3363896908642552,
+		"radius": 0.14102538006936347
+	},
+	"textFloater": "Saratoga County"
+}, {
+	"data": {
+		"county_name": "Schenectady County",
+		"age_median": -0.5650680790510401,
+		"white_ratio": -0.7977032154676884,
+		"income_per_capita": -0.0678112278867127
+	},
+	"coordinates": {
+		"x": -0.14296452369280357,
+		"y": -0.07481927161318702,
+		"angle": 3.6237386391705693,
+		"radius": 0.1613591597630517
+	},
+	"textFloater": "Schenectady County"
+}, {
+	"data": {
+		"county_name": "Schoharie County",
+		"age_median": 1.0960372222972607,
+		"white_ratio": 0.7622310697984853,
+		"income_per_capita": -0.44926049405941376
+	},
+	"coordinates": {
+		"x": 0.20979253507500467,
+		"y": 0.07657559254307413,
+		"angle": 0.34998039594620217,
+		"radius": 0.22333098563907333
+	},
+	"textFloater": "Schoharie County"
+}, {
+	"data": {
+		"county_name": "Schuyler County",
+		"age_median": 1.247046795147107,
+		"white_ratio": 0.8210510867302994,
+		"income_per_capita": -0.44263934533390903
+	},
+	"coordinates": {
+		"x": 0.2276191925133579,
+		"y": 0.09519259439987653,
+		"angle": 0.3961053233019381,
+		"radius": 0.24672277322738673
+	},
+	"textFloater": "Schuyler County"
+}, {
+	"data": {
+		"county_name": "Seneca County",
+		"age_median": -0.03653457407658168,
+		"white_ratio": 0.39786326931031507,
+		"income_per_capita": -0.5638641354223444
+	},
+	"coordinates": {
+		"x": 0.09045052788918159,
+		"y": -0.07104318161393,
+		"angle": 5.617387603741073,
+		"radius": 0.1150149192464241
+	},
+	"textFloater": "Seneca County"
+}, {
+	"data": {
+		"county_name": "Steuben County",
+		"age_median": 0.29065283376475165,
+		"white_ratio": 0.683973377701185,
+		"income_per_capita": -0.2671122482483814
+	},
+	"coordinates": {
+		"x": 0.13154843764853785,
+		"y": 0.002810113487819235,
+		"angle": 0.021358567318042993,
+		"radius": 0.13157844878849148
+	},
+	"textFloater": "Steuben County"
+}, {
+	"data": {
+		"county_name": "Suffolk County",
+		"age_median": 0.013801950206700924,
+		"white_ratio": -0.2196806690616285,
+		"income_per_capita": 0.8304431367935039
+	},
+	"coordinates": {
+		"x": -0.08579627742498099,
+		"y": 0.0999346609105715,
+		"angle": 2.2802180861716073,
+		"radius": 0.13171156999783734
+	},
+	"textFloater": "Suffolk County"
+}, {
+	"data": {
+		"county_name": "Sullivan County",
+		"age_median": 0.21514804733982776,
+		"white_ratio": -0.21708228184944606,
+		"income_per_capita": -0.1986344617651414
+	},
+	"coordinates": {
+		"x": -0.0014050567439096145,
+		"y": 0.0019319530228757236,
+		"angle": 2.1995926132103287,
+		"radius": 0.0023888547331733117
+	},
+	"textFloater": "Sullivan County"
+}, {
+	"data": {
+		"county_name": "Tioga County",
+		"age_median": 0.7185132901726466,
+		"white_ratio": 0.8268428001977505,
+		"income_per_capita": -0.277910497512124
+	},
+	"coordinates": {
+		"x": 0.1810766878713519,
+		"y": 0.05216273161764452,
+		"angle": 0.2804760734409376,
+		"radius": 0.1884402225117382
+	},
+	"textFloater": "Tioga County"
+}, {
+	"data": {
+		"county_name": "Tompkins County",
+		"age_median": -2.553360788240675,
+		"white_ratio": -0.4826688143925136,
+		"income_per_capita": -0.29892931192261885
+	},
+	"coordinates": {
+		"x": -0.21997919646834974,
+		"y": -0.33756488272428525,
+		"angle": 4.134844223116271,
+		"radius": 0.40291549601314824
+	},
+	"textFloater": "Tompkins County"
+}, {
+	"data": {
+		"county_name": "Ulster County",
+		"age_median": 0.6178402416060832,
+		"white_ratio": 0.04659736063362121,
+		"income_per_capita": -0.009642881029761899
+	},
+	"coordinates": {
+		"x": 0.04935261812982529,
+		"y": 0.07200915812536787,
+		"angle": 0.9699596065204505,
+		"radius": 0.087298337728691
+	},
+	"textFloater": "Ulster County"
+}, {
+	"data": {
+		"county_name": "Warren County",
+		"age_median": 1.272215057288748,
+		"white_ratio": 0.7452357166152173,
+		"income_per_capita": 0.08700811546669952
+	},
+	"coordinates": {
+		"x": 0.1828330088012389,
+		"y": 0.16079118113115679,
+		"angle": 0.7213407669171982,
+		"radius": 0.2434783625640405
+	},
+	"textFloater": "Warren County"
+}, {
+	"data": {
+		"county_name": "Washington County",
+		"age_median": 0.6178402416060832,
+		"white_ratio": 0.631203645884959,
+		"income_per_capita": -0.4906760015236446
+	},
+	"coordinates": {
+		"x": 0.1620206057820777,
+		"y": 0.015104359997028374,
+		"angle": 0.09295626270200583,
+		"radius": 0.1627231341540325
+	},
+	"textFloater": "Washington County"
+}, {
+	"data": {
+		"county_name": "Wayne County",
+		"age_median": 0.4919989308978785,
+		"white_ratio": 0.5683361183055112,
+		"income_per_capita": -0.2371615486444205
+	},
+	"coordinates": {
+		"x": 0.1275088995097977,
+		"y": 0.030120903947562408,
+		"angle": 0.2319733811207611,
+		"radius": 0.13101827471317876
+	},
+	"textFloater": "Wayne County"
+}, {
+	"data": {
+		"county_name": "Westchester County",
+		"age_median": -0.1623758847847864,
+		"white_ratio": -1.1673732911210606,
+		"income_per_capita": 2.6775214450104765
+	},
+	"coordinates": {
+		"x": -0.35345958713976294,
+		"y": 0.29760858156935577,
+		"angle": 2.4417686443819977,
+		"radius": 0.4620655230210707
+	},
+	"textFloater": "Westchester County"
+}, {
+	"data": {
+		"county_name": "Wyoming County",
+		"age_median": 0.26548457162311034,
+		"white_ratio": 0.4672809356414564,
+		"income_per_capita": -0.44646094795399904
+	},
+	"coordinates": {
+		"x": 0.1124923555592637,
+		"y": -0.021427115344621654,
+		"angle": 6.094963801874815,
+		"radius": 0.11451485201170862
+	},
+	"textFloater": "Wyoming County"
+}, {
+	"data": {
+		"county_name": "Yates County",
+		"age_median": -0.1623758847847864,
+		"white_ratio": 0.8576998376180374,
+		"income_per_capita": -0.548622162181753
+	},
+	"coordinates": {
+		"x": 0.14366705206475835,
+		"y": -0.0841277725415883,
+		"angle": 5.753440270285337,
+		"radius": 0.1664863476738775
+	},
+	"textFloater": "Yates County"
+}]

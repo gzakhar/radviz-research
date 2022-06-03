@@ -11,6 +11,7 @@ import { Radviz } from 'react-d3-radviz';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from './ColorConversion.js';
+import fs from 'fs';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -83,7 +84,6 @@ export default function App() {
 		// Statistical and Regualr require different label Mappings.
 		let { points, labels, std, std2, std3 } = RawPositioning(rawData, labelMappingMueller, labelAngles, rangeValue[0], rangeValue[1], rangeValue[2], 'county_name', true)
 		setData({ points, labels, std, std2, std3 })
-
 		let countyColorMap = {}
 		points.forEach((county) => {
 			countyColorMap[county['data']['county_name']] = `hsl(${rad2deg(county.coordinates.angle)}, ${county.coordinates.radius * 100}%, ${75 - (25 * county.coordinates.radius)}%)`
@@ -113,6 +113,16 @@ export default function App() {
 		setCountyOpacistyMap(countyOpacistyMap)
 
 	}, [labelAngles, rawData, rangeValue, z2one, one2two, two2three, three2inf, selectedState])
+
+	function downloadPoints() {
+		// fs.writeFile("data.json", JSON.stringify(data.points), (err) => {
+		// 	if (err) {
+		// 		throw err;
+		// 	}
+		// 	console.log("JSON data is saved.");
+		// })
+		console.log(JSON.stringify(data.points))
+	}
 
 	async function fetchRawData() {
 		let res = await axios(radvizData + states[selectedState]['demographics'])
@@ -241,6 +251,7 @@ export default function App() {
 								</div>
 							</div>
 						)}
+						<button onClick={downloadPoints}>Download Points</button>
 					</div>
 				</div>
 			</div>
