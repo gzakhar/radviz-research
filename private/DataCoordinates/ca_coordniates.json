@@ -1,0 +1,813 @@
+[{
+	"data": {
+		"county_name": "Alameda County",
+		"age_median": 37.9,
+		"white_ratio": 0.4927773048,
+		"income_per_capita": 81171
+	},
+	"coordinates": {
+		"x": -0.9441569159462936,
+		"y": -0.32928086773604115,
+		"angle": 3.4771592545698673,
+		"radius": 0.9999290833785247
+	},
+	"textFloater": "Alameda County"
+}, {
+	"data": {
+		"county_name": "Alpine County",
+		"age_median": 49.9,
+		"white_ratio": 0.6793622675,
+		"income_per_capita": 72155
+	},
+	"coordinates": {
+		"x": -0.11225875352359548,
+		"y": 0.33825220705949566,
+		"angle": 1.8912372755924876,
+		"radius": 0.3563938598282682
+	},
+	"textFloater": "Alpine County"
+}, {
+	"data": {
+		"county_name": "Amador County",
+		"age_median": 50.3,
+		"white_ratio": 0.8964580398,
+		"income_per_capita": 45920
+	},
+	"coordinates": {
+		"x": 0.5346228760220154,
+		"y": 0.6910302735063744,
+		"angle": 0.9123236175260424,
+		"radius": 0.8736958615378385
+	},
+	"textFloater": "Amador County"
+}, {
+	"data": {
+		"county_name": "Butte County",
+		"age_median": 36.8,
+		"white_ratio": 0.8565419324,
+		"income_per_capita": 47860
+	},
+	"coordinates": {
+		"x": 0.7434512552785567,
+		"y": 0.13200007240877173,
+		"angle": 0.17571921120696432,
+		"radius": 0.7550786635120758
+	},
+	"textFloater": "Butte County"
+}, {
+	"data": {
+		"county_name": "Calaveras County",
+		"age_median": 51.9,
+		"white_ratio": 0.9095305522,
+		"income_per_capita": 51131
+	},
+	"coordinates": {
+		"x": 0.46664266849110014,
+		"y": 0.6563256058596703,
+		"angle": 0.9527307949086565,
+		"radius": 0.8053065757607832
+	},
+	"textFloater": "Calaveras County"
+}, {
+	"data": {
+		"county_name": "Colusa County",
+		"age_median": 35.3,
+		"white_ratio": 0.9110316981,
+		"income_per_capita": 51342
+	},
+	"coordinates": {
+		"x": 0.6920643470248804,
+		"y": 0.029733773315514786,
+		"angle": 0.04293747905595766,
+		"radius": 0.6927027917502228
+	},
+	"textFloater": "Colusa County"
+}, {
+	"data": {
+		"county_name": "Contra Costa County",
+		"age_median": 40,
+		"white_ratio": 0.6512926453,
+		"income_per_capita": 85324
+	},
+	"coordinates": {
+		"x": -0.04458411260566918,
+		"y": -0.0712806477747897,
+		"angle": 4.153449683186593,
+		"radius": 0.0840754057024325
+	},
+	"textFloater": "Contra Costa County"
+}, {
+	"data": {
+		"county_name": "Del Norte County",
+		"age_median": 40.1,
+		"white_ratio": 0.7809578599,
+		"income_per_capita": 38445
+	},
+	"coordinates": {
+		"x": 0.8218306009131957,
+		"y": 0.5538994653075726,
+		"angle": 0.593050343081817,
+		"radius": 0.991065161462837
+	},
+	"textFloater": "Del Norte County"
+}, {
+	"data": {
+		"county_name": "El Dorado County",
+		"age_median": 46.5,
+		"white_ratio": 0.8863998175,
+		"income_per_capita": 69895
+	},
+	"coordinates": {
+		"x": 0.4140540831859807,
+		"y": 0.27906834380571766,
+		"angle": 0.5930555352782364,
+		"radius": 0.4993194611843697
+	},
+	"textFloater": "El Dorado County"
+}, {
+	"data": {
+		"county_name": "Fresno County",
+		"age_median": 32.7,
+		"white_ratio": 0.7658905356,
+		"income_per_capita": 45487
+	},
+	"coordinates": {
+		"x": 0.7656813181427382,
+		"y": -0.014875621939092589,
+		"angle": 6.263759796288922,
+		"radius": 0.765825805964304
+	},
+	"textFloater": "Fresno County"
+}, {
+	"data": {
+		"county_name": "Glenn County",
+		"age_median": 36,
+		"white_ratio": 0.8907829395,
+		"income_per_capita": 49194
+	},
+	"coordinates": {
+		"x": 0.7307646078767676,
+		"y": 0.07552269725400175,
+		"angle": 0.10298190129969552,
+		"radius": 0.734656783760829
+	},
+	"textFloater": "Glenn County"
+}, {
+	"data": {
+		"county_name": "Humboldt County",
+		"age_median": 38.9,
+		"white_ratio": 0.8323374497,
+		"income_per_capita": 49654
+	},
+	"coordinates": {
+		"x": 0.6875148989775806,
+		"y": 0.22102659918665346,
+		"angle": 0.3110505736557468,
+		"radius": 0.7221699895898267
+	},
+	"textFloater": "Humboldt County"
+}, {
+	"data": {
+		"county_name": "Imperial County",
+		"age_median": 32.7,
+		"white_ratio": 0.9019341666,
+		"income_per_capita": 40447
+	},
+	"coordinates": {
+		"x": 0.9329071202014177,
+		"y": 0.032831114079496716,
+		"angle": 0.03517774674769901,
+		"radius": 0.9334846420665973
+	},
+	"textFloater": "Imperial County"
+}, {
+	"data": {
+		"county_name": "Inyo County",
+		"age_median": 45.1,
+		"white_ratio": 0.7984921559,
+		"income_per_capita": 60513
+	},
+	"coordinates": {
+		"x": 0.38928452673139485,
+		"y": 0.4086116350696192,
+		"angle": 0.809616013586983,
+		"radius": 0.5643632793394284
+	},
+	"textFloater": "Inyo County"
+}, {
+	"data": {
+		"county_name": "Kern County",
+		"age_median": 32,
+		"white_ratio": 0.8231030369,
+		"income_per_capita": 41843
+	},
+	"coordinates": {
+		"x": 0.8920790786257612,
+		"y": -0.00695578228947962,
+		"angle": 6.27538819423668,
+		"radius": 0.8921061962732048
+	},
+	"textFloater": "Kern County"
+}, {
+	"data": {
+		"county_name": "Kings County",
+		"age_median": 32,
+		"white_ratio": 0.8084673728,
+		"income_per_capita": 39433
+	},
+	"coordinates": {
+		"x": 0.9500532452365663,
+		"y": 0.019778567201622695,
+		"angle": 0.020815370788912792,
+		"radius": 0.9502591017743952
+	},
+	"textFloater": "Kings County"
+}, {
+	"data": {
+		"county_name": "Lake County",
+		"age_median": 45.2,
+		"white_ratio": 0.8704997981,
+		"income_per_capita": 44259
+	},
+	"coordinates": {
+		"x": 0.6747397171665677,
+		"y": 0.5675087769848919,
+		"angle": 0.6992915640993541,
+		"radius": 0.8816688141682837
+	},
+	"textFloater": "Lake County"
+}, {
+	"data": {
+		"county_name": "Lassen County",
+		"age_median": 37.9,
+		"white_ratio": 0.8092107415,
+		"income_per_capita": 38130
+	},
+	"coordinates": {
+		"x": 0.9246978740407965,
+		"y": 0.38070177533658955,
+		"angle": 0.3905551019417559,
+		"radius": 0.9999999999999999
+	},
+	"textFloater": "Lassen County"
+}, {
+	"data": {
+		"county_name": "Los Angeles County",
+		"age_median": 37.1,
+		"white_ratio": 0.7070657779,
+		"income_per_capita": 65094
+	},
+	"coordinates": {
+		"x": 0.26401333478915406,
+		"y": -0.017033118373493805,
+		"angle": 6.218758467754033,
+		"radius": 0.2645622196535541
+	},
+	"textFloater": "Los Angeles County"
+}, {
+	"data": {
+		"county_name": "Madera County",
+		"age_median": 34.5,
+		"white_ratio": 0.8592485714,
+		"income_per_capita": 41267
+	},
+	"coordinates": {
+		"x": 0.9026301350825191,
+		"y": 0.10794538038408603,
+		"angle": 0.11902455462786225,
+		"radius": 0.909061805327532
+	},
+	"textFloater": "Madera County"
+}, {
+	"data": {
+		"county_name": "Marin County",
+		"age_median": 47.5,
+		"white_ratio": 0.8531639016,
+		"income_per_capita": 141735
+	},
+	"coordinates": {
+		"x": -0.013215461132841536,
+		"y": -0.18528209326948664,
+		"angle": 4.641183403064341,
+		"radius": 0.18575279943859901
+	},
+	"textFloater": "Marin County"
+}, {
+	"data": {
+		"county_name": "Mariposa County",
+		"age_median": 52.2,
+		"white_ratio": 0.8931000407,
+		"income_per_capita": 56354
+	},
+	"coordinates": {
+		"x": 0.3921448763178974,
+		"y": 0.6167082146408315,
+		"angle": 1.0044201297212145,
+		"radius": 0.7308259888837156
+	},
+	"textFloater": "Mariposa County"
+}, {
+	"data": {
+		"county_name": "Mendocino County",
+		"age_median": 43.8,
+		"white_ratio": 0.8605978167,
+		"income_per_capita": 52976
+	},
+	"coordinates": {
+		"x": 0.5973697441375775,
+		"y": 0.3906427443763633,
+		"angle": 0.5791385697791649,
+		"radius": 0.7137593186396178
+	},
+	"textFloater": "Mendocino County"
+}, {
+	"data": {
+		"county_name": "Merced County",
+		"age_median": 31.3,
+		"white_ratio": 0.8216112071,
+		"income_per_capita": 41077
+	},
+	"coordinates": {
+		"x": 0.9992430761501174,
+		"y": -0.033530732060145806,
+		"angle": 6.249641762071673,
+		"radius": 0.999805498697841
+	},
+	"textFloater": "Merced County"
+}, {
+	"data": {
+		"county_name": "Modoc County",
+		"age_median": 49,
+		"white_ratio": 0.88202692,
+		"income_per_capita": 51088
+	},
+	"coordinates": {
+		"x": 0.5080021714405711,
+		"y": 0.5994155767927589,
+		"angle": 0.8677578894072272,
+		"radius": 0.7857259317918247
+	},
+	"textFloater": "Modoc County"
+}, {
+	"data": {
+		"county_name": "Mono County",
+		"age_median": 40.7,
+		"white_ratio": 0.9013431182,
+		"income_per_capita": 53500
+	},
+	"coordinates": {
+		"x": 0.6634439703248776,
+		"y": 0.2139848937133615,
+		"angle": 0.31200213329244714,
+		"radius": 0.6970993017482916
+	},
+	"textFloater": "Mono County"
+}, {
+	"data": {
+		"county_name": "Monterey County",
+		"age_median": 34.9,
+		"white_ratio": 0.8283513147,
+		"income_per_capita": 59838
+	},
+	"coordinates": {
+		"x": 0.5952779778175705,
+		"y": -0.05222095221712937,
+		"angle": 6.195683988733582,
+		"radius": 0.5975641377501161
+	},
+	"textFloater": "Monterey County"
+}, {
+	"data": {
+		"county_name": "Napa County",
+		"age_median": 42.2,
+		"white_ratio": 0.8363268092,
+		"income_per_capita": 75717
+	},
+	"coordinates": {
+		"x": 0.3123400132123135,
+		"y": 0.06795119296595299,
+		"angle": 0.2142171745866661,
+		"radius": 0.31964613008601306
+	},
+	"textFloater": "Napa County"
+}, {
+	"data": {
+		"county_name": "Nevada County",
+		"age_median": 50.8,
+		"white_ratio": 0.9327953486,
+		"income_per_capita": 63542
+	},
+	"coordinates": {
+		"x": 0.44291260873186905,
+		"y": 0.4662138684457713,
+		"angle": 0.8110229361670455,
+		"radius": 0.6430606115327238
+	},
+	"textFloater": "Nevada County"
+}, {
+	"data": {
+		"county_name": "Orange County",
+		"age_median": 38.6,
+		"white_ratio": 0.7112481311,
+		"income_per_capita": 71711
+	},
+	"coordinates": {
+		"x": 0.18552953940796715,
+		"y": -0.016541433893280503,
+		"angle": 6.194262477142838,
+		"radius": 0.1862654799692584
+	},
+	"textFloater": "Orange County"
+}, {
+	"data": {
+		"county_name": "Placer County",
+		"age_median": 42.3,
+		"white_ratio": 0.8392258661,
+		"income_per_capita": 68936
+	},
+	"coordinates": {
+		"x": 0.399493070881714,
+		"y": 0.13795514513316162,
+		"angle": 0.33250440130134423,
+		"radius": 0.4226420894222603
+	},
+	"textFloater": "Placer County"
+}, {
+	"data": {
+		"county_name": "Plumas County",
+		"age_median": 52.3,
+		"white_ratio": 0.9052480459,
+		"income_per_capita": 55910
+	},
+	"coordinates": {
+		"x": 0.41386761774080216,
+		"y": 0.614628043518538,
+		"angle": 0.9781723020810742,
+		"radius": 0.7409818060478088
+	},
+	"textFloater": "Plumas County"
+}, {
+	"data": {
+		"county_name": "Riverside County",
+		"age_median": 36.2,
+		"white_ratio": 0.7958754866,
+		"income_per_capita": 42418
+	},
+	"coordinates": {
+		"x": 0.841298946534821,
+		"y": 0.21091971467227305,
+		"angle": 0.24564416506671552,
+		"radius": 0.8673356002598029
+	},
+	"textFloater": "Riverside County"
+}, {
+	"data": {
+		"county_name": "Sacramento County",
+		"age_median": 36.6,
+		"white_ratio": 0.6275306722,
+		"income_per_capita": 55266
+	},
+	"coordinates": {
+		"x": 0.26081704542488787,
+		"y": 0.11303616178272229,
+		"angle": 0.4089576744298992,
+		"radius": 0.2842581662058942
+	},
+	"textFloater": "Sacramento County"
+}, {
+	"data": {
+		"county_name": "San Benito County",
+		"age_median": 36.1,
+		"white_ratio": 0.8735989046,
+		"income_per_capita": 55261
+	},
+	"coordinates": {
+		"x": 0.5965731466939189,
+		"y": 0.02683879777770122,
+		"angle": 0.04495796220850916,
+		"radius": 0.5971765571608085
+	},
+	"textFloater": "San Benito County"
+}, {
+	"data": {
+		"county_name": "San Bernardino County",
+		"age_median": 33.8,
+		"white_ratio": 0.7655554715,
+		"income_per_capita": 42043
+	},
+	"coordinates": {
+		"x": 0.846551775386778,
+		"y": 0.08932995770893833,
+		"angle": 0.10513307897564977,
+		"radius": 0.851251872100606
+	},
+	"textFloater": "San Bernardino County"
+}, {
+	"data": {
+		"county_name": "San Diego County",
+		"age_median": 36.4,
+		"white_ratio": 0.754086025,
+		"income_per_capita": 63729
+	},
+	"coordinates": {
+		"x": 0.3916379372403578,
+		"y": -0.031443023831230266,
+		"angle": 6.203071196416257,
+		"radius": 0.3928981262789805
+	},
+	"textFloater": "San Diego County"
+}, {
+	"data": {
+		"county_name": "San Francisco County",
+		"age_median": 38.3,
+		"white_ratio": 0.5278050341,
+		"income_per_capita": 139405
+	},
+	"coordinates": {
+		"x": -0.5627741360851616,
+		"y": -0.6005557690512819,
+		"angle": 3.9594565497253917,
+		"radius": 0.8230321743329216
+	},
+	"textFloater": "San Francisco County"
+}, {
+	"data": {
+		"county_name": "San Joaquin County",
+		"age_median": 34.6,
+		"white_ratio": 0.660698447,
+		"income_per_capita": 47139
+	},
+	"coordinates": {
+		"x": 0.5624571912819055,
+		"y": 0.09259328715640437,
+		"angle": 0.16315941004040557,
+		"radius": 0.5700277263880753
+	},
+	"textFloater": "San Joaquin County"
+}, {
+	"data": {
+		"county_name": "San Luis Obispo County",
+		"age_median": 40.1,
+		"white_ratio": 0.8880686374,
+		"income_per_capita": 61004
+	},
+	"coordinates": {
+		"x": 0.5427016409883154,
+		"y": 0.11475906533235287,
+		"angle": 0.20838901629219808,
+		"radius": 0.5547023654243469
+	},
+	"textFloater": "San Luis Obispo County"
+}, {
+	"data": {
+		"county_name": "San Mateo County",
+		"age_median": 39.9,
+		"white_ratio": 0.5949205099,
+		"income_per_capita": 134107
+	},
+	"coordinates": {
+		"x": -0.3475895270773071,
+		"y": -0.4149931409655343,
+		"angle": 4.015150309334791,
+		"radius": 0.5413296466869941
+	},
+	"textFloater": "San Mateo County"
+}, {
+	"data": {
+		"county_name": "Santa Barbara County",
+		"age_median": 34.1,
+		"white_ratio": 0.8537040397,
+		"income_per_capita": 66076
+	},
+	"coordinates": {
+		"x": 0.6934651624092497,
+		"y": -0.14614988505785242,
+		"angle": 6.075471997066054,
+		"radius": 0.7086986103963451
+	},
+	"textFloater": "Santa Barbara County"
+}, {
+	"data": {
+		"county_name": "Santa Clara County",
+		"age_median": 37.3,
+		"white_ratio": 0.5235241087,
+		"income_per_capita": 115997
+	},
+	"coordinates": {
+		"x": -0.5674151560085888,
+		"y": -0.5701772603841521,
+		"angle": 3.9294188385773627,
+		"radius": 0.8044016829466658
+	},
+	"textFloater": "Santa Clara County"
+}, {
+	"data": {
+		"county_name": "Santa Cruz County",
+		"age_median": 38.4,
+		"white_ratio": 0.869940303,
+		"income_per_capita": 71592
+	},
+	"coordinates": {
+		"x": 0.3963225266632027,
+		"y": -0.016223729161651598,
+		"angle": 6.242272477404147,
+		"radius": 0.396654452298995
+	},
+	"textFloater": "Santa Cruz County"
+}, {
+	"data": {
+		"county_name": "Shasta County",
+		"age_median": 41.6,
+		"white_ratio": 0.8760995113,
+		"income_per_capita": 48438
+	},
+	"coordinates": {
+		"x": 0.7111683947263169,
+		"y": 0.33680747407005435,
+		"angle": 0.4423032858980528,
+		"radius": 0.7868924705746375
+	},
+	"textFloater": "Shasta County"
+}, {
+	"data": {
+		"county_name": "Sierra County",
+		"age_median": 55.2,
+		"white_ratio": 0.9261231281,
+		"income_per_capita": 47245
+	},
+	"coordinates": {
+		"x": 0.42526764290393315,
+		"y": 0.7619700189780543,
+		"angle": 1.0617433995135828,
+		"radius": 0.872611527498052
+	},
+	"textFloater": "Sierra County"
+}, {
+	"data": {
+		"county_name": "Siskiyou County",
+		"age_median": 47.7,
+		"white_ratio": 0.8585406188,
+		"income_per_capita": 48021
+	},
+	"coordinates": {
+		"x": 0.5364843500499085,
+		"y": 0.6232184229916738,
+		"angle": 0.8600490989170496,
+		"radius": 0.8223239389709518
+	},
+	"textFloater": "Siskiyou County"
+}, {
+	"data": {
+		"county_name": "Solano County",
+		"age_median": 38.5,
+		"white_ratio": 0.5959883211,
+		"income_per_capita": 53505
+	},
+	"coordinates": {
+		"x": 0.02578541373347235,
+		"y": 0.3483662018685452,
+		"angle": 1.4969129312468477,
+		"radius": 0.34931919238101183
+	},
+	"textFloater": "Solano County"
+}, {
+	"data": {
+		"county_name": "Sonoma County",
+		"age_median": 42.8,
+		"white_ratio": 0.8675111665,
+		"income_per_capita": 66700
+	},
+	"coordinates": {
+		"x": 0.4545432000023309,
+		"y": 0.17092207837754103,
+		"angle": 0.3596737613762233,
+		"radius": 0.48561700705932576
+	},
+	"textFloater": "Sonoma County"
+}, {
+	"data": {
+		"county_name": "Stanislaus County",
+		"age_median": 34.4,
+		"white_ratio": 0.832633567,
+		"income_per_capita": 45742
+	},
+	"coordinates": {
+		"x": 0.7719736354155808,
+		"y": 0.056045193865144276,
+		"angle": 0.07247273083908692,
+		"radius": 0.7740053989037349
+	},
+	"textFloater": "Stanislaus County"
+}, {
+	"data": {
+		"county_name": "Sutter County",
+		"age_median": 36.2,
+		"white_ratio": 0.7269699188,
+		"income_per_capita": 47605
+	},
+	"coordinates": {
+		"x": 0.6480269530865583,
+		"y": 0.1660569067284306,
+		"angle": 0.2508523107043185,
+		"radius": 0.668964743614238
+	},
+	"textFloater": "Sutter County"
+}, {
+	"data": {
+		"county_name": "Tehama County",
+		"age_median": 40.5,
+		"white_ratio": 0.9024798722,
+		"income_per_capita": 43268
+	},
+	"coordinates": {
+		"x": 0.8253748114149824,
+		"y": 0.33590835348284165,
+		"angle": 0.38650630511392003,
+		"radius": 0.8911105437923352
+	},
+	"textFloater": "Tehama County"
+}, {
+	"data": {
+		"county_name": "Trinity County",
+		"age_median": 52.3,
+		"white_ratio": 0.8699226699,
+		"income_per_capita": 43471
+	},
+	"coordinates": {
+		"x": 0.4385102923622082,
+		"y": 0.8012880673955352,
+		"angle": 1.0700617080848314,
+		"radius": 0.9134297145692497
+	},
+	"textFloater": "Trinity County"
+}, {
+	"data": {
+		"county_name": "Tulare County",
+		"age_median": 31.5,
+		"white_ratio": 0.8816696876,
+		"income_per_capita": 42845
+	},
+	"coordinates": {
+		"x": 0.9724213600554305,
+		"y": -0.03654524719162565,
+		"angle": 6.245621286119671,
+		"radius": 0.9731078339959812
+	},
+	"textFloater": "Tulare County"
+}, {
+	"data": {
+		"county_name": "Tuolumne County",
+		"age_median": 48.5,
+		"white_ratio": 0.9032637028,
+		"income_per_capita": 48841
+	},
+	"coordinates": {
+		"x": 0.5753914596908707,
+		"y": 0.5889651362428417,
+		"angle": 0.7970552981248803,
+		"radius": 0.8233803881528513
+	},
+	"textFloater": "Tuolumne County"
+}, {
+	"data": {
+		"county_name": "Ventura County",
+		"age_median": 38.7,
+		"white_ratio": 0.8405224076,
+		"income_per_capita": 64715
+	},
+	"coordinates": {
+		"x": 0.43070276750871866,
+		"y": 0.038977241775729865,
+		"angle": 0.09025100560364899,
+		"radius": 0.4324628299820842
+	},
+	"textFloater": "Ventura County"
+}, {
+	"data": {
+		"county_name": "Yolo County",
+		"age_median": 31.3,
+		"white_ratio": 0.7398684807,
+		"income_per_capita": 56123
+	},
+	"coordinates": {
+		"x": 0.953138829818474,
+		"y": -0.30198457974446696,
+		"angle": 5.976359017773029,
+		"radius": 0.9998341439014634
+	},
+	"textFloater": "Yolo County"
+}, {
+	"data": {
+		"county_name": "Yuba County",
+		"age_median": 33.4,
+		"white_ratio": 0.7838511212,
+		"income_per_capita": 43536
+	},
+	"coordinates": {
+		"x": 0.8035682584348711,
+		"y": 0.04197846016168643,
+		"angle": 0.05219262380800467,
+		"radius": 0.8046639901732885
+	},
+	"textFloater": "Yuba County"
+}]
