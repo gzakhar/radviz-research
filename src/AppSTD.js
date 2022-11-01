@@ -3,15 +3,14 @@ import DeckGL from '@deck.gl/react';
 import { StaticMap } from 'react-map-gl';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-import RawPositioning from './RawPositioningMuellerVizSTD.js'
-import { Radviz } from 'react-d3-radviz';
+// import RawPositioning from './RawPositioningMuellerVizSTD.js'
+// import { Radviz} from 'react-d3-radviz';
 // import RawPositioning from './RawPositioningDynamicLabels';
-// import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
+import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
 // import Radviz from './Radviz.js'
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from './ColorConversion.js';
-import fs from 'fs';
 
 let rad2deg = rad => rad * 180 / Math.PI;
 
@@ -215,8 +214,8 @@ export default function App() {
 							</div>
 						</div>
 
-						{Object.keys(labelAngles).map(d =>
-							<div className="d-flex justify-content-center my-4 control-container">
+						{Object.keys(labelAngles).map((d, i) =>
+							<div key={i} className="d-flex justify-content-center my-4 control-container">
 								<div style={{ width: '85%' }}>
 									<div className='d-flex align-items-center justify-content-between'>
 										<span className='control-labels'>{(d.replaceAll('_', ' ')).toLocaleUpperCase()}</span>
