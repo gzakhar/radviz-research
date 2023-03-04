@@ -3,11 +3,11 @@ import DeckGL from '@deck.gl/react';
 import { StaticMap } from 'react-map-gl';
 import { GeoJsonLayer } from '@deck.gl/layers';
 import axios from 'axios';
-// import RawPositioning from './RawPositioningMuellerVizSTD.js'
+import RawPositioning from './RawPositioningMuellerVizSTD.js'
 // import { Radviz} from 'react-d3-radviz';
 // import RawPositioning from './RawPositioningDynamicLabels';
-import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
-// import Radviz from './Radviz.js'
+// import { radvizMapper as RawPositioning, Radviz } from 'react-d3-radviz'
+import Radviz from './RadvizSTD.js'
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import HSLToRGB from './ColorConversion.js';
@@ -184,7 +184,7 @@ export default function App() {
 						std2={data.std2}
 						std3={data.std3}
 						shade={{ 'z2one': z2one, 'one2two': one2two, 'two2three': two2three, 'three2inf': three2inf }}
-						showHSV={true} />, [data, hoverCounty, selectedState])}
+						showHSV={false} />, [data, hoverCounty, selectedState])}
 					<div>
 						<div className='d-flex justify-content-around align-items-center' style={{ width: '80%', marginLeft: '50px', marginRight: '50px' }}>
 							<div>

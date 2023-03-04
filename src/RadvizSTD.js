@@ -55,30 +55,30 @@ function Radviz(props) {
 		// border.
 		drawBorder(svg)
 
-		// // reactive
-		// if (props.shade) {
-		// 	for (const [key, value] of Object.entries(props.shade)) {
-		// 		if (!value) {
-		// 			switch (key) {
-		// 				case 'z2one':
-		// 					drawShadeStd(dataWheel, 0, props.std1);
-		// 					break;
-		// 				case 'one2two':
-		// 					drawShadeStd(dataWheel, props.std1, props.std2);
-		// 					break;
-		// 				case 'two2three':
-		// 					drawShadeStd(dataWheel, props.std2, props.std3);
-		// 					break;
-		// 				case 'three2inf':
-		// 					drawShadeStd(dataWheel, props.std3, CHART_R);
-		// 					break;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// if (props.std1) drawStd(dataWheel, props.std1, transform.k || 1);
-		// if (props.std2) drawStd(dataWheel, props.std2, transform.k || 1);
-		// if (props.std3) drawStd(dataWheel, props.std3, transform.k || 1);
+		// reactive
+		if (props.shade) {
+			for (const [key, value] of Object.entries(props.shade)) {
+				if (!value) {
+					switch (key) {
+						case 'z2one':
+							drawShadeStd(dataWheel, 0, props.std1);
+							break;
+						case 'one2two':
+							drawShadeStd(dataWheel, props.std1, props.std2);
+							break;
+						case 'two2three':
+							drawShadeStd(dataWheel, props.std2, props.std3);
+							break;
+						case 'three2inf':
+							drawShadeStd(dataWheel, props.std3, CHART_R);
+							break;
+					}
+				}
+			}
+		}
+		if (props.std1) drawStd(dataWheel, props.std1, transform.k || 1);
+		if (props.std2) drawStd(dataWheel, props.std2, transform.k || 1);
+		if (props.std3) drawStd(dataWheel, props.std3, transform.k || 1);
 
 		// data
 		if (props.points) drawDots(dataWheel, props.points, transform.k || 1);
@@ -294,55 +294,55 @@ function Radviz(props) {
 	}
 
 
-	// function drawStd(dial, std, scale) {
+	function drawStd(dial, std, scale) {
 
-	// 	dial.append('circle')
-	// 		.attr('cx', 0)
-	// 		.attr('cy', 0)
-	// 		.attr('r', std * CHART_R)
-	// 		.style('fill', 'none')
-	// 		.style('stroke', '#313131')
-	// 		.style('stroke-width', 1.5 / scale)
-	// 		.style('stroke-dasharray', '2, 5')
-	// 		.style('stroke-opacity', 1)
+		dial.append('circle')
+			.attr('cx', 0)
+			.attr('cy', 0)
+			.attr('r', std * CHART_R)
+			.style('fill', 'none')
+			.style('stroke', '#313131')
+			.style('stroke-width', 1.5 / scale)
+			.style('stroke-dasharray', '2, 5')
+			.style('stroke-opacity', 1)
 
-	// 	dial.append('circle')
-	// 		.attr('cx', 0)
-	// 		.attr('cy', 0)
-	// 		.attr('r', std * CHART_R)
-	// 		.style('fill', 'none')
-	// 		.style('stroke', '#DDDDDD')
-	// 		.style('stroke-width', 1.5 / scale)
-	// 		.style('stroke-dasharray', '5, 2')
-	// 		.style('stroke-dashoffset', 5)
-	// 		.style('stroke-opacity', 1)
-	// }
+		dial.append('circle')
+			.attr('cx', 0)
+			.attr('cy', 0)
+			.attr('r', std * CHART_R)
+			.style('fill', 'none')
+			.style('stroke', '#DDDDDD')
+			.style('stroke-width', 1.5 / scale)
+			.style('stroke-dasharray', '5, 2')
+			.style('stroke-dashoffset', 5)
+			.style('stroke-opacity', 1)
+	}
 
-	// function drawShadeStd(dial, innerRadius, outerRadius) {
+	function drawShadeStd(dial, innerRadius, outerRadius) {
 
-	// 	let smallArcRadius = innerRadius * CHART_R
-	// 	let largeArcRadius = outerRadius * CHART_R
+		let smallArcRadius = innerRadius * CHART_R
+		let largeArcRadius = outerRadius * CHART_R
 
-	// 	// two arc paths that work togeather to create a donut.
-	// 	dial.append('path')
-	// 		.attr('d', `M 0 0 
-	// 				m ${-largeArcRadius} 0 
-	// 				a 1 1 0 0 1 ${2 * largeArcRadius} 0
-	// 				l ${-(largeArcRadius - smallArcRadius)} 0 
-	// 				a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
-	// 				l ${-(largeArcRadius - smallArcRadius)} 0 
-	// 				M 0 0
-	// 				m ${-largeArcRadius} 0 
-	// 				a 1 1 0 0 0 ${2 * largeArcRadius} 0
-	// 				l ${-(largeArcRadius - smallArcRadius)} 0 
-	// 				a 1 1 0 0 1 ${-(2 * smallArcRadius)} 0 
-	// 				l ${-(largeArcRadius - smallArcRadius)} 0 
-	// 				Z`)
-	// 		.style('stroke', 'none')
-	// 		.style('fill', 'gray')
-	// 		.style('opacity', '0.5')
+		// two arc paths that work togeather to create a donut.
+		dial.append('path')
+			.attr('d', `M 0 0 
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 1 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 0 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					M 0 0
+					m ${-largeArcRadius} 0 
+					a 1 1 0 0 0 ${2 * largeArcRadius} 0
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					a 1 1 0 0 1 ${-(2 * smallArcRadius)} 0 
+					l ${-(largeArcRadius - smallArcRadius)} 0 
+					Z`)
+			.style('stroke', 'none')
+			.style('fill', 'gray')
+			.style('opacity', '0.5')
 
-	// }
+	}
 
 
 
