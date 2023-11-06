@@ -171,7 +171,19 @@ function Radviz(props) {
 	function drawDots(dial, dotData, scale) {
 
 		let BORDER_MARGIN = 10
-
+		const colorsArray = [
+			"#FF5733", // Red-Orange
+			"#4B0082", // Indigo
+			"#FFD700", // Gold
+			"#00FFFF", // Aqua
+			"#800000", // Maroon
+			"#228B22", // Forest Green
+			"#FF00FF", // Magenta
+			"#FFA07A", // Light Salmon
+			"#808080", // Gray
+			"#FF4500"  // Orange Red
+		  ];
+		  
 		dial.selectAll()
 			.data(dotData)
 			.enter()
@@ -185,7 +197,7 @@ function Radviz(props) {
 				return 3.0 / scale
 			})
 			.attr('id', (_, i) => `dot${i}`)
-			.style('fill', '#000000')
+			.style('fill', (d, _) => colorsArray[d.cluster])
 			.style('fill-opacity', 0.8)
 			.style('stroke', '#FFFFFF')
 			.style('stroke-width', 0.1)

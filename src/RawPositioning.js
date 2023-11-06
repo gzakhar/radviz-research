@@ -1,5 +1,6 @@
-import { scaleLinear} from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array'
+import { kmeans } from "ml-kmeans";
 
 const ROUND_TO = 10000
 
@@ -78,7 +79,7 @@ function normalize(minMaxArray) {
 	return scaleLinear().domain(minMaxArray).range([0, 1]);
 }
 
-function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor = null, zoom = true) {
+function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor = null, zoom = true, clusters = 10) {
 
 	// TODO: order of labels is determined by the angles at which they are displayed.
 	// let labels = Object.keys(labelTextMapping);
@@ -239,6 +240,13 @@ function RawPositioning(data, labelTextMapping, labelAngleMapping, textAccessor 
 
 	if (textAccessor) {
 		points = points.map(row => ({ ...row, 'textFloater': row.data[textAccessor] }))
+	}
+
+	if (points != null && points.length > 0 && (clusters || clusters > 0)) {
+		let KMeans = kmeans(points.map((d, i) => ([d.coordinates.x, d.coordinates.y])), clusters)
+		points.forEach((point, i) => {
+			point.cluster = KMeans.clusters[i]
+		})
 	}
 
 	let result = { 'points': points, 'labels': labelsPositions }

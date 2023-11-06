@@ -28,7 +28,7 @@ export default function App() {
 
 	useEffect(async () => {
 		let res = await axios('./new_bruh.json')
-		let data = res.data.map((d, i) => ({key: i, ...d}))
+		let data = res.data.map((d, i) => ({ key: i, ...d }))
 		setRawData(data)
 	}, [])
 
@@ -41,14 +41,14 @@ export default function App() {
 	}, [labelAngles, rawData])
 
 
-	function downloadObjectAsJson(list, exportName){
+	function downloadObjectAsJson(list, exportName) {
 		var json = JSON.stringify(list);
-		var blob = new Blob([json], {type: 'application/json'});
+		var blob = new Blob([json], { type: 'application/json' });
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(blob);
 		link.download = exportName;
 		link.click();
-	  }
+	}
 
 
 	return (
@@ -66,4 +66,3 @@ export default function App() {
 		</div >
 	);
 }
-
