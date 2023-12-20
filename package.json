@@ -35,9 +35,9 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "npm run build",
-    "heroku-postbuild": "npm run build",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider;craco start",
+    "start_vercel": "npm serve -s build",
+    "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
