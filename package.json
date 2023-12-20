@@ -37,7 +37,7 @@
     "dev": "react-scripts start",
     "start": "export NODE_OPTIONS=--openssl-legacy-provider;craco start",
     "start_vercel": "npm serve -s build",
-    "build": "craco build",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider;craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
